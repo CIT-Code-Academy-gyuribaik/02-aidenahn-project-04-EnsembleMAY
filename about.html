@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — 앙상블 메이</title>
+<meta name="description" content="앙상블 메이는 음악을 사랑하는 아이들이 만들어 가는 현악 앙상블입니다. 아는 곡으로 시작하고, 함께 맞추며, 연주를 나눕니다. 지금까지 아이들이 무대에 올린 곡 목록을 함께 싣습니다.">
+<link rel="canonical" href="https://ensemblemay.com/about.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About — 앙상블 메이">
+<meta property="og:locale" content="ko_KR">
+<!-- 파비콘 : 브라우저 탭 아이콘. 세 파일 모두 이 폴더 맨 위에 있습니다. -->
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400..700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-hdr="solid">
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="hdr">
+  <div class="hdr__bar">
+    <a class="hdr__logo" href="index.html">
+      <span class="hdr__mark" aria-hidden="true"></span>
+      <span class="hdr__wm">Ensemble M.A.Y</span>
+    </a>
+    <nav class="nav" aria-label="주 메뉴">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="concert.html">Concert</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="메뉴 열기">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 모바일 메뉴 : 오른쪽에서 밀려 들어오는 서랍입니다.
+     .menu 는 뒤를 덮는 막, .menu__panel 이 실제로 미끄러지는 판입니다.
+     막을 눌러도 닫힙니다. -->
+<div class="menu" id="menu">
+  <div class="menu__panel">
+    <button class="menu__x" aria-label="메뉴 닫기">&times;</button>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="concert.html">Concert</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- 제목 블록 위에 단체 사진을 깔았습니다.
+       사진은 왼쪽이 비어 있고 오른쪽에 단원들이 서 있는 가로로 긴 컷이라,
+       넓은 화면에서는 글이 왼쪽 여백에 앉고 사진은 잘리지 않습니다.
+       1023px 아래로 내려가면 글 자리가 모자라서 사진이 글 밑으로 내려갑니다.
+       배경이 아니라 <img> 인 이유 — 단원 사진은 장식이 아니라 내용이라
+       alt 가 필요하고, 첫 화면 그림이라 fetchpriority 도 붙여야 합니다. -->
+  <div class="phead phead--hero">
+    <div class="wrap">
+      <h1>음악을 사랑하는 아이들이<br>만들어 가는 현악 앙상블입니다.</h1>
+      <p>We practice sharing and service through music.</p>
+    </div>
+    <div class="phead__ph">
+      <img src="assets/img/about-hero.webp" width="2400" height="585"
+           alt="흰 셔츠를 입고 나란히 선 앙상블 메이 단원들" fetchpriority="high">
+    </div>
+  </div>
+
+  <!-- 앙상블 소개 -->
+  <section class="sec sec--first">
+    <div class="wrap">
+      <div class="pair">
+        <p class="pair__ko">앙상블 메이는 음악을 사랑하는 아이들이 만들어 가는 현악 앙상블입니다.
+          바이올린, 비올라, 첼로가 모여 한 곡을 완성합니다.<br><br>
+          1년에 한 번 정기 공연을 열고, 그 사이사이 자선 공연으로 무대에 섭니다.
+          연주로 얻은 것을 필요한 곳에 나누는 일을 앙상블의 일부로 여깁니다.</p>
+        <p class="pair__en">Ensemble MAY is a string ensemble created by children who love
+          music. Violin, viola, and cello come together to complete a single piece.<br><br>
+          We hold one regular concert each year, and perform at charity concerts through
+          the seasons. Giving back through what we play is part of what this ensemble is.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 원장 이야기 -->
+  <section class="sec sec--tint" id="director">
+    <div class="wrap">
+      <p class="eyebrow">Director</p>
+      <h2 class="sec__h">단장 이야기</h2>
+      <div class="bio">
+        <!-- 사진: <div class="bio__ph"><img src="assets/img/director.jpg" alt="단장"></div> -->
+        <div class="bio__ph"></div>
+        <!-- DRAFT · 단장님 확인 필요
+             성함(○○○)과 "반주를 했다"는 전제는 지난 프로그램의 Piano 표기에서
+             추정한 것입니다. 포스터 두 장에는 음악감독이
+             Shine Minyoung Kwon 으로 적혀 있습니다. 한글 성함을 확인해 주세요. -->
+        <div class="bio__t">
+          <p class="bio__n">○○○</p>
+          <p class="bio__r">Director · Piano</p>
+
+          <p>저는 오래 반주를 했습니다. 무대 옆에서 아이들이 첫 음을 내는 순간을
+            가장 가까이서 보는 자리입니다.</p>
+          <p>그 자리에서 자주 본 것은 실력보다 표정이었습니다. 잘 켜는 아이가
+            즐거워 보이지 않고, 아직 서툰 아이가 활을 들 때 눈이 반짝이는 일이
+            많았습니다. 연습이 숙제가 된 아이와, 아직 음악인 아이의 차이였습니다.</p>
+          <p>앙상블 메이는 그 차이를 지키려고 만들었습니다. 그래서 아이들이 이미
+            알고 있는 곡으로 시작합니다. 지브리와 영화음악으로 한 해를 열고,
+            바흐는 아이들이 먼저 궁금해할 때 꺼냅니다.</p>
+          <p>혼자 잘하는 것보다 옆 사람 소리를 듣는 것을 먼저 가르칩니다.
+            현악 앙상블에서는 그게 실력입니다. 그리고 준비한 것을 필요한 곳에
+            가져갑니다. 박수를 받으러 가는 게 아니라, 음악이 누군가에게 가 닿는
+            것을 아이들이 직접 보게 하려고 갑니다.</p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- 연주한 곡
+       Concert 의 [지난 정기 연주회 프로그램] 에서 옮겨왔습니다.
+       한 공연의 순서표가 아니라, 지금까지 아이들이 올린 곡이 쌓인 목록입니다.
+       그래서 1부·2부·Intermission 대신 [아는 곡] → [그다음 곡] 으로 묶었습니다.
+
+       조판은 공연 프로그램 방식입니다 — 곡 이름 아래 작곡가, 두 단.
+       한 단이 한 묶음입니다. 곡을 추가할 때는 prog__i 한 덩어리를 복사합니다.
+
+         <div class="prog__i">
+           <p class="prog__t">곡 이름 <em>부제</em></p>
+           <p class="prog__c">작곡가</p>
+           <p class="prog__e">Violin — 솔로</p>   ← 편성. 아는 곡에만 붙입니다
+         </div>                                                              -->
+  <section class="sec sec--dark sec--c" id="repertoire">
+    <!-- data-reveal-group : 제목 → 안내 문장 → 장식 순으로 올라옵니다.
+         곡 목록은 아래 두 단이 각각 data-reveal-seq 를 들고 있어서
+         이 덩어리는 통째로 뜨지 않고 곡 한 줄씩 나옵니다. -->
+    <div class="wrap" data-reveal-group="80">
+      <h2 class="sec__h">지금까지 연주한 곡</h2>
+      <p class="sec__lead">
+        정기 연주회와 자선 공연을 거치며 아이들이 연습한 곡을 모았습니다.
+        </p>
+
+      <div class="orn" aria-hidden="true"><span></span></div>
+
+      <div class="prog">
+
+        <!-- 두 단이 각각 seq 입니다. 왼쪽을 다 훑고 오른쪽으로 넘어가면
+             오른쪽 첫 곡이 1초 가까이 늦습니다. 나란히 흘려보냅니다. -->
+        <div data-reveal-seq="70">
+
+          <div class="prog__i">
+            <p class="prog__t">학교가는 길</p>
+            <p class="prog__c">김광민</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">문어의 꿈</p>
+            <p class="prog__c">안예은</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Always with me <em>from Spirited Away</em></p>
+            <p class="prog__c">Joe Hisaishi</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Merry Go Round of Life <em>from Howl’s Moving Castle</em></p>
+            <p class="prog__c">Joe Hisaishi</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Le Festin</p>
+            <p class="prog__c">Camille &amp; Michael Giacchino</p>
+
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Sound of Music Medley</p>
+            <p class="prog__c">Acoustic Cafe</p>
+
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Perfect Day</p>
+            <p class="prog__c">Joachim Johow</p>
+
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">He’s a Pirate <em>from Pirates of the Caribbean</em></p>
+            <p class="prog__c">Zanelli · Zimmer · Badelt</p>
+          </div>
+
+        </div>
+
+        <!-- 두 단의 곡 수를 8 : 7 로 맞췄습니다. 읽는 순서는 [왼쪽 전부 →
+             오른쪽 전부] 라서, 왼쪽 마지막 곡을 오른쪽 맨 위로 옮기면
+             차례는 그대로입니다. 곡을 더할 때도 이 경계만 옮기면 됩니다. -->
+        <div data-reveal-seq="70">
+
+          <div class="prog__i">
+            <p class="prog__t">B Rossett <em>드라마 「하얀거탑」</em></p>
+            <p class="prog__c">김수진</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Csárdás</p>
+            <p class="prog__c">Vittorio Monti</p>
+            <p class="prog__e">Violin — 솔로</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Concerto for Two Violins in D minor, BWV 1043 <em>1st mov.</em></p>
+            <p class="prog__c">J. S. Bach</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Waltz <em>from “Masquerade”</em></p>
+            <p class="prog__c">Aram Khachaturian</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Dance of the Knights</p>
+            <p class="prog__c">Sergei Prokofiev</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Libertango</p>
+            <p class="prog__c">Astor Piazzolla</p>
+          </div>
+
+          <div class="prog__i">
+            <p class="prog__t">Por una cabeza</p>
+            <p class="prog__c">Carlos Gardel</p>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="orn" aria-hidden="true"><span></span></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>입단 상담을 받고 있습니다.</h2>
+      <p>바이올린 · 비올라 · 첼로.<br>
+        어떻게 시작하면 되는지 편하게 물어봐 주세요.</p>
+      <div class="cta__b">
+        <button class="btn btn--ghost" data-open="mdl-enroll">입단 문의</button>
+        
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+
+      <div class="foot__brand">
+        <a class="foot__logo" href="index.html">앙상블 메이</a>
+        <span class="foot__en">Ensemble MAY</span>
+        <p>음악을 사랑하는 아이들이 만들어 가는 현악 앙상블.
+          연주로 얻은 것을 필요한 곳에 나눕니다.</p>
+        <div class="foot__sns">
+          <a href="https://www.instagram.com/ensemble_m.a.y/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+
+      <nav class="foot__col" aria-label="앙상블 소개">
+        <h2>About</h2>
+        <ul>
+          <li><a href="about.html">앙상블 소개</a></li>
+          <li><a href="about.html#director">단장 이야기</a></li>
+          <li><a href="about.html#repertoire">연주한 곡</a></li>
+        </ul>
+      </nav>
+
+      <nav class="foot__col" aria-label="공연">
+        <h2>Concert</h2>
+        <ul>
+          <li><a href="concert.html">정기 · 자선 공연</a></li>
+          <li><a href="concert.html#history">지난 공연</a></li>
+          <li><a href="concert.html#charity">자선 공연 문의</a></li>
+        </ul>
+      </nav>
+
+      <nav class="foot__col" aria-label="기록과 문의">
+        <h2>Gallery &amp; Contact</h2>
+        <ul>
+          <li><a href="gallery.html#photos">활동 사진</a></li>
+          <li><a href="gallery.html#videos">연주 영상</a></li>
+          <li><a href="contact.html">문의 · 자주 받는 질문</a></li>
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class="foot__bot">
+      <div class="foot__meta">
+        <span>대표 ○○○</span>
+        <span><a href="tel:01000000000">010-0000-0000</a></span>
+        <span><a href="mailto:ensemblemay2025@gmail.com">ensemblemay2025@gmail.com</a></span>
+        <span>@ensemble_m.a.y</span>
+      </div>
+      <div class="foot__legal">
+        <a href="privacy.html">개인정보처리방침</a>
+        <span class="foot__c">© 2026 Ensemble MAY. All rights reserved.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 문의 팝업 : 전화번호는 data/content.js 의 CONTACT.tel 한 곳에서 옵니다 -->
+<div class="mdl" id="mdl-enroll" role="dialog" aria-modal="true" aria-labelledby="mdl-enroll-t">
+  <div class="mdl__card">
+    <button class="mdl__x" aria-label="닫기">&times;</button>
+    <p class="mdl__k">입단 문의</p>
+    <h2 class="mdl__t" id="mdl-enroll-t">문자나 전화로<br>상담해 드립니다.</h2>
+    <p class="mdl__b">아이 나이와 하고 싶은 악기만 알려주세요.<br>
+      지금 얼마나 연주하는지는 몰라도 괜찮습니다.</p>
+    <div data-contact="tel"></div>
+  </div>
+</div>
+
+<div class="mdl" id="mdl-charity" role="dialog" aria-modal="true" aria-labelledby="mdl-charity-t">
+  <div class="mdl__card">
+    <button class="mdl__x" aria-label="닫기">&times;</button>
+    <p class="mdl__k">자선 공연 문의</p>
+    <h2 class="mdl__t" id="mdl-charity-t">전화나 메일로<br>연락 주세요.</h2>
+    <p class="mdl__b">희망하시는 날짜와 장소, 예상 관객 규모를 알려주시면<br>
+      연주 시간과 프로그램을 맞춰 구성합니다.</p>
+    <div data-contact="tel-email"></div>
+  </div>
+</div>
+
+<script src="data/content.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
