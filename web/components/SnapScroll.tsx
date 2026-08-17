@@ -25,17 +25,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 
-/** 칸이 넘어가는 데 걸리는 시간 */
-const SPEED = 700;
+/** 칸이 넘어가는 데 걸리는 시간.
+    700 에서 1100 으로 늦췄습니다 — 한 칸이 화면 전체라 이동 거리가
+    크고, 빠르면 화면이 통째로 튀는 것처럼 보입니다. 곡선은 snap.css
+    의 .swiper-wrapper 에 있습니다(가속·감속을 양쪽에 둔 이징). */
+const SPEED = 1100;
 
 /** 한 번 넘긴 뒤 이 시간 안에 들어온 휠은 무시합니다.
     트랙패드 관성 꼬리를 막는 값입니다. 전환 시간보다 조금 짧게 두면
     전환이 끝나자마자 다음 휠을 받아 연속 스크롤이 답답하지 않습니다. */
-const THRESHOLD_TIME = 550;
+const THRESHOLD_TIME = 900;
 
 /** 칸에 도착한 뒤 이만큼은 휠을 받지 않습니다. 트랙패드 관성 꼬리가
     도착하자마자 페이지를 끌어내리는 것을 막습니다. */
-const GRACE = 260;
+const GRACE = 300;
 
 /** 창 높이가 이보다 낮으면 스냅을 끕니다. 한 칸이 한 화면이라
     낮은 창에서는 칸 안 내용이 넘치고, Swiper 는 넘친 부분을 잘라 냅니다.
@@ -46,20 +49,8 @@ const BREAK_H = 580;
 /** 이보다 약한 휠은 무시합니다 — 손가락이 스친 정도로 넘어가지 않게. */
 const THRESHOLD_DELTA = 6;
 
-export default function SnapScroll({
-  children,
-  solidFrom,
-}: {
-  children: ReactNode;
-  /**
-   * 몇 번째 칸부터 상단 바를 흰 바탕으로 할지. 0 부터 셉니다.
-   *   0 히어로 · 1 영상   → 사진과 어두운 지면. 바탕 없이 흰 글자.
-   *   2 단원 · 3 갤러리 · 4 CTA+푸터 → 흰 바탕에 먹색 글자.
-   */
-  solidFrom?: number;
-}) {
+export default function SnapScroll({ children }: { children: ReactNode }) {
   const slides = Children.toArray(children).filter(isValidElement);
-  const hdrRef = useRef<HTMLElement | null>(null);
   const swiperRef = useRef<SwiperClass | null>(null);
   /** 마지막으로 칸에 도착한 시각. 갓 도착했을 때 관성 꼬리가 페이지를
       끌어내리지 않게 하는 데 씁니다. */
@@ -98,27 +89,10 @@ export default function SnapScroll({
 
   const off = calm || short;
 
-  /* 상단 바 색. 바뀌는 것 자체는 style.css 의 transition 이 380ms 에
-     걸쳐 녹입니다 — 여기서는 언제 바꿀지만 정합니다.
-
-     바꾸기 좋은 순간이 방향에 따라 정반대입니다.
-       위로 갈 때  — 올라오는 칸이 화면 위에서 내려옵니다. 상단 바 자리를
-                    곧바로 덮으므로 전환이 시작할 때 바꿉니다.
-       아래로 갈 때 — 올라오는 칸이 화면 아래에서 올라옵니다. 상단 바
-                    자리에 닿는 것은 맨 마지막이라 전환이 끝난 뒤에.
-     한쪽으로 통일하면 반대 방향에서 어긋납니다 — 어두운 칸 위에 먹색
-     글자가, 또는 밝은 칸 위에 흰 글자가 놓입니다. */
-  const paint = (index: number) => {
-    if (solidFrom === undefined) return;
-    if (!hdrRef.current) hdrRef.current = document.querySelector(".hdr");
-    hdrRef.current?.classList.toggle("is-solid", index >= solidFrom);
-  };
-
-  useEffect(() => {
-    return () => {
-      document.querySelector(".hdr")?.classList.remove("is-solid");
-    };
-  }, []);
+  /* 칸이 넘어갈 때 상단 바를 흰 바탕으로 바꾸던 코드가 여기 있었습니다.
+     홈의 네 칸이 모두 어두워지면서 — 히어로 사진, 어두운 영상 칸, 무대
+     사진, 버건디 배너 — 첫 칸의 흰 글자가 끝까지 그대로 읽힙니다.
+     중간에 바꾸면 어두운 지면 위에 밝은 띠가 하나 끼어드는 꼴입니다. */
 
   /* ── 마지막 칸에서 푸터로 넘겨주기 ────────────────────────────────────
      스냅 컨테이너는 화면 높이라, 그 뒤에 놓인 푸터를 보려면 페이지가
@@ -200,16 +174,8 @@ export default function SnapScroll({
       onSwiper={(sw: SwiperClass) => {
         swiperRef.current = sw;
       }}
-      onSlideChange={(s: SwiperClass) => {
-        /* 위로 갈 때만 미리 바꿉니다 */
-        if (s.activeIndex < s.previousIndex) paint(s.activeIndex);
-      }}
-      onSlideChangeTransitionEnd={(s: SwiperClass) => {
+      onSlideChangeTransitionEnd={() => {
         arrivedAt.current = performance.now();
-        paint(s.activeIndex);
-      }}
-      onBreakpoint={(s: SwiperClass) => {
-        if (!s.enabled) hdrRef.current?.classList.remove("is-solid");
       }}
     >
       {slides.map((slide, i) => (

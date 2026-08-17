@@ -238,13 +238,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
    깔았는데, 이제 유리 자체가 대비를 만들어 줘서 그림자는 흐릿하게만
    보입니다.                                                          */
 /* 색을 깔지 않습니다. 흐림만 걸어서 뒤가 그대로 비치되 형체만 풀립니다.
-   대신 글자색이 뒤 배경을 따라갑니다 — 어두운 구간에서는 흰색,
-   밝은 구간에서는 먹색(main.js 가 .is-onlight 를 붙였다 뗍니다).
+   글자는 흰색 하나로 갑니다 — 이 상태(data-hdr="overlay")를 쓰는 곳은
+   홈뿐이고, 홈의 네 칸이 모두 어둡습니다.
 
-   글자 그림자는 사진 구간을 위한 보험입니다. 갤러리처럼 사진이 지나가는
-   자리는 한 구간 안에서도 밝기가 들쭉날쭉해서, 구간 단위 판단만으로는
-   어두운 사진 위에 먹색 글자가 놓이는 순간이 생깁니다. 깨끗한 바탕에서는
-   그림자가 보이지 않고, 사진 위에서만 글자를 붙들어 줍니다. */
+   글자 그림자는 사진 구간을 위한 보험입니다. 히어로와 무대 사진은 한
+   화면 안에서도 밝기가 들쭉날쭉해서, 어쩌다 밝은 자리가 상단 바 뒤로
+   지나갈 수 있습니다. 어두운 자리에서는 그림자가 보이지 않고, 밝은
+   자리에서만 글자를 붙들어 줍니다. */
 body[data-hdr="overlay"] .hdr{
   background:none;
   -webkit-backdrop-filter:blur(12px) saturate(118%);
@@ -260,10 +260,9 @@ body[data-hdr="overlay"] .hdr{
        현상이라, 아예 없애려면 흐림을 빼야 합니다. */
   transform:translateZ(0);
   will-change:backdrop-filter;
-  /* background 가 이 목록에 있어야 흰 바탕(.is-solid)으로 녹아듭니다.
-     예전에는 border-color 만 있어서, 바탕색이 붙었다 떨어질 때 딱 끊겼습니다.
-     흐림(backdrop-filter)은 두 상태 모두 그대로 둡니다 — 켜고 끄면 그 순간
-     한 프레임이 튑니다. 흰 바탕이 덮으면 어차피 보이지 않습니다. */
+  /* 홈에서 칸마다 흰 바탕이 붙었다 떨어지던 시절의 전환입니다. 지금은
+     상단 바가 처음부터 끝까지 한 모습이라 바뀔 것이 없지만, 남겨 둡니다 —
+     Contact 단추가 이 안에서 바탕색을 바꿉니다. */
   transition:background 380ms ease,border-color 380ms ease}
 body[data-hdr="overlay"] .hdr::before{background:none}
 
@@ -289,56 +288,25 @@ body[data-hdr="overlay"] .nav__ind{
              opacity   180ms ease,
              background 260ms ease}
 
-/* 밝은 구간 위 — 먹색으로 뒤집습니다 */
-body[data-hdr="overlay"] .hdr.is-onlight{border-bottom-color:var(--line)}
-body[data-hdr="overlay"] .hdr.is-onlight .hdr__logo,
-body[data-hdr="overlay"] .hdr.is-onlight .nav a{color:var(--ink)}
-body[data-hdr="overlay"] .hdr.is-onlight .burger span{background:var(--ink)}
-body[data-hdr="overlay"] .hdr.is-onlight .nav__ind{background:var(--ink)}
-body[data-hdr="overlay"] .hdr.is-onlight .hdr__wm,
-body[data-hdr="overlay"] .hdr.is-onlight .nav a{text-shadow:0 1px 10px rgba(255,255,255,.75)}
-body[data-hdr="overlay"] .hdr.is-onlight .hdr__mark{
-  filter:drop-shadow(0 1px 8px rgba(255,255,255,.75))}
+/* 밝은 구간에서 먹색으로 뒤집던 .is-onlight 규칙이 여기 있었습니다.
+   예전 main.js 가 스크롤 위치를 보고 붙였다 뗐는데, React 로 옮기면서
+   그 코드가 사라졌고 규칙만 남아 있었습니다 — 붙이는 곳이 없어 한 번도
+   켜지지 않는 규칙이었습니다. 홈이 처음부터 끝까지 어두워진 지금은
+   되살릴 자리도 없어서 지웁니다. */
 
-/* Contact 네모 단추 — 사진 위에서는 흰 테두리, 밝은 구간에서는 버건디.
+/* Contact 네모 단추 — 사진 위에서는 흰 테두리.
    위의 .nav a 색 규칙보다 무게가 무거워야 해서 a.nav__cta 로 씁니다.
    글자 그림자는 지웁니다 — 테두리 안에서는 번져 보이기만 합니다. */
 body[data-hdr="overlay"] .nav a.nav__cta{color:#fff;text-shadow:none}
 body[data-hdr="overlay"] .nav a.nav__cta:hover,
 body[data-hdr="overlay"] .nav a.nav__cta[aria-current="page"]{
   background:#fff;color:var(--brand);box-shadow:inset 0 0 0 1px #fff}
-body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta{
-  color:var(--brand);text-shadow:none}
-body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta:hover,
-body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta[aria-current="page"]{
-  background:var(--brand);color:#fff;box-shadow:inset 0 0 0 1px var(--brand)}
 
-/* ── 홈: 세 번째 칸부터 흰 바탕 ─────────────────────────────────────────
-   components/SnapScroll.tsx 가 칸 번호를 보고 .is-solid 를 붙였다 뗍니다.
-
-   ★ 왜 data-hdr 을 "solid" 로 바꾸지 않고 클래스를 얹는가 —
-     data-hdr 을 바꾸면 위 body[data-hdr="overlay"] 규칙 묶음이 통째로
-     빠지고 다른 묶음이 들어옵니다. 그때 transition 선언 자체가 교체되기
-     때문에 브라우저가 "무엇에서 무엇으로" 를 알 수 없어 그냥 툭 바뀝니다.
-     클래스로 얹으면 규칙 묶음은 그대로고 값만 달라져서, 위에 적어 둔
-     transition 이 양쪽 방향 모두에 걸립니다.
-
-   글자색 전환은 아래 [글자색 전환] 규칙이 이미 맡고 있습니다(260ms).
-   .is-onlight 와 같은 무게라, 반드시 그 뒤에 와야 이깁니다 —
-   다섯 번째 칸(어두운 CTA·푸터)에서는 .is-onlight 가 꺼지는데,
-   그때도 흰 바탕이므로 글자는 먹색이어야 합니다.                      */
-body[data-hdr="overlay"] .hdr.is-solid{
-  background:var(--paper);
-  border-bottom-color:var(--line)}
-body[data-hdr="overlay"] .hdr.is-solid .hdr__logo,
-body[data-hdr="overlay"] .hdr.is-solid .nav a{color:var(--ink);text-shadow:none}
-body[data-hdr="overlay"] .hdr.is-solid .burger span{background:var(--ink)}
-body[data-hdr="overlay"] .hdr.is-solid .nav__ind{background:var(--ink)}
-body[data-hdr="overlay"] .hdr.is-solid .hdr__mark{filter:none}
-body[data-hdr="overlay"] .hdr.is-solid .nav a.nav__cta{color:var(--brand)}
-body[data-hdr="overlay"] .hdr.is-solid .nav a.nav__cta:hover,
-body[data-hdr="overlay"] .hdr.is-solid .nav a.nav__cta[aria-current="page"]{
-  background:var(--brand);color:#fff;box-shadow:inset 0 0 0 1px var(--brand)}
+/* 홈에서 칸이 넘어갈 때 상단 바를 흰 바탕(.is-solid)으로 바꾸던 규칙이
+   여기 있었습니다. 홈의 네 칸이 모두 어두워져서 — 히어로 사진, 어두운
+   영상 칸, 무대 사진, 버건디 배너 — 첫 칸의 흰 글자가 끝까지 그대로
+   읽힙니다. 중간에 흰 바탕으로 바뀌면 오히려 어두운 지면 위에 밝은
+   띠가 하나 끼어드는 꼴이라, 상태를 바꾸지 않고 하나로 둡니다. */
 
 /* 솔리드 상태 (서브페이지) */
 body[data-hdr="solid"] .hdr{background:var(--paper);
@@ -1270,7 +1238,7 @@ a.ccd:hover .ccd__ph img{transform:scale(1.04)}
        지면            #482F37
        카드            710 × 213   바탕 #F4F2F1
        카드 안쪽여백    위 29.4 · 옆 27 · 아래 28
-       카드 사이        70
+       카드 사이        70   → 38 로 좁혔습니다 (아래 .pbns 주석)
        제목            26.6   #660020 · #242424
        소개            7.9    #8B7B80 · #3A3335
        본문            7.9    #3A3335    줄간격 11 (= 1.39)
@@ -1295,12 +1263,15 @@ a.ccd:hover .ccd__ph img{transform:scale(1.04)}
      칸 바닥 — 곧 카드 바닥선 — 에서 잘립니다. 첼로가 그렇습니다.
      absolute 라서 사진이 카드 높이를 밀어 올리지도 않습니다. 대신
      글이 사진 밑으로 들어가지 않게 카드 한쪽에 --phw 만큼 비웁니다. */
+/* 세로로 쓰는 자리 = 첫 장 솟음 36 + 카드 213 + 사이 38 + 카드 213 */
 .pbns{
-  --u:min(1.803px, (100vw - 48px) / 710, (100dvh - 200px) / 532);
+  --u:min(1.803px, (100vw - 48px) / 710, (100dvh - 200px) / 500);
   display:grid;
   /* 카드 사이. 마진을 카드에 걸면 Reveal 이 끼워 넣는 div 를 거쳐
-     흘러나가야 해서, 그리드 gap 으로 두는 편이 확실합니다. */
-  gap:calc(var(--u) * 70);
+     흘러나가야 해서, 그리드 gap 으로 두는 편이 확실합니다.
+     시안은 70 이었는데 두 장이 따로 노는 느낌이라 38 로 좁혔습니다 —
+     둘째 장 사진이 32 만큼 솟으므로 이보다 더 좁히면 위 카드에 닿습니다. */
+  gap:calc(var(--u) * 38);
   /* 첫 장 사진이 솟는 만큼 위를 비웁니다 */
   padding-top:calc(var(--u) * 36)}
 
