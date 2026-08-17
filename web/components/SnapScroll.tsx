@@ -56,6 +56,7 @@ export default function SnapScroll({
 }) {
   const slides = Children.toArray(children).filter(isValidElement);
   const hdrRef = useRef<HTMLElement | null>(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
 
   /* 스냅을 끄는 두 가지 경우.
 
@@ -112,6 +113,37 @@ export default function SnapScroll({
     };
   }, []);
 
+  /* ── 마지막 칸에서 푸터로 넘겨주기 ────────────────────────────────────
+     스냅 컨테이너는 화면 높이라, 그 뒤에 놓인 푸터를 보려면 페이지가
+     스크롤되어야 합니다. 문제는 "언제 스냅이 손을 놓느냐" 입니다.
+
+     Swiper 의 releaseOnEdges 로는 안 됩니다. 페이지가 이미 밀려 있어도
+     휠을 계속 가로채기 때문에, 푸터가 화면 아래 떠 있는 채로 뒤에서
+     칸만 바뀝니다. 실제로 그 증상이 났습니다.
+
+     그래서 넘겨주는 시점을 여기서 직접 정합니다. 규칙은 두 줄입니다.
+       · 페이지가 이미 밀려 있으면      → 스냅은 손 떼고 페이지가 스크롤
+       · 마지막 칸에서 아래로 굴리면    → 스냅은 손 떼고 페이지가 스크롤
+     그 밖에는 스냅이 맡습니다.
+
+     window 의 캡처 단계에서 가로채 stopPropagation 하면, 컨테이너에
+     걸린 Swiper 의 휠 처리기가 아예 돌지 않습니다. preventDefault 는
+     하지 않으므로 브라우저가 평범하게 스크롤합니다.
+
+     되돌아올 때도 자연스럽습니다 — 위로 굴리면 페이지가 0 까지 올라오고,
+     그 다음 휠부터 스냅이 다시 맡습니다.                                */
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      const sw = swiperRef.current;
+      if (!sw || !sw.enabled) return;
+      const atLast = sw.activeIndex >= sw.slides.length - 1;
+      const handOff = window.scrollY > 0 || (atLast && e.deltaY > 0);
+      if (handOff) e.stopPropagation();
+    };
+    window.addEventListener("wheel", onWheel, { capture: true, passive: true });
+    return () => window.removeEventListener("wheel", onWheel, { capture: true });
+  }, []);
+
   return (
     <Swiper
       className={"snap" + (off ? " snap--off" : "")}
@@ -125,16 +157,10 @@ export default function SnapScroll({
         forceToAxis: true,
         thresholdDelta: THRESHOLD_DELTA,
         thresholdTime: THRESHOLD_TIME,
-        /* ★ 끝에서 절대 놓아주지 않습니다.
-           놓아주면 페이지가 스크롤될 수 있게 되는데, 이 컨테이너는
-           화면 높이(100dvh)라서 페이지가 조금이라도 밀리는 순간
-           화면 아래쪽에 스냅 밖 내용이 남습니다. 그 상태에서 휠을
-           굴리면 뒤에서 칸만 바뀌고 아래 것은 그대로 붙어 있습니다.
-           스냅과 페이지 스크롤이 각자 놀아서 생기는 일이라, 둘을
-           섞지 않는 것 말고는 방법이 없습니다.
-
-           그래서 홈은 푸터까지 전부 칸입니다. 스냅 뒤에 아무것도
-           없으면 페이지 스크롤 자체가 일어나지 않습니다. */
+        /* Swiper 의 자동 넘김은 끕니다. 언제 손을 놓을지는 위
+           [마지막 칸에서 푸터로 넘겨주기] 에서 직접 정합니다.
+           releaseOnEdges 를 켜면 페이지가 이미 밀려 있어도 휠을 계속
+           가로채서, 푸터가 떠 있는 채로 칸만 바뀝니다. */
         releaseOnEdges: false,
       }}
       keyboard={{ enabled: true, onlyInViewport: true }}
@@ -144,6 +170,9 @@ export default function SnapScroll({
          자리라, "메뉴는 모바일인데 스크롤은 데스크톱"인 구간이 없습니다. */
       enabled={false}
       breakpoints={{ 901: { enabled: !off } }}
+      onSwiper={(sw: SwiperClass) => {
+        swiperRef.current = sw;
+      }}
       onSlideChange={(s: SwiperClass) => {
         /* 위로 갈 때만 미리 바꿉니다 */
         if (s.activeIndex < s.previousIndex) paint(s.activeIndex);
