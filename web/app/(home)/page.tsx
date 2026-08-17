@@ -1,4 +1,5 @@
 import SnapScroll from "@/components/SnapScroll";
+import SiteFooter from "@/components/SiteFooter";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import HomeBanners from "@/components/HomeBanners";
 import HomeConcerts from "@/components/HomeConcerts";
@@ -9,18 +10,21 @@ import { HOME_VIDEO } from "@/lib/content";
 /* ==========================================================================
    홈
 
-   ── 스냅이 걸리는 네 칸 ──
+   다섯 칸 — 푸터까지 전부 스냅입니다.
+
      1 히어로 (사진 4장이 넘어감)
      2 큰 영상
      3 공연 리스트 — 포스터 + 최근 공연 → 더보기
      4 배너 목록 (단원 · 활동 사진)
+     5 푸터
 
-   ── 그 뒤 ──
-     5 푸터 — 스냅 없이 이어집니다 (Shell 이 그립니다)
-
-   네 번째 칸까지 넘긴 뒤 더 굴리면 스냅이 손을 놓고 푸터가 따라
-   올라옵니다. 푸터를 칸으로 만들면 390px 짜리 내용이 한 화면을
-   차지해 허전하고, 넘기는 횟수만 한 번 늘어납니다.
+   ★ 푸터를 스냅 밖에 두면 안 되는 이유
+     스냅 컨테이너는 화면 높이(100dvh)입니다. 그 뒤에 무엇이든 놓으면
+     페이지가 스크롤될 수 있게 되고, 조금이라도 밀리는 순간 화면 아래에
+     그것이 남습니다. 그 상태에서 휠을 굴리면 뒤에서 칸만 바뀌고 아래
+     것은 계속 붙어 있습니다 — 2·3·4번 칸을 보는데 푸터가 떠 있는
+     상태가 그것입니다.
+     스냅 뒤에 아무것도 없으면 페이지 스크롤 자체가 일어나지 않습니다.
 
    ★ 홈에서 단원과 사진을 전부 펼치지 않습니다.
      예전에는 단원 8명과 사진 8장을 홈에 다 늘어놓았는데, 그러면 홈이
@@ -100,6 +104,9 @@ export default function HomePage() {
             <HomeBanners />
           </div>
         </section>
+
+        {/* 5 — 푸터 */}
+        <SiteFooter />
       </SnapScroll>
     </>
   );
