@@ -1,5 +1,6 @@
 import SnapScroll from "@/components/SnapScroll";
 import HeroSlideshow from "@/components/HeroSlideshow";
+import HeroWaves from "@/components/HeroWaves";
 import HomeBanners from "@/components/HomeBanners";
 import HomeConcerts from "@/components/HomeConcerts";
 import VideoCard from "@/components/VideoCard";
@@ -38,6 +39,7 @@ export default function HomePage() {
         <section className="hero">
           <HeroSlideshow />
           <div className="hero__veil" />
+          <HeroWaves />
           <div className="hero__body">
             <p className="eyebrow">Ensemble MAY</p>
             <h1 className="hero__lines">
@@ -45,6 +47,13 @@ export default function HomePage() {
               <br />
               만들어 가는 현악 앙상블입니다.
             </h1>
+            {/* 제목과 영문 사이를 끊는 금선. About 의 [지금까지 연주한 곡]
+                에 쓰던 .orn 과 같은 언어입니다 — 가운데 표식을 두고 양옆
+                으로 선이 흐려집니다. 마름모를 쓰는 것은 상단 바 바로 아래
+                라서, 로고와 같은 M 마크를 또 두면 같은 것이 두 번 나옵니다. */}
+            <p className="hero__orn" aria-hidden="true">
+              <span />
+            </p>
             <p className="hero__en">We practice sharing and service through music.</p>
           </div>
         </section>
