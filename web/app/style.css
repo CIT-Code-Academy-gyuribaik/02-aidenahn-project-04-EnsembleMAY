@@ -1427,16 +1427,21 @@ a.tl__ph:hover img{transform:scale(1.04)}
     width:auto;margin:26px 0 0;
     height:44px;padding-inline:22px;font-size:13px}
 
+  /* ── 첫 장의 차례: 글 → 사진 → 단추 ──
+     사진 아래 끝이 단추 윗변에 닿습니다. 사진에 아래 여백을 주지 않고
+     단추의 위 여백을 지워서 둘을 맞붙입니다. 오른쪽 끝도 서로 맞춰
+     한 덩어리로 읽히게 합니다. */
+  .pbn:not(.pbn--flip) .pbn__ph{order:1}
+  .pbn:not(.pbn--flip) .pbn__m{order:2;margin-top:0}
+
   /* ── 첫 장의 사진 ── */
-  /* 아래 여백을 없애야 사진 아래가 카드 바닥선에 정확히 닿습니다 */
-  .pbn:not(.pbn--flip){padding-bottom:0}
-  .pbn:not(.pbn--flip) .pbn__ph{position:static;inset:auto;order:0;
+  .pbn:not(.pbn--flip) .pbn__ph{position:static;inset:auto;
     height:auto;overflow:visible;
     /* 넓은 화면에서 아래를 자르던 자국입니다. 여기서는 사진 전체를
        제 비율대로 보여 주므로 풀어야 합니다 — 안 풀면 그대로 잘립니다. */
     clip-path:none;
-    /* 오른쪽 안여백을 상쇄해 카드 오른쪽 선까지 나갑니다 */
-    align-self:flex-end;margin:26px -24px 0 0}
+    /* 단추가 카드 안쪽을 꽉 채우므로 오른쪽 끝을 그 선에 맞춥니다 */
+    align-self:flex-end;margin:26px 0 0}
   .pbn:not(.pbn--flip) .pbn__ph img{height:auto;width:min(70vw,320px)}
   /* 손이 아니라 손가락으로 보는 화면이라 hover 를 없앱니다. 자르는
      것도 풀어 놓아서, 커지면 카드 밖으로 흘러넘치기도 합니다. */
