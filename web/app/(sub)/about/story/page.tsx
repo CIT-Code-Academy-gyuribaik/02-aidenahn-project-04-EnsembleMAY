@@ -13,9 +13,13 @@ export const metadata: Metadata = pageMeta({
 /* ==========================================================================
    앙상블메이 스토리
 
-   세 대목을 국문·영문 한 쌍씩 놓습니다. .pair 는 사이트가 이미 쓰고 있는
-   두 단 조판입니다 — 상자만 가운데로 옮기고 글줄은 왼쪽 정렬로 둡니다.
-   900px 아래에서는 한 단으로 접히고, 국문이 먼저 옵니다.
+   세 대목을 세워 놓습니다. 국문 선언문을 크게 앞세우고, 그것을 풀어쓴
+   국·영문을 아래 두 단으로 둡니다.
+
+   선언문을 크게 두는 이유 — 세 대목이 이어지면 글이 깁니다. 빠르게
+   훑는 사람은 선언문 세 줄만 읽고도 무엇을 말하는지 알 수 있어야 하고,
+   본문은 궁금한 사람이 읽습니다.
+   900px 아래에서는 두 단이 한 단으로 접히고 국문이 먼저 옵니다.
    ========================================================================== */
 
 const BLOCKS = [
@@ -73,18 +77,17 @@ const BLOCKS = [
 export default function AboutStoryPage() {
   return (
     <>
-      <h2 className="sec__h">앙상블메이 스토리</h2>
+      <h2 className="sr">앙상블메이 스토리</h2>
 
       {BLOCKS.map((b, i) => (
         <Reveal key={b.ko.lead} delay={i * 90}>
-          <div className="story">
-            <div className="pair">
+          <div className="st__i">
+            <p className="st__n">{String(i + 1).padStart(2, "0")}</p>
+            <p className="st__ko">{b.ko.lead}</p>
+            <div className="st__b">
+              <p className="pair__ko">{b.ko.body}</p>
               <div>
-                <p className="story__lead">{b.ko.lead}</p>
-                <p className="pair__ko">{b.ko.body}</p>
-              </div>
-              <div>
-                <p className="story__lead story__lead--en">{b.en.lead}</p>
+                <p className="st__en">{b.en.lead}</p>
                 <p className="pair__en">{b.en.body}</p>
               </div>
             </div>
