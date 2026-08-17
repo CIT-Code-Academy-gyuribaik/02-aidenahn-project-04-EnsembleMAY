@@ -97,7 +97,7 @@ export default function HomePage() {
         </section>
 
         {/* 4 — 배너 목록. 어두운 지면 위에 밝은 카드 두 장이 뜹니다. */}
-        <section className="sec sec--dark">
+        <section className="sec sec--dark sec--banner">
           <div className="wrap">
             <HomeBanners />
           </div>
