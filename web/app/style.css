@@ -647,6 +647,25 @@ body.menu-open{overflow:hidden}
 .pair__ko{font:400 16px/1.95 var(--myeongjo)}
 .pair__en{color:var(--ink-mid);line-height:1.9}
 
+/* ── 앙상블메이 스토리 (About) ──────────────────────────────────────────
+   세 대목을 국문·영문 한 쌍씩 놓습니다. 각 대목은 한 줄짜리 선언문과
+   그것을 풀어쓴 본문으로 이뤄집니다.
+
+   선언문을 본문보다 크게 두는 이유 — 세 대목이 이어지면 글이 길어져서,
+   빠르게 훑는 사람은 선언문 세 줄만 읽고도 무엇을 말하는지 알 수 있어야
+   합니다. 본문은 궁금한 사람이 읽습니다.
+
+   대목 사이는 선으로 나눕니다. 여백만으로는 어디까지가 한 대목인지
+   흐려집니다 — 국·영문이 나란히 놓여 이미 가로로 갈라져 있어서요. */
+.story + .story{margin-top:46px;padding-top:46px;border-top:1px solid var(--line)}
+.story__lead{font:600 18px/1.6 var(--myeongjo);margin-bottom:14px;text-wrap:balance}
+.story__lead--en{color:var(--ink-mid);font-weight:500}
+@media (max-width:900px){
+  /* 한 단으로 접히면 국문 선언문 바로 아래 국문 본문, 그다음 영문 —
+     .pair 가 이미 그렇게 접힙니다. 대목 사이 여백만 줄입니다. */
+  .story + .story{margin-top:34px;padding-top:34px}
+}
+
 /* 정의 목록 (활동 방식 / FAQ) */
 .facts{display:grid;gap:0;max-width:760px}
 .facts__r{display:grid;grid-template-columns:150px 1fr;gap:24px;
@@ -1094,6 +1113,88 @@ a.bento__c:focus-visible .bento__ov{background:rgba(0,0,0,.28)}
 .vid__t{font:500 15px/1.5 var(--myeongjo);margin-top:14px}
 .vid__m{font:500 12px/1 var(--gothic);letter-spacing:.08em;
   color:var(--ink-mid);margin-top:6px}
+
+/* ══════════════════════════════════════════════════════════════
+   홈 — 공연 리스트 (포스터 + 최근 공연)
+   ══════════════════════════════════════════════════════════════
+   왼쪽에 포스터, 오른쪽에 최근 공연 목록. 스냅 스크롤에서 한 칸에
+   담겨야 해서 전부 늘어놓지 않습니다 — 나머지는 Concert 에 있습니다.
+
+   포스터를 왼쪽에 둔 이유 — 세로로 긴 인쇄물이라 오른쪽에 두면
+   목록의 마지막 줄과 바닥이 어긋나 보입니다. 긴 것을 기둥 삼고
+   짧은 줄을 옆에 쌓는 편이 안정적입니다.                              */
+.hcon{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:var(--gx) 52px;align-items:start}
+.hcon__posters{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gx)}
+
+/* 공연 한 줄. 사진이 있으면 눌러서 그 공연 사진첩이 열립니다. */
+.hcon__list{display:grid}
+.hcon__r{display:grid;grid-template-columns:auto 1fr auto;
+  align-items:baseline;gap:6px 16px;
+  padding-block:15px;border-bottom:1px solid var(--line);
+  text-decoration:none;color:inherit;
+  transition:background 180ms ease}
+.hcon__r:first-child{border-top:1px solid var(--line)}
+a.hcon__r:hover{background:color-mix(in srgb,var(--brand) 4%,transparent)}
+.hcon__d{font:500 12px/1 var(--gothic);letter-spacing:.06em;
+  color:var(--ink-mid);white-space:nowrap}
+.hcon__t{font:600 16px/1.5 var(--myeongjo)}
+.hcon__t em{font:400 13px/1 var(--gothic);font-style:normal;
+  color:var(--ink-mid);margin-inline-start:8px}
+.hcon__v{grid-column:2;font:450 12px/1 var(--gothic);color:var(--ink-mid)}
+/* 장수는 오른쪽 끝에. 눌러서 넘길 수 있다는 표시입니다. */
+.hcon__n{grid-row:1;grid-column:3;font:500 11px/1 var(--gothic);
+  letter-spacing:.08em;color:var(--accent-gold);white-space:nowrap}
+
+@media (max-width:900px){
+  .hcon{grid-template-columns:1fr;gap:34px}
+  .hcon__posters{max-width:420px;margin-inline:auto}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   홈 — 배너 목록 (단원 / 활동 사진)
+   ══════════════════════════════════════════════════════════════
+   홈에서 전부 펼치지 않고 대표 사진 한 장씩만 걸어 각자의 페이지로
+   보냅니다. 사진 위에 글을 얹지 않고 옆에 두는 이유 — 얹으면 사진마다
+   밝기가 달라 글이 읽히다 말다 합니다. 옆에 두면 어떤 사진이 와도
+   대비가 일정합니다.                                                  */
+.bnr{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gx)}
+.bnr__c{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+  align-items:center;gap:26px;
+  text-decoration:none;color:inherit;
+  padding:18px;border:1px solid var(--line);
+  transition:border-color 200ms ease,background 200ms ease}
+.bnr__c:hover{border-color:color-mix(in srgb,var(--brand) 42%,transparent);
+  background:color-mix(in srgb,var(--brand) 3%,transparent)}
+.bnr__ph{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 13%,transparent),
+    color-mix(in srgb,var(--brand) 28%,transparent))}
+.bnr__ph img{width:100%;height:100%;object-fit:cover;
+  transition:transform 600ms cubic-bezier(.22,.61,.36,1)}
+.bnr__c:hover .bnr__ph img{transform:scale(1.04)}
+.bnr__ov{position:absolute;inset:0;background:rgba(0,0,0,0);
+  transition:background 200ms ease}
+.bnr__c:hover .bnr__ov{background:rgba(0,0,0,.06)}
+.bnr__t{display:grid;gap:0}
+.bnr__k{font:600 11px/1 var(--gothic);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:12px}
+.bnr__h{font:600 19px/1.45 var(--myeongjo);margin-bottom:10px;text-wrap:balance}
+.bnr__b{font:450 13px/1.8 var(--gothic);color:var(--ink-mid);
+  margin-bottom:18px;text-wrap:pretty}
+.bnr__m{font:600 11px/1 var(--gothic);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brand);width:fit-content;
+  padding-bottom:4px;border-bottom:1px solid var(--accent-gold);
+  transition:border-color 200ms ease}
+.bnr__c:hover .bnr__m{border-color:var(--brand)}
+
+@media (max-width:900px){
+  .bnr{grid-template-columns:1fr;gap:20px}
+}
+@media (max-width:520px){
+  /* 아주 좁으면 옆에 두는 것이 오히려 답답합니다. 위아래로 세웁니다. */
+  .bnr__c{grid-template-columns:1fr;gap:18px}
+  .bnr__ph{aspect-ratio:16/10}
+}
 
 /* ══════════════════════════════════════════════════════════════
    CTA / 푸터

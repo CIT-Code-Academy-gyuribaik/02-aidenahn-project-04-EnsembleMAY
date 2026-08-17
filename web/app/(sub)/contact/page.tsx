@@ -84,7 +84,7 @@ export default function ContactPage() {
               <div className="facts__k">연주 곡</div>
               <div className="facts__v">
                 지브리와 영화음악, 대중가요, 탱고, 정통 클래식을 함께 올립니다.{" "}
-                <Link href="/about/#repertoire">지금까지 연주한 곡</Link>을 보시면 분위기를
+                <Link href="/concert/#repertoire">지금까지 연주한 곡</Link>을 보시면 분위기를
                 짐작하실 수 있습니다.
               </div>
             </div>

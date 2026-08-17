@@ -46,13 +46,16 @@ export default function SiteFooter() {
             <h2>About</h2>
             <ul>
               <li>
-                <Link href="/about/">앙상블 소개</Link>
+                <Link href="/about/">단원</Link>
               </li>
               <li>
-                <Link href="/about/#director">단장 이야기</Link>
+                <Link href="/about/director/">단장 이야기</Link>
               </li>
               <li>
-                <Link href="/about/#repertoire">연주한 곡</Link>
+                <Link href="/about/history/">주요 연혁</Link>
+              </li>
+              <li>
+                <Link href="/about/story/">앙상블메이 스토리</Link>
               </li>
             </ul>
           </nav>
@@ -62,6 +65,9 @@ export default function SiteFooter() {
             <ul>
               <li>
                 <Link href="/concert/">정기 · 자선 공연</Link>
+              </li>
+              <li>
+                <Link href="/concert/#repertoire">연주한 곡</Link>
               </li>
               <li>
                 <Link href="/concert/#history">지난 공연</Link>
