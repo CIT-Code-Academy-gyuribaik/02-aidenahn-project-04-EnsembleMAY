@@ -57,25 +57,27 @@ export default function HomeBanners() {
     <div className="pbns">
       {BANNERS.map((b, i) => (
         <Reveal key={b.href} delay={i * 110}>
-          <Link className={"pbn" + (b.flip ? " pbn--flip" : "")} href={b.href}>
-            <span className="pbn__t">
-              <span className="pbn__h">{b.title}</span>
-              <span className="pbn__k">{b.kicker}</span>
-              <span className="pbn__b">
+          <div className={"pbn" + (b.flip ? " pbn--flip" : "")}>
+            <div className="pbn__t">
+              <h2 className="pbn__h">{b.title}</h2>
+              <p className="pbn__k">{b.kicker}</p>
+              <p className="pbn__b">
                 {b.body.map((line) => (
                   <span key={line}>{line}</span>
                 ))}
-              </span>
-              {/* 카드 전체가 이미 링크라, 이것은 누를 곳을 알려 주는 표시입니다.
-                  링크 안에 링크를 넣으면 안 되므로 span 으로 둡니다. */}
-              <span className="pbn__m">Read more</span>
-            </span>
+              </p>
+              {/* 누를 곳은 이 단추 하나입니다. 카드 전체를 링크로 두면
+                  글을 긁어 읽으려고 끌기만 해도 페이지가 넘어갑니다. */}
+              <Link className="pbn__m" href={b.href}>
+                Read more
+              </Link>
+            </div>
 
-            <span className="pbn__ph">
+            <div className="pbn__ph">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={b.src} alt={b.alt} loading="lazy" />
-            </span>
-          </Link>
+            </div>
+          </div>
         </Reveal>
       ))}
     </div>

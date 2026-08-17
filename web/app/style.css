@@ -1196,11 +1196,12 @@ a.tl__ph:hover img{transform:scale(1.04)}
 .cgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:calc(var(--u) * 15);margin-top:calc(var(--u) * 15)}
 
-.ccd{display:block;text-decoration:none;color:inherit}
+/* 카드는 보여 주기만 합니다 — 누르는 곳은 [공연 더보기] 하나입니다.
+   그래서 손을 얹어도 아무 반응이 없습니다. 반응하면 누를 수 있는 줄
+   알고 눌러 보게 됩니다. */
+.ccd{display:block}
 .ccd__ph{display:block;aspect-ratio:3/4;overflow:hidden;background:#000}
-.ccd__ph img{width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform 520ms cubic-bezier(.22,.61,.36,1)}
-a.ccd:hover .ccd__ph img{transform:scale(1.04)}
+.ccd__ph img{width:100%;height:100%;object-fit:cover;display:block}
 
 .ccd__d,.ccd__v{display:block;
   font-family:var(--gothic);font-weight:450;
@@ -1283,8 +1284,7 @@ a.ccd:hover .ccd__ph img{transform:scale(1.04)}
   min-height:calc(var(--u) * 213);
   padding:calc(var(--u) * 29.4) calc(var(--u) * 27) calc(var(--u) * 28);
   padding-right:calc(var(--u) * var(--phw));
-  background:#F4F2F1;
-  text-decoration:none;color:inherit}
+  background:#F4F2F1}
 
 /* 둘째 장은 좌우를 뒤집습니다. 같은 배치가 두 번 이어지면 두 번째는
    첫 번째의 반복으로 읽혀서 잘 안 봅니다.
@@ -1298,8 +1298,13 @@ a.ccd:hover .ccd__ph img{transform:scale(1.04)}
   padding-left:calc(var(--u) * var(--phw))}
 
 .pbn__t{display:block}
+/* Abril Fatface — 획 굵기 차이가 큰 디스플레이 세리프입니다. 한 벌만
+   있고(400) 라틴만 있어서, 영문 제목 두 줄에만 씁니다. 뒤에 명조를
+   받쳐 두는 것은 글꼴이 아직 안 왔을 때를 위한 것입니다.
+   글꼴 자체는 components/Shell.tsx 가 next/font 로 받아 --display 에
+   담습니다.                                                          */
 .pbn__h{display:block;
-  font-family:var(--myeongjo);font-weight:700;
+  font-family:var(--display),var(--myeongjo);font-weight:400;
   font-size:max(30px, var(--u) * 26.6);line-height:1.1;
   letter-spacing:0;color:#660020}
 /* 둘째 장 제목은 먹색입니다 — 버건디를 두 장 연속 쓰면 무거워집니다 */
@@ -1319,25 +1324,40 @@ a.ccd:hover .ccd__ph img{transform:scale(1.04)}
   font-size:max(12.5px, var(--u) * 7.9);line-height:1.392;
   letter-spacing:0;color:#3A3335}
 
-/* 카드 전체가 링크라 이것은 누를 곳을 알려 주는 표시입니다 */
+/* 카드에서 누를 수 있는 곳은 이 단추 하나입니다 */
 .pbn__m{display:inline-flex;align-items:center;
   margin-top:calc(var(--u) * 22);
   height:calc(var(--u) * 30);padding-inline:calc(var(--u) * 15);
   font-family:var(--gothic);font-weight:600;
   font-size:max(13px, var(--u) * 10.2);line-height:1;
-  letter-spacing:0;color:#660020;
+  letter-spacing:0;color:#660020;text-decoration:none;
   box-shadow:inset 0 0 0 1px #660020;
   transition:background 200ms ease,color 200ms ease}
 .pbn--flip .pbn__m{color:#242424;box-shadow:inset 0 0 0 1px #242424}
-/* 카드는 통째로 링크지만 손을 얹어도 움직이지 않습니다. 반응하는 것은
-   이 버튼 하나뿐입니다 — 큰 판이 들썩이면 시선이 사진에서 떨어집니다. */
 .pbn__m:hover{background:#660020;color:#F4F2F1}
 .pbn--flip .pbn__m:hover{background:#242424;color:#F3F1F4}
 
 .pbn__ph{position:absolute;bottom:0;
   height:calc(var(--u) * (213 + var(--over)));
-  overflow:hidden;display:flex;align-items:flex-start}
-.pbn__ph img{display:block;width:auto;height:calc(var(--u) * var(--imgh))}
+  /* 아래 한 면만 자릅니다.
+     overflow:hidden 은 네 면을 다 자릅니다. 지금까지는 실제로 아래만
+     잘리고 있어서(칸 폭이 곧 사진 폭, 칸 위가 곧 사진 위) 티가 나지
+     않았는데, 손을 얹어 사진이 커지면 머리 위가 잘려 나갑니다.
+     clip-path 의 음수 값은 "상자 밖으로 그만큼 넓힌다" 는 뜻이라,
+     위·좌·우는 열어 두고 아래만 카드 바닥선에서 자를 수 있습니다. */
+  clip-path:inset(-60% -60% 0 -60%);
+  display:flex;align-items:flex-start}
+.pbn__ph img{display:block;width:auto;height:calc(var(--u) * var(--imgh));
+  /* 바닥을 축으로 키웁니다 — 사진이 카드 바닥선에 서 있는 모양이라,
+     가운데를 축으로 하면 아래로도 자라 잘린 자리가 어긋나 보입니다. */
+  transform-origin:50% 100%;
+  transition:transform 620ms cubic-bezier(.22,.61,.36,1)}
+/* 단체 사진은 오른쪽 끝이 카드 선에 딱 맞아 있습니다. 그쪽을 축으로
+   잡아 그 선을 지키고 위·왼쪽으로만 자라게 합니다. */
+.pbn:not(.pbn--flip) .pbn__ph img{transform-origin:100% 100%}
+/* 카드 어디에 손을 얹어도 사진만 조금 커집니다. 카드도 글도 그대로라
+   움직이는 것이 하나뿐이고, 그래서 시선이 사진에 머뭅니다. */
+.pbn:hover .pbn__ph img{transform:scale(1.045)}
 /* 단체 사진은 카드 바깥 모서리에 붙입니다. 시안에는 19 만큼 안으로
    들어가 있었지만, 띄우면 누끼가 카드에 얹힌 것처럼 보입니다.
    위로 솟는 쪽만 열어 두고 나머지 세 면은 카드 선에 맞습니다. */
@@ -1652,6 +1672,9 @@ a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  /* 배너 사진이 커지는 것도 멈춥니다 */
+  .pbn__ph img{transition:none}
+  .pbn:hover .pbn__ph img{transform:none}
   .hero__bg,.hero__body > *{animation:none}
   /* 히어로 사진 넘기기는 main.js 가 아예 시작하지 않습니다(첫 장에서 멈춥니다).
      여기서 전환까지 지워 두는 것은, 페이지를 연 뒤에 설정을 켠 경우까지

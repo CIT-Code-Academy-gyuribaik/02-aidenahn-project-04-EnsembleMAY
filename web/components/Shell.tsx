@@ -14,9 +14,22 @@
    ========================================================================== */
 
 import type { ReactNode } from "react";
+import { Abril_Fatface } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "@/app/style.css";
+
+/* 배너 제목에 쓰는 디스플레이 세리프.
+   next/font 는 빌드할 때 글꼴 파일을 받아 우리 쪽에 함께 굽습니다 —
+   화면을 열 때 구글로 나가는 요청이 없습니다. 방문자 컴퓨터에 무엇이
+   깔려 있든 같은 모양으로 보이는 것도 이 방식뿐입니다.
+   라틴만 받습니다. 이 글꼴로 쓰는 글이 영문 제목 두 줄뿐입니다. */
+const abril = Abril_Fatface({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--display",
+});
 
 export default function Shell({
   hdr,
@@ -34,7 +47,7 @@ export default function Shell({
 }) {
   return (
     <html lang="ko">
-      <body data-hdr={hdr}>
+      <body data-hdr={hdr} className={abril.variable}>
         {/* 키보드만 쓰는 분이 탭 한 번으로 본문까지 건너뛰는 길입니다.
             평소에는 화면 위로 숨어 있다가 초점이 닿으면 내려옵니다. */}
         <a className="skip" href="#main">
