@@ -13,10 +13,22 @@ import { Lightbox, useLightbox, type LbItem } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
 import { GALLERY, MEMBERS, showById } from "@/lib/content";
 
-/** 단원 사진 8명. 4단이라 두 줄로 딱 떨어집니다. */
+/**
+ * 단원 사진. 4단이라 8명이면 두 줄로 딱 떨어집니다.
+ *
+ * ★ --rows 를 넘기는 이유 — snap.css 가 사진 크기를 화면 높이에서
+ *   거꾸로 계산하는데, 그러려면 몇 줄인지 알아야 합니다. CSS 는 자식
+ *   개수를 셀 수 없어서 여기서 넣어 줍니다. 단원을 12명으로 늘리면
+ *   3줄로 자동으로 다시 계산됩니다.
+ */
 export function MemberGrid() {
+  const rows = Math.max(1, Math.ceil(MEMBERS.length / 4));
   return (
-    <RevealSeq className="mem mem--4" step={60}>
+    <RevealSeq
+      className="mem mem--4"
+      step={60}
+      style={{ ["--rows" as string]: String(rows) }}
+    >
       {MEMBERS.map((m, i) => (
         <div className="mem__c" key={m.src || i}>
           {m.src ? (

@@ -1,3 +1,4 @@
+import HeaderTone from "@/components/HeaderTone";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import InquiryButton from "@/components/InquiryButton";
 import VideoCard from "@/components/VideoCard";
@@ -22,6 +23,9 @@ import { HOME_VIDEO } from "@/lib/content";
 export default function HomePage() {
   return (
     <>
+      {/* 세 번째 칸부터 상단 바를 흰 바탕으로. 화면에 그리는 것은 없습니다. */}
+      <HeaderTone />
+
       {/* 1 — 히어로 */}
       <section className="hero">
         <HeroSlideshow />
