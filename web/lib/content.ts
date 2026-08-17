@@ -17,6 +17,7 @@ import galleryJson from "@/content/gallery.json";
 import showsJson from "@/content/shows.json";
 import postersJson from "@/content/posters.json";
 import videosJson from "@/content/videos.json";
+import repertoireJson from "@/content/repertoire.json";
 import siteJson from "@/content/site.json";
 
 /* ── 생김새 ────────────────────────────────────────────────────────────── */
@@ -74,6 +75,20 @@ export type Video = {
   meta: string;
 };
 
+/**
+ * 지금까지 연주한 곡 한 줄.
+ * 한 공연의 순서표가 아니라, 아이들이 올린 곡이 쌓인 목록입니다.
+ * 새 곡은 목록 맨 뒤에 더하면 됩니다 — 화면에서 두 단으로 알아서 나뉩니다.
+ */
+export type Piece = {
+  title: string;
+  /** 부제. "from Spirited Away" 처럼 작은 기울임으로 붙습니다. */
+  sub?: string;
+  composer: string;
+  /** 편성. 솔로가 있는 곡에만 적습니다. */
+  ensemble?: string;
+};
+
 export type Contact = { tel: string; email: string };
 
 /** 히어로 사진이 넘어가는 속도. 1000 이 1초입니다. */
@@ -114,6 +129,8 @@ export const VIDEOS: Video[] = (videosJson as Video[]).map((v) => ({
   mp4: v.mp4 ? asset(v.mp4) : undefined,
   thumb: v.thumb ? asset(v.thumb) : undefined,
 }));
+
+export const REPERTOIRE: Piece[] = repertoireJson as Piece[];
 
 export const CONTACT: Contact = siteJson.contact;
 export const HERO: string[] = siteJson.hero.map(asset);
