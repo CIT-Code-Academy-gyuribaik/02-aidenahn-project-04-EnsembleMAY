@@ -33,6 +33,10 @@ const SPEED = 700;
     전환이 끝나자마자 다음 휠을 받아 연속 스크롤이 답답하지 않습니다. */
 const THRESHOLD_TIME = 550;
 
+/** 칸에 도착한 뒤 이만큼은 휠을 받지 않습니다. 트랙패드 관성 꼬리가
+    도착하자마자 페이지를 끌어내리는 것을 막습니다. */
+const GRACE = 260;
+
 /** 창 높이가 이보다 낮으면 스냅을 끕니다. 한 칸이 한 화면이라
     낮은 창에서는 칸 안 내용이 넘치고, Swiper 는 넘친 부분을 잘라 냅니다.
     푸터를 스냅 밖으로 뺀 덕에 기준을 560 까지 낮출 수 있었습니다 —
@@ -57,6 +61,9 @@ export default function SnapScroll({
   const slides = Children.toArray(children).filter(isValidElement);
   const hdrRef = useRef<HTMLElement | null>(null);
   const swiperRef = useRef<SwiperClass | null>(null);
+  /** 마지막으로 칸에 도착한 시각. 갓 도착했을 때 관성 꼬리가 페이지를
+      끌어내리지 않게 하는 데 씁니다. */
+  const arrivedAt = useRef(0);
 
   /* 스냅을 끄는 두 가지 경우.
 
@@ -121,10 +128,19 @@ export default function SnapScroll({
      휠을 계속 가로채기 때문에, 푸터가 화면 아래 떠 있는 채로 뒤에서
      칸만 바뀝니다. 실제로 그 증상이 났습니다.
 
-     그래서 넘겨주는 시점을 여기서 직접 정합니다. 규칙은 두 줄입니다.
+     그래서 넘겨주는 시점을 여기서 직접 정합니다. 규칙은 셋입니다.
+       · 칸이 넘어가는 중이면          → 아무도 손대지 않습니다
        · 페이지가 이미 밀려 있으면      → 스냅은 손 떼고 페이지가 스크롤
        · 마지막 칸에서 아래로 굴리면    → 스냅은 손 떼고 페이지가 스크롤
      그 밖에는 스냅이 맡습니다.
+
+     ★ 첫 줄이 빠져 있어서 푸터가 3번 칸 밑에 붙어 보였습니다.
+       Swiper 는 전환이 시작되는 순간 activeIndex 를 먼저 올립니다.
+       그래서 3→4 전환이 아직 흐르는 중인데도 "마지막 칸" 으로 읽혀,
+       그때 들어온 휠이 페이지를 밀어 버렸습니다. 전환 중에는 휠을
+       아예 삼켜서 스냅도 페이지도 움직이지 않게 합니다.
+       전환이 끝난 뒤 GRACE 만큼은 더 기다립니다 — 트랙패드 관성
+       꼬리가 도착하자마자 페이지를 끌어내리지 않게 하는 몫입니다.
 
      window 의 캡처 단계에서 가로채 stopPropagation 하면, 컨테이너에
      걸린 Swiper 의 휠 처리기가 아예 돌지 않습니다. preventDefault 는
@@ -136,11 +152,22 @@ export default function SnapScroll({
     const onWheel = (e: WheelEvent) => {
       const sw = swiperRef.current;
       if (!sw || !sw.enabled) return;
+
+      /* 칸이 넘어가는 중이거나 막 도착한 참이면 아무도 손대지 않습니다 */
+      const settling = sw.animating || performance.now() - arrivedAt.current < GRACE;
+      if (settling) {
+        if (e.cancelable) e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
       const atLast = sw.activeIndex >= sw.slides.length - 1;
       const handOff = window.scrollY > 0 || (atLast && e.deltaY > 0);
+      /* 넘겨줄 때는 Swiper 만 막습니다. preventDefault 는 하지 않으므로
+         브라우저가 평범하게 스크롤합니다. */
       if (handOff) e.stopPropagation();
     };
-    window.addEventListener("wheel", onWheel, { capture: true, passive: true });
+    window.addEventListener("wheel", onWheel, { capture: true, passive: false });
     return () => window.removeEventListener("wheel", onWheel, { capture: true });
   }, []);
 
@@ -177,7 +204,10 @@ export default function SnapScroll({
         /* 위로 갈 때만 미리 바꿉니다 */
         if (s.activeIndex < s.previousIndex) paint(s.activeIndex);
       }}
-      onSlideChangeTransitionEnd={(s: SwiperClass) => paint(s.activeIndex)}
+      onSlideChangeTransitionEnd={(s: SwiperClass) => {
+        arrivedAt.current = performance.now();
+        paint(s.activeIndex);
+      }}
       onBreakpoint={(s: SwiperClass) => {
         if (!s.enabled) hdrRef.current?.classList.remove("is-solid");
       }}
