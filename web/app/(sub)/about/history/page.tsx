@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { RevealSeq } from "@/components/Reveal";
-import { SHOWS } from "@/lib/content";
+import Timeline from "@/components/Timeline";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -28,10 +27,6 @@ export const metadata: Metadata = pageMeta({
    ========================================================================== */
 
 export default function AboutHistoryPage() {
-  /* 최근이 위로 옵니다. 날짜가 "2026.06.21" 꼴이라 글자 그대로 비교해도
-     시간 순서가 맞습니다. */
-  const rows = [...SHOWS].sort((a, b) => b.date.localeCompare(a.date));
-
   return (
     <>
       <h2 className="sr">주요 연혁</h2>
@@ -39,18 +34,7 @@ export default function AboutHistoryPage() {
         앙상블 메이가 무대에 선 기록입니다. 정기 연주회와 자선 공연을 함께 적었습니다.
       </p>
 
-      <RevealSeq className="tl" step={60}>
-        {rows.map((s) => (
-          <div className="tl__r" key={s.id}>
-            <p className="tl__d">{s.date}</p>
-            <p className="tl__t">
-              {s.title}
-              {s.note && <em>{s.note}</em>}
-            </p>
-            {s.venue && <p className="tl__v">{s.venue}</p>}
-          </div>
-        ))}
-      </RevealSeq>
+      <Timeline />
     </>
   );
 }

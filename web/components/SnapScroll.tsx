@@ -125,9 +125,10 @@ export default function SnapScroll({
         forceToAxis: true,
         thresholdDelta: THRESHOLD_DELTA,
         thresholdTime: THRESHOLD_TIME,
-        /* 마지막 칸에서 더 굴리면 스냅을 놓고 페이지 스크롤로 넘깁니다.
-           그래야 스냅 밖에 있는 푸터가 따라 나옵니다. */
-        releaseOnEdges: true,
+        /* 끝에서 놓아주지 않습니다. 놓아주면 그 뒤로는 아무 위치에나
+           멈춰서, 제목이 상단 바에 잘리고 사진이 중간에서 끊깁니다.
+           홈은 푸터까지 전부 칸입니다 — 이음매를 만들지 않습니다. */
+        releaseOnEdges: false,
       }}
       keyboard={{ enabled: true, onlyInViewport: true }}
       /* 기본은 꺼진 상태입니다 — 좁은 화면이 기본값이라야 모바일에서
