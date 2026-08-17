@@ -66,23 +66,17 @@ export default function HomeBanners() {
                   <span key={line}>{line}</span>
                 ))}
               </p>
+              {/* 누를 곳은 이 단추 하나입니다. 카드 전체를 링크로 두면
+                  글을 긁어 읽으려고 끌기만 해도 페이지가 넘어갑니다. */}
+              <Link className="pbn__m" href={b.href}>
+                Read more
+              </Link>
             </div>
 
             <div className="pbn__ph">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={b.src} alt={b.alt} loading="lazy" />
             </div>
-
-            {/* 누를 곳은 이 단추 하나입니다. 카드 전체를 링크로 두면
-                글을 긁어 읽으려고 끌기만 해도 페이지가 넘어갑니다.
-
-                글 상자(.pbn__t) 밖에 두는 이유 — 좁은 화면에서 글 · 사진 ·
-                단추 순으로 세우는데, 단추가 글 상자 안에 있으면 사진을
-                그 사이로 끼워 넣을 수가 없습니다. 넓은 화면에서 보이는
-                모습은 안에 있을 때와 같습니다. */}
-            <Link className="pbn__m" href={b.href}>
-              Read more
-            </Link>
           </div>
         </Reveal>
       ))}
