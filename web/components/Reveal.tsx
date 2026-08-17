@@ -23,6 +23,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from "react";
 
@@ -113,18 +114,20 @@ export function RevealSeq({
   step = 70,
   base = 0,
   className,
+  style,
 }: {
   children: ReactNode;
   step?: number;
   /** 바깥 그룹에서 물려받은 시작 시각 */
   base?: number;
   className?: string;
+  style?: CSSProperties;
 }) {
   const { ref, seen } = useInView<HTMLDivElement>();
   const items = Children.toArray(children).filter(isValidElement);
 
   return (
-    <div className={className} ref={ref}>
+    <div className={className} ref={ref} style={style}>
       {items.map((child, i) => (
         <div
           key={i}

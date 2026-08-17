@@ -20,13 +20,16 @@ import "@/app/style.css";
 
 export default function Shell({
   hdr,
+  htmlClass,
   children,
 }: {
   hdr: "overlay" | "solid";
+  /** <html> 에 붙일 클래스. 홈이 스냅 스크롤을 켤 때 "snap" 을 넘깁니다. */
+  htmlClass?: string;
   children: ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={htmlClass}>
       <body data-hdr={hdr}>
         {/* 키보드만 쓰는 분이 탭 한 번으로 본문까지 건너뛰는 길입니다.
             평소에는 화면 위로 숨어 있다가 초점이 닿으면 내려옵니다. */}
