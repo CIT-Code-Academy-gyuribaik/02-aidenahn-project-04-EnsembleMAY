@@ -141,10 +141,22 @@ export default function InquiryButton({
   const close = useCallback(() => setOpen(false), []);
 
   /* 열리면 닫기 단추로 초점을 옮기고, 닫히면 눌렀던 단추로 돌려 줍니다.
-     키보드만 쓰는 분이 팝업을 닫은 뒤 화면 맨 위로 튕기지 않게 하는 부분입니다. */
+     키보드만 쓰는 분이 팝업을 닫은 뒤 화면 맨 위로 튕기지 않게 하는 부분입니다.
+
+     ★ opened 를 두는 이유
+       이 조건이 없으면 페이지가 열리자마자(open=false) else 가지가 돌아서
+       문의 단추에 초점이 갑니다. 그 단추는 페이지 맨 아래에 있어서,
+       브라우저가 거기까지 화면을 끌어내립니다 — Concert 를 눌렀는데
+       히어로를 건너뛰고 아래에서 시작하던 원인이 이것이었습니다.
+       초점을 되돌리는 것은 "한 번이라도 열었던" 경우에만 해야 합니다. */
+  const opened = useRef(false);
   useEffect(() => {
-    if (open) closeRef.current?.focus();
-    else openerRef.current?.focus({ preventScroll: true });
+    if (open) {
+      opened.current = true;
+      closeRef.current?.focus();
+    } else if (opened.current) {
+      openerRef.current?.focus({ preventScroll: true });
+    }
   }, [open]);
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import SnapScroll from "@/components/SnapScroll";
-import SiteFooter from "@/components/SiteFooter";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import HomeBanners from "@/components/HomeBanners";
 import HomeConcerts from "@/components/HomeConcerts";
@@ -10,23 +9,18 @@ import { HOME_VIDEO } from "@/lib/content";
 /* ==========================================================================
    홈
 
-   다섯 칸 — 푸터까지 전부 스냅입니다.
-
+   ── 스냅이 걸리는 네 칸 ──
      1 히어로 (사진 4장이 넘어감)
      2 큰 영상
      3 공연 리스트 — 포스터 + 최근 공연 → 더보기
      4 배너 목록 (단원 · 활동 사진)
-     5 푸터
 
-   ★ 푸터까지 칸으로 만든 이유
-     한동안 배너와 푸터를 스냅 밖에 두고 "마지막 칸을 지나면 평범한
-     스크롤로 풀리는" 방식을 썼는데, 그 이음매가 그대로 드러났습니다.
-     풀린 뒤로는 아무 위치에나 멈추니 제목이 상단 바에 잘려 올라가고,
-     배너 사진이 중간에서 끊기고, 빈 자리가 남았습니다.
-     스냅과 일반 스크롤을 섞으면 반드시 그 경계가 보입니다.
-     전부 칸으로 통일하는 편이 낫습니다.
+   ── 그 뒤 ──
+     5 푸터 — 스냅 없이 이어집니다 (Shell 이 그립니다)
 
-   푸터는 어두운 바닥이라 한 화면을 다 덮으면 "여기가 끝" 이 분명합니다.
+   네 번째 칸까지 넘긴 뒤 더 굴리면 스냅이 손을 놓고 푸터가 따라
+   올라옵니다. 푸터를 칸으로 만들면 390px 짜리 내용이 한 화면을
+   차지해 허전하고, 넘기는 횟수만 한 번 늘어납니다.
 
    ★ 홈에서 단원과 사진을 전부 펼치지 않습니다.
      예전에는 단원 8명과 사진 8장을 홈에 다 늘어놓았는데, 그러면 홈이
@@ -106,10 +100,6 @@ export default function HomePage() {
             <HomeBanners />
           </div>
         </section>
-
-        {/* 5 — 푸터. 한 칸을 통째로 씁니다. 어두운 바닥이 화면을 다 덮어
-            "여기가 끝" 이 분명해집니다. */}
-        <SiteFooter />
       </SnapScroll>
     </>
   );
