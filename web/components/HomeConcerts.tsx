@@ -16,7 +16,7 @@ import { RevealSeq } from "@/components/Reveal";
 import { POSTERS, SHOWS, photosOf, showById } from "@/lib/content";
 
 /** 지난 공연은 최근 몇 개까지 보여 줄지. 나머지는 Concert 에 있습니다. */
-const SHOW_LIMIT = 4;
+const SHOW_LIMIT = 3;
 
 function captionOf(showId: string | undefined) {
   const s = showById(showId);
