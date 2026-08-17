@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Shell hdr="overlay" htmlClass="snap">
+    <Shell hdr="overlay" ownFooter>
       {children}
     </Shell>
   );

@@ -20,16 +20,20 @@ import "@/app/style.css";
 
 export default function Shell({
   hdr,
-  htmlClass,
+  ownFooter,
   children,
 }: {
   hdr: "overlay" | "solid";
-  /** <html> 에 붙일 클래스. 홈이 스냅 스크롤을 켤 때 "snap" 을 넘깁니다. */
-  htmlClass?: string;
+  /**
+   * 홈은 푸터를 마지막 칸 안에 직접 넣습니다.
+   * 스냅 스크롤에서 CTA 와 푸터가 한 화면에 같이 보여야 하는데,
+   * 여기서 <main> 밖에 그리면 둘이 다른 칸으로 갈라집니다.
+   */
+  ownFooter?: boolean;
   children: ReactNode;
 }) {
   return (
-    <html lang="ko" className={htmlClass}>
+    <html lang="ko">
       <body data-hdr={hdr}>
         {/* 키보드만 쓰는 분이 탭 한 번으로 본문까지 건너뛰는 길입니다.
             평소에는 화면 위로 숨어 있다가 초점이 닿으면 내려옵니다. */}
@@ -41,7 +45,7 @@ export default function Shell({
 
         <main id="main">{children}</main>
 
-        <SiteFooter />
+        {!ownFooter && <SiteFooter />}
       </body>
     </html>
   );
