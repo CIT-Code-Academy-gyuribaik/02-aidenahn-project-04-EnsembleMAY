@@ -1,0 +1,21 @@
+{
+  "contact": {
+    "tel": "010-0000-0000",
+    "email": "ensemblemay2025@gmail.com"
+  },
+  "hero": [
+    "assets/img/hero/hero-1.webp",
+    "assets/img/hero/hero-2.webp",
+    "assets/img/hero/hero-3.webp",
+    "assets/img/hero/hero-4.webp"
+  ],
+  "heroMs": {
+    "hold": 4000,
+    "fade": 1000
+  },
+  "homeVideo": {
+    "id": "ghWBQgkz_Xo",
+    "title": "제2회 정기연주회 · 가면무도회 왈츠",
+    "meta": "2026.06.21 · 로데아트센터"
+  }
+}

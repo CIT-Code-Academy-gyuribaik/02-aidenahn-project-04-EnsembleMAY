@@ -1,0 +1,1420 @@
+@charset "utf-8";
+/* ==========================================================================
+   앙상블 메이 — ensemblemay.com
+   디자인 토큰: roshaartsgroup.imweb.me 실측값 기반
+   --------------------------------------------------------------------------
+   브랜드 색을 바꿀 때는 아래 --brand 한 줄만 고치면 사이트 전체가 따라옵니다.
+     버건디(현재) #4A1F24  /  브라운 #5B4C3D  /  신록 #4A5C3D  /  딥그린 #32483D
+   ========================================================================== */
+
+:root{
+  /* ── 색 ── 순백 + 딥 버건디 단색 1개 + 앤틱골드 액센트.
+     골드는 "선과 아주 작은 글자"에만 씁니다. 넓은 면에 깔면 값싸 보입니다.
+     쓰는 자리를 아래 --accent-gold 밑에 전부 적어두었습니다.        */
+  --brand:#4A1F24;                  /* 딥 버건디. 흰 배경에서 13.9:1 */
+  --ink:#3E3436;                    /* 버건디 기운을 아주 조금 넣은 먹. 12.0:1 */
+  --paper:#ffffff;
+  /* 헤어라인도 순검정이 아니라 브랜드 색을 옅게 깝니다. 순검정을 같은
+     농도로 깔면 버건디 옆에서 파랗게 뜹니다.
+     ★ .07/.14 로 시작했다가 .12/.20 으로 올렸습니다. 흰 바탕에서 재보니
+       .07 은 대비가 1.14:1 밖에 안 돼서 선이 있는지 없는지 모를 정도였고,
+       그래서 섹션·행·카드 경계가 다 풀려 화면이 한 덩어리 흰 판으로
+       보였습니다. .12 는 1.26:1 — 또렷하지만 회색 줄로 튀지는 않습니다. */
+  --line:rgba(74,31,36,.12);
+  --line-strong:rgba(74,31,36,.20);
+  /* 보조 텍스트. .78 에서 흰 배경 6.1:1 / 틴트 배경 5.9:1 입니다.
+     WCAG AA(4.5:1) 아래로 내려가는 지점은 .62 입니다.               */
+  --ink-mid:rgba(62,52,54,.78);
+  --ink-dot:rgba(62,52,54,.30);
+
+  /* ── 앤틱골드 ── 이 색이 나오는 자리는 여기가 전부입니다.
+       .btn--ghost 테두리 / .more 밑줄 / .cta__2nd 글자·밑줄 /
+       .card--lead 테두리 / .orn 구분선과 마크 / .foot 위 헤어라인 /
+       --on-ground (어두운 바닥 위 소형 캡스: .foot__en · .foot__sns ·
+       .prog__e · .prog__g)
+     흰 배경 위에서는 2.3:1 이라 글자로 쓸 수 없습니다. 흰 바탕에 놓이는
+     골드는 전부 1px 선입니다. 글자로 쓰는 곳은 어두운 바닥 위뿐입니다. */
+  --accent-gold:#C9A66B;
+
+  /* 푸터 바닥. --brand 를 더 어둡게 한 버건디 블랙입니다.
+     --brand(#4A1F24)는 이 바닥에서 명암비 1.25:1 로 안 읽히므로
+     액센트는 골드가 맡습니다(7.6:1).
+     ※ CTA 밴드(--brand)와 이 바닥의 명도차가 1.25:1 입니다. 브라운
+       시절의 1.86:1 보다 단차가 얕아서, 두 블록의 경계는 .foot 의
+       골드 헤어라인이 대신 그립니다. 예전처럼 색으로 층을 나누고
+       싶으면 .cta 의 background 를 #6B2F37 로 바꾸세요(단차 1.72:1).
+       그때는 .cta__2nd 골드가 4.4:1 로 AA 아래여서 #D0AE78 로 함께
+       올려야 합니다. */
+  --ground:#2A1418;
+  --on-ground:var(--accent-gold);   /* 7.6:1 */
+  --on-ground-dim:rgba(255,255,255,.74);   /* 9.9:1 */
+
+  /* ── 치수 ── */
+  --max:1280px;
+  --pad:24px;
+  --hdr:95px;
+  --gx:7px;
+  --gy:15px;
+
+  /* ── 로고 마크 ──
+     assets/img/icon/logo-emblem.png 의 알파(투명도)만 256px 로 줄여 넣은
+     것입니다. 색은 없고 모양만 있어서, 쓰는 자리의 글자색을 그대로
+     따라갑니다.
+
+     ※ SVG 가 아니라 PNG 인 이유 — 받은 logo.svg 두 벌 모두 아래쪽 이중
+       아치가 패스 단계에서 잘려 있었습니다(하나는 바닥이 평평하게, 다른
+       하나는 양옆에서 끊겨 가운데가 빔). 온전한 도안은 이 PNG 뿐이라
+       이걸 씁니다. 나중에 온전한 SVG 를 받으면 이 한 줄만 바꾸면 됩니다.
+     ※ 256px 인 이유 — 이 마크가 화면에서 가장 크게 쓰이는 곳이 54px 이라,
+       3배 고해상도 화면(162px)까지 감당하고도 남습니다. 더 키우면 CSS
+       파일만 무거워집니다.
+
+     ※ 둘레 글자는 작은 크기에서 읽히지 않습니다. 32px 에서는 글자 획이
+       1px 도 안 돼서 흐린 고리로 보입니다. 그래서 마크가 놓이는 자리를
+       예전보다 키웠습니다(상단 바 32 → 52px). 도장처럼 읽히는 크기입니다.
+
+     색은 지정하지 않습니다 — 쓰는 자리의 글자색을 그대로 따라갑니다.
+     파일이 아니라 주소 없는 SVG 로 넣은 이유는, 브라우저로 파일을 바로
+     열었을 때(file://) 크롬이 외부 파일 마스크를 막기 때문입니다. */
+  --mark:url("data:image/png;base64,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");
+
+  /* ── 타입 ──
+     아리따부리·마포꽃섬을 쓰실 경우 assets/fonts/ 에 넣고 아래 @font-face 주석을 해제하세요.
+     그때까지는 본명조(Noto Serif KR) + Poppins 로 갑니다.
+
+     ★ 나눔명조에서 본명조로 바꿨습니다. 나눔명조는 인쇄용으로 만들어진 활자라
+       15px 쯤에서 가로획이 화면 픽셀에 못 앉고 사라집니다. 「문」이 「분」처럼
+       보이는 것이 그 증상입니다. 본명조는 화면용으로 힌팅된 가변 폰트(400~700)라
+       같은 크기에서 획이 버팁니다.
+       weight 규칙 — 작은 글씨(≤18px)는 500, 큰 글씨는 400, 제목은 600.
+       나눔명조 700 자리를 본명조 700 으로 두면 지나치게 두꺼워서 600 으로 낮췄습니다. */
+  --myeongjo:"AritaBuri","Noto Serif KR","Nanum Myeongjo",Batang,serif;
+  --gothic:"MapoFlowerIsland","Pretendard Variable","Pretendard","Poppins",
+           "Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+}
+
+/*
+@font-face{ font-family:"AritaBuri"; src:url("../fonts/AritaBuriSemiBold.woff2") format("woff2");
+            font-weight:400; font-display:swap; }
+@font-face{ font-family:"MapoFlowerIsland"; src:url("../fonts/MapoFlowerIsland.woff2") format("woff2");
+            font-weight:400; font-display:swap; }
+*/
+
+/* ── reset ── */
+*,*::before,*::after{box-sizing:border-box}
+/* 앵커로 뛸 때 고정된 상단 바 밑에 제목이 깔리지 않게 자리를 비워 둡니다.
+   푸터의 #director · #repertoire · #history · #videos 같은 링크가 전부
+   이 한 줄에 딸려 있습니다. */
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr) + 22px)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  /* rosha 실측은 13px 이지만 그건 마포꽃섬(고딕) 기준입니다.
+     명조 제목 + 시스템 고딕 본문 조합에서는 13px 이 획이 끊겨 보여 14px 로 올렸습니다. */
+  font:450 14px/1.75 var(--gothic);
+  overflow-x:hidden}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+h1,h2,h3,h4,p,ul,ol{margin:0}
+ul{padding:0;list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+  white-space:nowrap}
+.skip{position:absolute;top:-60px;left:12px;z-index:999;background:var(--brand);
+  color:#fff;padding:10px 16px;font-size:13px;
+  text-decoration:none;transition:top 160ms ease}
+.skip:focus{top:12px}
+
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--pad)}
+
+/* ══════════════════════════════════════════════════════════════
+   상단 바 — 95px 고정. 그림자 없음. 아래 경계는 1px 헤어라인.
+   홈: 히어로 사진 위 투명 오버레이(흰 글씨 + 흰 헤어라인)
+   서브: 흰 배경(잉크 글씨). 홈도 40px 넘게 내리면 같은 상태가 됩니다.
+
+   로고는 [마크 + Ensemble M.A.Y] 두 덩어리입니다.
+   마크는 assets/img/icon/logo.png 를 선·원 좌표로 옮겨 그린 SVG 입니다.
+   PNG 를 그대로 쓰지 않은 이유가 두 가지 있습니다.
+     1. 원본이 흰 선화라 흰 배경(서브페이지) 위에서는 보이지 않습니다.
+        SVG 는 currentColor 를 따라가므로 오버레이=흰색, 흰 배경=잉크색이 됩니다.
+     2. 파일을 브라우저로 바로 열었을 때(file://) 크롬이 외부 파일 마스크를
+        막습니다. 주소가 없는 SVG 라 그 제한에 걸리지 않습니다.
+   원본 PNG 는 assets/img/icon/logo.png 에 그대로 남아 있습니다.
+   ══════════════════════════════════════════════════════════════ */
+.hdr{position:fixed;inset:0 0 auto;z-index:300;height:var(--hdr);
+  border:0;box-shadow:none;
+  transition:background 300ms ease,border-color 300ms ease}
+/* 사진이 밝은 경우를 대비한 얕은 그늘. 흰 글씨의 최소 대비를 보장합니다.
+   배경색이 아니라 별도 레이어인 이유 — 그라디언트→단색은 전환이 끊깁니다.
+   opacity 로 페이드해야 스크롤 시 흰 배경으로 부드럽게 넘어갑니다. */
+.hdr::before{content:"";position:absolute;inset:0;
+  transition:opacity 300ms ease;pointer-events:none}
+.hdr__bar{position:relative;max-width:var(--max);height:100%;margin:0 auto;
+  padding-inline:var(--pad);display:flex;align-items:center;gap:28px}
+
+/* 로고 = 마크 + 워드마크 */
+.hdr__logo{display:flex;align-items:center;gap:16px;
+  text-decoration:none;white-space:nowrap;
+  transition:opacity 180ms ease}
+.hdr__logo:hover{opacity:.7}
+.hdr__mark{flex:none;width:52px;height:51px;   /* 엠블럼 917×904 비율 */
+  background:currentColor;
+  /* ★ 단축 속성(mask: … center/contain) 으로 쓰면 크기(contain)를 못 읽고
+     지나가는 브라우저가 있습니다. 그러면 마크가 제 크기(155×150)로 그려지고
+     칸(52×50) 밖은 잘려서 — 아래와 오른쪽이 사라집니다.
+     낱개 속성으로 적으면 어느 브라우저에서도 같게 나옵니다. */
+  -webkit-mask-image:var(--mark);        mask-image:var(--mark);
+  -webkit-mask-repeat:no-repeat;         mask-repeat:no-repeat;
+  -webkit-mask-position:center;          mask-position:center;
+  -webkit-mask-size:contain;             mask-size:contain}
+/* mask 를 모르는 오래된 브라우저에서 네모 덩어리가 남지 않게 */
+@supports not (mask-size:contain){ .hdr__mark{display:none} }
+/* 상단 바는 라틴 글자뿐입니다. 획이 날아가던 건 한글 쪽이라 여기는 400 그대로
+   둡니다. 500 으로 올리면 레퍼런스보다 눈에 띄게 두꺼워집니다. */
+.hdr__wm{font:400 18px/1 var(--myeongjo);letter-spacing:.03em}
+
+.nav{position:relative;margin-inline-start:auto;display:flex;gap:28px}
+.nav a{font:400 15px/1 var(--myeongjo);letter-spacing:.02em;
+  text-decoration:none;white-space:nowrap;padding-block:6px;
+  transition:opacity 180ms ease}
+.nav a:hover{opacity:.62}
+.nav a[aria-current="page"]{border-bottom:1px solid currentColor}
+
+/* ── Contact 는 네모 단추입니다 ─────────────────────────────────────────
+   나머지 넷은 "어디를 볼까"이고 이것만 "연락해 주세요"입니다. 성격이
+   다르니 생김새도 다릅니다 — 히어로에 있던 [자선 공연 문의] 단추를
+   여기로 옮겨 온 셈입니다. 첫 화면에서는 사진을 가리지 않고, 대신
+   어느 페이지에 있든 늘 오른쪽 위에 붙어 있습니다.
+
+   모서리는 각지게 둡니다 — 사이트 전체가 그렇습니다.
+   테두리는 상단 바 글자색을 그대로 따라가야 합니다(사진 위에서는 흰색,
+   흰 바 위에서는 먹색). 그래서 색을 직접 적지 않고 currentColor 로
+   받습니다 — 상단 바가 색을 바꿀 때 테두리도 같이 따라갑니다.
+   밑줄(.nav a[aria-current] · .nav__ind)은 네모와 겹치므로 지웁니다. */
+.nav a.nav__cta{padding:9px 17px;
+  box-shadow:inset 0 0 0 1px currentColor;
+  border-bottom:0;
+  transition:background 200ms ease,color 200ms ease,opacity 180ms ease}
+.nav a.nav__cta:hover{opacity:1;background:var(--brand);color:#fff;
+  box-shadow:inset 0 0 0 1px var(--brand)}
+/* 지금 보고 있는 페이지(contact.html)에서는 채워 둡니다 — 밑줄을 지웠으니
+   여기가 어디인지 알려 줄 다른 표시가 필요합니다. */
+.nav a.nav__cta[aria-current="page"]{background:var(--brand);color:#fff;
+  box-shadow:inset 0 0 0 1px var(--brand)}
+
+/* ── 따라오는 밑줄 ────────────────────────────────────────────────
+   현재 페이지 아래 있던 선이 마우스를 올린 항목으로 미끄러져 가고,
+   벗어나면 제자리로 돌아옵니다. 선은 main.js 가 만들어 붙입니다 —
+   6개 파일의 마크업을 건드리지 않으려고 이렇게 했습니다.
+   스크립트가 없는 환경에서는 is-ind 가 안 붙으므로 예전처럼
+   현재 항목에 선이 고정으로 남습니다. 기능이 사라지지 않습니다.
+
+   현재 항목의 보더는 지우지 않고 색만 투명하게 합니다.
+   지우면 글상자 높이가 1px 줄어 선 위치가 어긋납니다.            */
+.nav.is-ind a[aria-current="page"]{border-bottom-color:transparent}
+.nav.is-ind a:hover{opacity:1}      /* 흐려지는 대신 선이 반응합니다 */
+.nav__ind{position:absolute;left:0;bottom:0;width:0;height:1px;
+  background:currentColor;opacity:0;pointer-events:none;
+  transition:transform 280ms cubic-bezier(.22,.61,.36,1),
+             width     280ms cubic-bezier(.22,.61,.36,1),
+             opacity   180ms ease}
+
+/* ── 서리 유리 상단 바 (홈) ──────────────────────────────────────────
+   홈은 스크롤 내내 이 상태 그대로입니다. 예전에는 히어로를 지나면 흰
+   판으로 바뀌었는데, 바뀌는 순간이 늘 어색해서 아예 한 벌로 갑니다.
+
+   ★ 농도 .62 는 눈대중이 아니라 계산한 값입니다.
+     바 뒤로는 사진 · 어두운 소개 · 흰 단원 · 틴트 갤러리 · 버건디 CTA 가
+     차례로 지나갑니다. 그중 가장 불리한 것이 흰 바탕인데, 그 위에서
+     흰 글자가 AA(4.5:1)를 넘기려면 이 정도는 깔려야 합니다.
+       .55 → 3.9:1 (미달)   .62 → 4.9:1   .70 → 6.5:1
+     흰 배경이 가장 밝은 경우라, 여기만 넘기면 나머지는 자동으로 넘습니다
+     (버건디 CTA 위에서는 16:1 입니다).
+
+   saturate 를 같이 거는 이유 — 흐리게만 하면 뒤 색이 물 빠진 것처럼
+   탁해집니다. 채도를 조금 올려 두면 유리 너머로 보이는 사진 색이 살아
+   있어서 "유리" 처럼 읽힙니다.
+
+   글자 그림자는 뺐습니다. 예전에는 밝은 사진 위 흰 글씨를 지키려고
+   깔았는데, 이제 유리 자체가 대비를 만들어 줘서 그림자는 흐릿하게만
+   보입니다.                                                          */
+/* 색을 깔지 않습니다. 흐림만 걸어서 뒤가 그대로 비치되 형체만 풀립니다.
+   대신 글자색이 뒤 배경을 따라갑니다 — 어두운 구간에서는 흰색,
+   밝은 구간에서는 먹색(main.js 가 .is-onlight 를 붙였다 뗍니다).
+
+   글자 그림자는 사진 구간을 위한 보험입니다. 갤러리처럼 사진이 지나가는
+   자리는 한 구간 안에서도 밝기가 들쭉날쭉해서, 구간 단위 판단만으로는
+   어두운 사진 위에 먹색 글자가 놓이는 순간이 생깁니다. 깨끗한 바탕에서는
+   그림자가 보이지 않고, 사진 위에서만 글자를 붙들어 줍니다. */
+body[data-hdr="overlay"] .hdr{
+  background:none;
+  -webkit-backdrop-filter:blur(12px) saturate(118%);
+          backdrop-filter:blur(12px) saturate(118%);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  /* 스크롤 중에 뒤 글자가 꿀렁여 보이는 것을 줄이는 두 줄입니다.
+     브라우저는 매 프레임 상단 바 뒤를 다시 떠서 흐리는데, 그때 표본
+     위치가 소수점 픽셀로 어긋나면 글자 획이 프레임마다 다르게 번집니다.
+     상단 바를 자기 합성 레이어로 올려 두면 그 어긋남이 줄어듭니다.
+     흐림 반경도 16 → 12 로 낮췄습니다 — 반경이 클수록 한 획이 끌어오는
+     주변 픽셀이 넓어져서 흔들림이 그만큼 크게 보입니다.
+     ※ 완전히 없앨 수는 없습니다. 움직이는 것을 흐리는 한 따라오는
+       현상이라, 아예 없애려면 흐림을 빼야 합니다. */
+  transform:translateZ(0);
+  will-change:backdrop-filter;
+  /* background 가 이 목록에 있어야 흰 바탕(.is-solid)으로 녹아듭니다.
+     예전에는 border-color 만 있어서, 바탕색이 붙었다 떨어질 때 딱 끊겼습니다.
+     흐림(backdrop-filter)은 두 상태 모두 그대로 둡니다 — 켜고 끄면 그 순간
+     한 프레임이 튑니다. 흰 바탕이 덮으면 어차피 보이지 않습니다. */
+  transition:background 380ms ease,border-color 380ms ease}
+body[data-hdr="overlay"] .hdr::before{background:none}
+
+body[data-hdr="overlay"] .hdr__logo{color:#fff}
+body[data-hdr="overlay"] .nav a{color:rgba(255,255,255,.93)}
+body[data-hdr="overlay"] .nav a:hover{color:#fff;opacity:1}
+body[data-hdr="overlay"] .burger span{background:#fff}
+/* 밑줄은 .nav 의 자식이라 링크 색을 물려받지 못합니다. 따로 지정합니다. */
+body[data-hdr="overlay"] .nav__ind{background:#fff}
+body[data-hdr="overlay"] .hdr__wm,
+body[data-hdr="overlay"] .nav a{text-shadow:0 1px 10px rgba(0,0,0,.5)}
+body[data-hdr="overlay"] .hdr__mark{filter:drop-shadow(0 1px 8px rgba(0,0,0,.5))}
+body[data-hdr="overlay"] .hdr__logo,
+body[data-hdr="overlay"] .nav a,
+body[data-hdr="overlay"] .burger span,
+body[data-hdr="overlay"] .nav__ind{transition:color 260ms ease,background 260ms ease}
+
+/* 밝은 구간 위 — 먹색으로 뒤집습니다 */
+body[data-hdr="overlay"] .hdr.is-onlight{border-bottom-color:var(--line)}
+body[data-hdr="overlay"] .hdr.is-onlight .hdr__logo,
+body[data-hdr="overlay"] .hdr.is-onlight .nav a{color:var(--ink)}
+body[data-hdr="overlay"] .hdr.is-onlight .burger span{background:var(--ink)}
+body[data-hdr="overlay"] .hdr.is-onlight .nav__ind{background:var(--ink)}
+body[data-hdr="overlay"] .hdr.is-onlight .hdr__wm,
+body[data-hdr="overlay"] .hdr.is-onlight .nav a{text-shadow:0 1px 10px rgba(255,255,255,.75)}
+body[data-hdr="overlay"] .hdr.is-onlight .hdr__mark{
+  filter:drop-shadow(0 1px 8px rgba(255,255,255,.75))}
+
+/* Contact 네모 단추 — 사진 위에서는 흰 테두리, 밝은 구간에서는 버건디.
+   위의 .nav a 색 규칙보다 무게가 무거워야 해서 a.nav__cta 로 씁니다.
+   글자 그림자는 지웁니다 — 테두리 안에서는 번져 보이기만 합니다. */
+body[data-hdr="overlay"] .nav a.nav__cta{color:#fff;text-shadow:none}
+body[data-hdr="overlay"] .nav a.nav__cta:hover,
+body[data-hdr="overlay"] .nav a.nav__cta[aria-current="page"]{
+  background:#fff;color:var(--brand);box-shadow:inset 0 0 0 1px #fff}
+body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta{
+  color:var(--brand);text-shadow:none}
+body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta:hover,
+body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta[aria-current="page"]{
+  background:var(--brand);color:#fff;box-shadow:inset 0 0 0 1px var(--brand)}
+
+/* ── 홈: 세 번째 칸부터 흰 바탕 ─────────────────────────────────────────
+   home-fullpage.js 가 칸 번호를 보고 .is-solid 를 붙였다 뗍니다.
+
+   ★ 왜 data-hdr 을 "solid" 로 바꾸지 않고 클래스를 얹는가 —
+     data-hdr 을 바꾸면 위 body[data-hdr="overlay"] 규칙 묶음이 통째로
+     빠지고 다른 묶음이 들어옵니다. 그때 transition 선언 자체가 교체되기
+     때문에 브라우저가 "무엇에서 무엇으로" 를 알 수 없어 그냥 툭 바뀝니다.
+     클래스로 얹으면 규칙 묶음은 그대로고 값만 달라져서, 위에 적어 둔
+     transition 이 양쪽 방향 모두에 걸립니다.
+
+   글자색 전환은 아래 [글자색 전환] 규칙이 이미 맡고 있습니다(260ms).
+   .is-onlight 와 같은 무게라, 반드시 그 뒤에 와야 이깁니다 —
+   다섯 번째 칸(어두운 CTA·푸터)에서는 .is-onlight 가 꺼지는데,
+   그때도 흰 바탕이므로 글자는 먹색이어야 합니다.                      */
+body[data-hdr="overlay"] .hdr.is-solid{
+  background:var(--paper);
+  border-bottom-color:var(--line)}
+body[data-hdr="overlay"] .hdr.is-solid .hdr__logo,
+body[data-hdr="overlay"] .hdr.is-solid .nav a{color:var(--ink);text-shadow:none}
+body[data-hdr="overlay"] .hdr.is-solid .burger span{background:var(--ink)}
+body[data-hdr="overlay"] .hdr.is-solid .nav__ind{background:var(--ink)}
+body[data-hdr="overlay"] .hdr.is-solid .hdr__mark{filter:none}
+body[data-hdr="overlay"] .hdr.is-solid .nav a.nav__cta{color:var(--brand)}
+body[data-hdr="overlay"] .hdr.is-solid .nav a.nav__cta:hover,
+body[data-hdr="overlay"] .hdr.is-solid .nav a.nav__cta[aria-current="page"]{
+  background:var(--brand);color:#fff;box-shadow:inset 0 0 0 1px var(--brand)}
+
+/* 솔리드 상태 (서브페이지) */
+body[data-hdr="solid"] .hdr{background:var(--paper);
+  border-bottom:1px solid var(--line)}
+
+/* ── 버튼 ── rosha 실측: 14px / ls 1px / border 0 / 배경 85% → hover 100%
+   ★ 모서리는 각지게 둡니다. 사이트 전체가 그렇습니다 — 아래 [모서리] 참고. */
+.btn{display:inline-block;border:0;
+  padding:.92em 1.7em;font:500 14px/1 var(--gothic);letter-spacing:1px;
+  color:#fff;background:color-mix(in srgb,var(--brand) 85%,transparent);
+  text-decoration:none;transition:background 200ms ease}
+.btn:hover{background:var(--brand)}
+/* 바탕을 비우고 금선 하나만 남깁니다. 흰 반투명을 깔면 금선이 뿌옇게 죽고,
+   글자까지 골드인 지금은 그 반투명이 배경을 밝혀서 대비를 깎습니다
+   (rgba(255,255,255,.16) 하나만 깔아도 골드가 4.5:1 에서 2.7:1 로 떨어집니다).
+   히어로 사진 위와 CTA 밴드 — 둘 다 어두운 바탕이라 그대로 통과합니다.
+   hover 는 금선 안을 골드로 채우고 글자를 버건디로 뒤집습니다(6.1:1). */
+.btn--ghost{background:none;color:var(--accent-gold);
+  box-shadow:inset 0 0 0 1px var(--accent-gold);
+  transition:background 200ms ease,color 200ms ease}
+.btn--ghost:hover{background:var(--accent-gold);color:var(--brand)}
+.btn--solid{background:var(--brand)}
+
+/* ── 텍스트 링크 (더보기) ──
+   글자는 버건디(13.9:1), 밑줄만 골드입니다. 올려놓으면 밑줄이 글자 색으로
+   따라옵니다 — 선 하나가 금색에서 버건디로 넘어가는 것이 전부입니다. */
+.more{display:block;width:fit-content;margin-top:28px;
+  font:600 12px/1 var(--gothic);letter-spacing:.11em;text-transform:uppercase;
+  color:var(--brand);text-decoration:none;padding-bottom:4px;
+  border-bottom:1px solid var(--accent-gold);transition:border-color 200ms ease}
+.more:hover{border-color:var(--brand)}
+.more--c{margin-inline:auto}
+
+/* ── 모바일 메뉴 ── */
+.burger{display:none;margin-inline-start:auto;width:26px;height:14px;
+  flex-direction:column;justify-content:space-between}
+.burger span{display:block;width:100%;height:1px;background:var(--ink)}
+/* ── 모바일 메뉴 ─────────────────────────────────────────────────────
+   화면을 다 덮지 않고 오른쪽 일부만 차지하는 서랍입니다. 왼쪽에 보던
+   화면이 남아 있어서 "어디에 있다가 열었는지" 감이 끊기지 않습니다.
+   여는 단추(버거)가 오른쪽에 있으니 서랍도 오른쪽에서 나옵니다 —
+   눌린 자리에서 물건이 나오는 편이 방향이 자연스럽습니다.
+
+   .menu        뒤를 덮는 막. 여기를 눌러도 닫힙니다.
+   .menu__panel 실제로 미끄러지는 흰 판.
+
+   z-index 가 상단 바(300)보다 높습니다. 아래에 깔면 홈 첫 화면에서
+   문제가 생깁니다 — 그때 상단 바는 글자가 흰색이라 흰 서랍 위에 겹치면
+   버거가 보이지 않습니다.                                            */
+.menu{position:fixed;inset:0;z-index:310;
+  background:color-mix(in srgb,var(--ground) 46%,transparent);
+  opacity:0;visibility:hidden;
+  transition:opacity 300ms ease,visibility 300ms}
+.menu.is-open{opacity:1;visibility:visible}
+
+/* 너비를 화면 비율로 잡되 320px 에서 멈춥니다. 큰 화면(태블릿 가로)에서
+   비율로만 두면 글자 몇 개짜리 메뉴가 쓸데없이 넓어집니다. */
+.menu__panel{position:absolute;inset-block:0;right:0;
+  width:min(72vw,320px);background:var(--paper);
+  padding-top:var(--hdr);          /* 닫기 단추 아래에서 목록이 시작합니다 */
+  display:flex;flex-direction:column;overflow-y:auto;
+  transform:translateX(100%);
+  transition:transform 360ms cubic-bezier(.22,.61,.36,1)}
+.menu.is-open .menu__panel{transform:none}
+
+.menu a{font:500 17px/1.4 var(--myeongjo);text-decoration:none;
+  padding:19px var(--pad);border-bottom:1px solid var(--line)}
+.menu a:first-of-type{border-top:1px solid var(--line)}
+.menu a[aria-current="page"]{color:var(--brand)}
+.menu .btn{margin:18px var(--pad) 0}
+/* 닫기 단추는 버거가 있던 자리에 그대로 둡니다 — 같은 자리를 다시 누르면
+   닫히는 셈이라 손이 헤매지 않습니다. */
+.menu__x{position:absolute;top:calc((var(--hdr) - 44px) / 2);
+  right:calc(var(--pad) - 9px);
+  width:44px;height:44px;font-size:26px;line-height:1;color:var(--ink-mid)}
+.menu__x:hover{color:var(--ink)}
+body.menu-open{overflow:hidden}
+
+/* ══════════════════════════════════════════════════════════════
+   히어로 (홈) — 750px 고정. full_screen 아님. zoomIn 2s.
+   ══════════════════════════════════════════════════════════════ */
+.hero{height:750px;position:relative;overflow:hidden;
+  display:grid;place-items:center;text-align:center}
+.hero__bg{position:absolute;inset:0;z-index:0;
+  background-size:cover;background-position:50% 45%;
+  animation:kenburns 2s cubic-bezier(.2,.7,.25,1) both}
+/* ★ 히어로 사진 — assets/img/hero.webp 를 갈아 끼우면 바로 바뀝니다. HTML 은 안 고칩니다.
+   파일이 없는 동안에는 맨 위 층이 그냥 그려지지 않고 아래 그라디언트가 보입니다.
+   다른 이름·다른 위치를 쓰려면 index.html 의 .hero__bg 에
+   style="background-image:url('...')" 를 넣으면 인라인 스타일이 이 규칙을 덮습니다.
+   가로로 긴 합주 사진, 2000px 이상을 권합니다.
+   지금 파일은 857×566 입니다 — 1440px 화면에서 1.7배로 늘어나 조금 무릅니다.
+   같은 사진의 원본(큰 파일)이 있으면 그걸로 갈아 끼우는 편이 낫습니다. */
+/* 사진이 없을 때 깔리는 바탕입니다. 사진을 여러 장 넘길 때(.is-slides)도
+   같은 값을 그대로 씁니다 — 두 군데 적어 두면 한쪽만 고치고 잊습니다. */
+.hero__bg{
+  --hero-grad:
+    radial-gradient(120% 90% at 50% 8%, rgba(255,255,255,.14), transparent 58%),
+    linear-gradient(168deg,#3A2126 0%,#4E2C33 46%,#2A1519 100%);
+  background-image:url("/assets/img/hero.webp"), var(--hero-grad);
+  /* 스크롤에 따라 아주 조금 따라 내려옵니다(main.js). 배경 사진은
+     화면 폭을 다 쓰는 층이라 미리 합성 레이어로 올려둡니다. */
+  will-change:translate}
+
+/* ── 히어로 사진 여러 장 넘기기 ────────────────────────────────────────
+   content.js 의 HERO 에 사진을 두 장 이상 적으면 main.js 가 아래 .hero__s
+   층을 그만큼 만들어 겹쳐 놓고, opacity 로 번갈아 띄웁니다.
+
+   HERO 를 쓰면 이 규칙이 붙어서 위의 hero.webp 는 받지 않습니다 —
+   어차피 슬라이드가 덮어 버리는데 파일만 한 장 더 내려받게 됩니다.
+   HERO 를 비워 두면 예전처럼 hero.webp 한 장이 그대로 나옵니다.      */
+.hero__bg.is-slides{background-image:var(--hero-grad)}
+.hero__s{position:absolute;inset:0;
+  background-size:cover;background-position:50% 45%;
+  opacity:0;transition:opacity var(--hero-fade,900ms) ease-in-out;
+  will-change:opacity}
+.hero__s.is-on{opacity:1}
+
+/* 지금 몇 번째 사진인지 알려 주는 점. 눌러서 건너뛸 수도 있습니다.
+   가림막(.hero__veil, z-index 1) 위에 와야 보입니다.
+
+   점 자체는 7px 인데 단추는 32px 로 잡았습니다 — 손가락으로 누르는
+   자리라 보이는 것보다 넓어야 합니다. 7px 짜리 과녁은 못 맞춥니다.
+   빈 자리는 눈에 보이지 않으니 화면은 그대로 단정합니다.            */
+.hero__dots{position:absolute;z-index:2;left:50%;bottom:34px;
+  transform:translateX(-50%);display:flex}
+.hero__dot{width:32px;height:32px;display:grid;place-items:center}
+.hero__dot::before{content:"";width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,.38);
+  transition:background 300ms ease,width 300ms ease,height 300ms ease}
+.hero__dot:hover::before{background:rgba(255,255,255,.72)}
+/* 켜진 점도 흰색입니다. 골드는 가림막을 걷은 사진 위에서 2.3:1 까지
+   떨어져서(특히 흰 배경 단체 사진) 어디가 켜진 것인지 안 보입니다.
+   밝기와 크기 두 가지로 구분합니다. */
+.hero__dot.is-on::before{background:#fff;width:9px;height:9px}
+/* 기본 초점 테두리는 버건디라 어두운 사진 위에서 잘 안 보입니다. */
+.hero__dot:focus-visible{outline:2px solid #fff;outline-offset:-7px;border-radius:50%}
+/* 사진 위 글씨의 대비를 만드는 층입니다. 농도는 사진 밝기에 딸려 갑니다.
+   ────────────────────────────────────────────────────────────────
+   ★ 예전에는 .62/.78/.78/.66 이었습니다. 골드 글자를 사진 위에 얹으려면
+     그만큼 눌러야 했기 때문입니다. 그런데 그 농도에서는 사진이 거의
+     실루엣만 남아서, 사진을 여러 장 넣는 의미가 없어졌습니다.
+
+     그래서 [사진을 보이게] 쪽으로 되돌리고, 대신 히어로의 골드 글자를
+     흰색으로 바꿨습니다. 아래 .hero .eyebrow · .hero__en · .btn--ghost
+     세 군데입니다. 골드는 사이트의 다른 곳에서는 그대로 씁니다.
+
+     지금 사진 4장으로 실제 대비를 재 본 값입니다(가장 밝은 10% 기준):
+                        상단바 자리   글 자리(흰)   글 자리(골드)
+       hero-1 무대          10.9         8.3          3.6
+       hero-2 연말파티        7.8         8.4          3.6
+       hero-3 연습 접사       9.5         9.7          4.2
+       hero-4 단체(흰 배경)    5.7         5.3          2.3  ← 가장 빡빡
+     흰 글자는 네 장 모두 AA(4.5) 를 넉넉히 넘고, 골드는 어느 장에서도
+     못 넘깁니다. 골드가 4.5 를 넘으려면 가림막이 .70 이상이라야 하는데
+     그러면 사진이 다시 안 보입니다 — 둘 다는 안 됩니다.
+
+     ▸ 흰 배경 스튜디오 사진(hero-4)이 기준선을 잡고 있습니다. 그 장을
+       빼면 나머지는 .45 까지 내려도 흰 글자가 6:1 을 넘습니다.
+     ▸ 어두운 사진만 쓰면 네 숫자를 더 낮춰도 됩니다.
+     ▸ 골드 글자로 되돌리고 싶으면 가운데 두 값을 .70 이상으로 올리세요.
+       사진은 그만큼 어두워집니다.                                     */
+.hero__veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.52) 30%,
+    rgba(0,0,0,.52) 70%,rgba(0,0,0,.46) 100%)}
+@keyframes kenburns{from{transform:scale(1.07)}to{transform:scale(1)}}
+/* max-width 는 히어로 두 줄 중 긴 쪽(약 451px)이 들어가는 폭이어야 합니다.
+   58ch 였는데 ch 는 본문 고딕 기준이라 실제로는 444px 밖에 안 됐고,
+   본명조로 바꾸면서 둘째 줄이 밀려 "다." 만 셋째 줄로 떨어졌습니다.
+   글자 폭에 딸려 가지 않도록 px 로 못 박습니다. */
+.hero__body{position:relative;z-index:2;padding-inline:24px;max-width:580px}
+.eyebrow{font:600 12px/1 var(--gothic);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:15px}
+/* 히어로 안에서는 골드 대신 흰색입니다. 가림막을 걷어 사진을 보이게 한
+   대가입니다 — 위 .hero__veil 주석에 실측값을 적어 두었습니다.
+   골드는 사이트의 다른 곳(섹션 눈썹 · 더보기 · CTA)에서 그대로 씁니다.
+   흰색이라도 농도를 조금 낮춰 제목(#fff)과 층을 나눕니다. */
+.hero .eyebrow{color:rgba(255,255,255,.88);margin-bottom:26px}
+.hero__lines{font:400 32px/1.6 var(--myeongjo);color:#fff;
+  letter-spacing:.015em;text-wrap:balance;
+  text-shadow:0 1px 30px rgba(0,0,0,.45)}
+.hero__en{font:400 13px/1.75 var(--gothic);color:rgba(255,255,255,.86);
+  margin-top:22px}
+/* 자선 공연 문의 단추도 같은 이유로 흰 테두리·흰 글자입니다. */
+.hero .btn--ghost{color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)}
+.hero .btn--ghost:hover{background:#fff;color:var(--brand)}
+.hero__note{margin-top:24px;font:400 12px/1.8 var(--gothic);font-style:italic;
+  color:rgba(255,255,255,.72)}
+.hero__cta{margin-top:32px;display:flex;gap:11px;justify-content:center;
+  flex-wrap:wrap}
+
+/* ══════════════════════════════════════════════════════════════
+   서브페이지 제목 블록
+   ══════════════════════════════════════════════════════════════ */
+.phead{padding-top:calc(var(--hdr) + 82px);padding-bottom:58px;
+  border-bottom:1px solid var(--line)}
+.phead h1{font:600 26px/1.45 var(--myeongjo);letter-spacing:.01em;
+  text-wrap:balance}
+.phead p{margin-top:14px;max-width:62ch;
+  color:var(--ink-mid);line-height:1.9}
+
+/* ── 사진을 깐 제목 블록 (about) ──
+   사진(4.1:1, 왼쪽이 비고 오른쪽에 단원들)을 가로로 자르지 않습니다.
+   대신 사진 왼쪽 여백의 베이지를 그대로 배경색으로 이어 붙여서,
+   블록 전체가 한 장의 사진처럼 보이게 하고 그 위에 글을 얹습니다.
+   #CEC3BE / #C7BCB7 은 사진 왼쪽 가장자리 실측색(맨 위 / 맨 아래)입니다.
+   그라디언트를 블록 전체가 아니라 사진 높이(--ph)에만, 그것도 아래에 붙여
+   까는 이유 — 블록 전체에 깔면 사진 윗변에서 색이 어긋나 가로줄이 보입니다.
+   사진 위쪽은 사진 맨 윗줄과 같은 단색이라 경계가 사라집니다.
+   왼쪽 18% 는 mask 로 흘려서 세로 경계도 지웁니다.
+
+   --ph 가 이 블록의 유일한 손잡이입니다. 사진 높이이자 아래 여백입니다.
+     820px 보다 넓으면  16.3vw  → 사진 원래 높이(24.4vw)의 2/3 로 눌러 담습니다.
+                                 가로는 그대로 화면 폭이고 위아래만 잘립니다.
+                                 자르는 위치는 object-position 22% — 머리 위
+                                 여백을 조금 남기고 아래를 덜어냅니다.
+     820px 보다 좁으면  200px   → 사진이 화면보다 커지고 왼쪽으로 넘칩니다.
+                                 넘치는 부분은 빈 베이지뿐이라 색으로 이어집니다.
+                                 여기서는 자르지 않고 사진 전체를 씁니다.
+   상단 바는 서브페이지에서 흰 판입니다. 패딩으로 밀면 사진 위에 흰 띠가
+   생기므로 margin-top 으로 바 아래에서 시작합니다.
+
+   선택자를 .phead.phead--hero 로 겹쳐 쓴 이유 — phead--hero 는 하이픈이
+   두 개일 뿐 클래스 하나입니다. 그냥 쓰면 아래 반응형의 .phead 규칙과
+   가중치가 같아서 뒤에 오는 쪽(.phead)한테 패딩을 빼앗깁니다. */
+.phead.phead--hero{--ph:max(16.3vw,180px);
+  position:relative;overflow:hidden;
+  margin-top:var(--hdr);padding-block:0;border-bottom:0;
+  min-height:max(260px,calc(var(--ph) + 26px));
+  display:flex;align-items:center;
+  background:linear-gradient(180deg,#CEC3BE 0%,#C9BFB9 100%)
+      left bottom / 100% var(--ph) no-repeat,
+    #CEC3BE}
+.phead--hero .wrap{position:relative;z-index:2;width:100%}
+/* 글은 사진 왼쪽 빈 자리 안에서만 놉니다. 단원들은 사진 가로의 63% 지점부터입니다. */
+.phead--hero .wrap > *{max-width:min(56%,620px)}
+/* 베이지 위 글이라 보조색(.78)은 대비가 3.9:1 로 떨어집니다. 진한 먹으로 올립니다. */
+.phead--hero p:not(.eyebrow){color:var(--ink)}
+.phead__ph{position:absolute;right:0;bottom:0;z-index:0;line-height:0}
+.phead__ph img{height:var(--ph);width:100%;max-width:none;
+  object-fit:cover;object-position:50% 22%;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%),
+                     linear-gradient(180deg,transparent 0,#000 9%);
+  -webkit-mask-composite:source-in;
+          mask-image:linear-gradient(90deg,transparent 0,#000 18%),
+                     linear-gradient(180deg,transparent 0,#000 9%);
+          mask-composite:intersect}
+
+/* ══════════════════════════════════════════════════════════════
+   섹션 공통
+   ══════════════════════════════════════════════════════════════ */
+.sec{padding-block:96px;border-top:1px solid var(--line)}
+.sec--first{border-top:0}
+/* 흰색에 버건디를 옅게 섞은 바탕.
+   ★ 처음엔 #fbf9f9 였는데 흰색과의 대비가 1.049:1 — 눈이 경계를 알아채는
+     최소치에 겨우 걸쳐서, 흰색 → 틴트 → 흰색 교차가 사실상 한 덩어리
+     흰 판으로 읽혔습니다. 브라운 시절 값을 색만 바꿔 옮기고 대비를
+     재보지 않은 탓입니다. #f7f1f1 은 1.117:1 로 확실히 갈리면서도
+     회색으로 보이지는 않습니다. 그 위 글자는 본문 10.8:1 / 보조 5.7:1 로
+     모두 AA 를 넘습니다. */
+.sec--tint{background:#f7f1f1}
+.sec__h{font:600 22px/1.5 var(--myeongjo);letter-spacing:.01em;
+  margin-bottom:32px;text-wrap:balance}
+.sec__h--c,.sec--c{text-align:center}
+.sec--c .more{margin-inline:auto}
+/* 섹션 제목 바로 아래 한두 문장. 그 아래 목록이 무엇인지 먼저 알려줍니다. */
+.sec__lead{margin-top:-6px;margin-bottom:34px;max-width:62ch;
+  color:var(--ink-mid);line-height:1.95}
+
+/* ── 미디어 + 글 두 단 ────────────────────────────────────────────────
+   왼쪽에 영상이나 사진, 오른쪽에 글. duo--flip 이면 좌우가 바뀝니다.
+   글이 조금 좁아야 읽기 좋아서 1.05 : 1 로 미디어 쪽을 살짝 넓혔습니다.
+   align-items:center 로 둔 이유 — 글 길이가 미디어 높이와 딱 맞는 일은
+   드물어서, 위로 붙이면 한쪽 아래가 허전하게 남습니다.               */
+.duo{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.duo--flip .duo__m{order:2}
+.duo__m img{width:100%;display:block}
+.duo__t .sec__h{margin-bottom:18px}
+.duo__t p + p{margin-top:14px}
+.duo__t .facts{margin-top:26px;max-width:none}
+.duo__t .more{margin-top:24px}
+
+/* ── 큰 영상 + 그 아래 글 (홈 두 번째 칸) ──────────────────────────────
+   영상 한 편을 폭 가득 걸고, 소개 글을 그 아래에 놓습니다.
+   .duo(영상 옆에 글)와 달리 세로로 쌓습니다 — 영상을 크게 보여 주는 것이
+   이 칸의 목적이라, 옆에 글을 두면 영상이 절반으로 줄어듭니다.
+
+   제목과 [앙상블 소개]만 가운데로 놓고 본문은 .pair 에 맡깁니다.
+   .pair 는 상자만 가운데로 옮기고 글줄은 왼쪽 정렬로 둡니다 —
+   여러 줄짜리 문단을 가운데 정렬하면 줄 끝이 들쭉날쭉해 읽기 힘듭니다.
+
+   ★ 스냅 스크롤이 켜진 화면에서는 영상 크기를 화면 높이에서 거꾸로
+     계산합니다. fullpage-home.css 의 .feat__v 를 함께 보세요.        */
+.feat{display:grid;justify-items:center;gap:40px}
+.feat__v,.feat__t{width:100%}
+/* 영상 아래 제목·날짜(제2회 정기연주회 · 2026.06.21)는 이 칸에서 감춥니다.
+   영상 한 편만 크게 거는 자리라 설명줄이 붙으면 그만큼 영상이 작아집니다.
+   지우지 않고 감추는 이유 — 같은 렌더러를 갤러리도 씁니다. 거기서는
+   여러 편이 나열되므로 어느 공연인지 알려 주는 줄이 있어야 합니다.
+   재생 단추의 aria-label 에 제목이 그대로 들어가 있어서, 화면 낭독기는
+   이 줄을 감춰도 "제2회 정기연주회 재생"로 읽습니다.                  */
+.feat__v .vid__t,.feat__v .vid__m{display:none}
+/* 글 상자는 영상과 같은 폭으로 둡니다 — 두 단의 바깥 끝이 영상의 좌우
+   끝과 맞아떨어져야 한 덩어리로 보입니다. .pair 가 스스로 걸어 둔
+   960px 상한을 여기서만 풉니다(폭은 .feat__t 가 정합니다). */
+.feat__t .pair{max-width:none}
+
+/* KO/EN 페어링 */
+/* 960px 짜리 덩어리를 1280px 짜리 wrap 안에 왼쪽으로 붙여 두면
+   오른쪽만 320px 비어서 글이 한쪽으로 쏠립니다. 덩어리째 가운데로 놓습니다.
+   글줄은 그대로 왼쪽 정렬입니다 — 가운데 정렬한 것은 상자이지 글이 아닙니다. */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:52px;
+  max-width:960px;margin-inline:auto}
+.pair__ko{font:400 16px/1.95 var(--myeongjo)}
+.pair__en{color:var(--ink-mid);line-height:1.9}
+
+/* 정의 목록 (활동 방식 / FAQ) */
+.facts{display:grid;gap:0;max-width:760px}
+.facts__r{display:grid;grid-template-columns:150px 1fr;gap:24px;
+  padding-block:20px;border-bottom:1px solid var(--line)}
+.facts__k{font:400 12px/1.7 var(--gothic);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--brand)}
+.facts__v{line-height:1.85}
+.facts__r:first-child{border-top:1px solid var(--line)}
+
+/* ══════════════════════════════════════════════════════════════
+   단원
+   ══════════════════════════════════════════════════════════════ */
+.mem{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--gy) var(--gx)}
+/* 홈의 단원 8명 — 4단이라 두 줄로 딱 떨어집니다 */
+.mem--4{grid-template-columns:repeat(4,1fr)}
+.mem--3{grid-template-columns:repeat(3,1fr);max-width:660px;margin-inline:auto}
+.mem--3 .mem__ph{aspect-ratio:1/1}
+.mem__c{text-align:center}
+/* display:block 이 꼭 있어야 합니다. span 으로 쓰면 인라인이 되고,
+   인라인 요소에는 aspect-ratio 가 먹지 않아 칸 높이가 0 이 됩니다. */
+.mem__ph{display:block;aspect-ratio:3/4;overflow:hidden;position:relative;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 13%,transparent),color-mix(in srgb,var(--brand) 28%,transparent))}
+.mem__ph img{width:100%;height:100%;object-fit:cover}
+.mem__n{font:600 14px/1.45 var(--myeongjo);margin-top:11px}
+.mem__p{font:500 11px/1 var(--gothic);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-mid);margin-top:3px}
+.mem__c--open .mem__ph{background:none;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--brand) 26%,transparent);
+  display:grid;place-items:center}
+.mem__c--open .mem__ph::after{content:"+";font:400 26px/1 var(--gothic);
+  color:color-mix(in srgb,var(--brand) 42%,transparent)}
+.mem__hint{margin-top:28px;text-align:center;
+  font:500 15px/1.7 var(--myeongjo);color:var(--ink-mid)}
+
+
+/* ══════════════════════════════════════════════════════════════
+   레퍼토리
+   ══════════════════════════════════════════════════════════════ */
+.rep{max-width:780px}
+.rep--c{margin-inline:auto}
+/* 묶음 제목. 원래 "1부 / 2부" 용이라 자간이 .16em 이었는데, 한국어 문장이
+   들어오면서 글자가 흩어져 보였습니다. 명조 소제목으로 바꿨습니다. */
+.rep__part{font:600 15px/1.5 var(--myeongjo);letter-spacing:.01em;
+  color:var(--ink);margin:52px 0 3px}
+.rep__part:first-child{margin-top:0}
+.rep__r{display:flex;align-items:baseline;gap:12px;padding-block:13px;
+  border-bottom:1px solid var(--line)}
+.rep__t{font:500 15px/1.55 var(--myeongjo)}
+.rep__t em{font-style:italic;color:var(--ink-mid);font-size:12.5px}
+.rep__dots{flex:1;border-bottom:1px dotted var(--ink-dot);translate:0 -4px}
+.rep__c{font:400 12px/1.55 var(--gothic);letter-spacing:.02em;
+  color:var(--ink-mid);white-space:nowrap}
+.rep__r--cast{flex-wrap:wrap}
+.rep__cast{flex-basis:100%;margin-top:6px;
+  font:500 12px/1.65 var(--gothic);letter-spacing:.04em;
+  color:var(--ink-mid)}
+.rep__int{text-align:center;padding-block:30px;
+  font:600 11px/1 var(--gothic);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-mid)}
+.rep__note{margin-top:16px;text-align:right;font-size:12px;
+  color:var(--ink-mid);line-height:1.8}
+/* 묶음 제목 아래 한 줄 설명. rep__part 와 목록 사이에 들어갑니다. */
+.rep__sub{margin:0 0 12px;font-size:12.5px;color:var(--ink-mid);line-height:1.8}
+
+/* ══════════════════════════════════════════════════════════════
+   연주 목록 — About 의 [지금까지 연주한 곡]
+   공연 프로그램처럼 짰습니다. 곡 이름 아래에 작곡가, 두 단 구성.
+   색은 새로 만들지 않고 푸터의 버건디 블랙 + --on-ground(골드) 조합을 씁니다.
+
+   밝은 배경으로 되돌리려면 섹션에서 sec--dark 만 빼면 됩니다.
+   ══════════════════════════════════════════════════════════════ */
+.sec--dark{background:var(--ground);color:var(--on-ground-dim);border-top:0}
+.sec--dark .eyebrow{color:var(--on-ground)}
+.sec--dark .sec__h{color:#fff}
+.sec--dark .sec__lead{color:var(--on-ground-dim);margin-inline:auto}
+
+/* ── 어두운 지면 위로 옮겨 놓은 것들 ─────────────────────────────────
+   밝은 바탕을 전제로 만든 색(--ink · --ink-mid · --brand)은 여기서
+   그대로 두면 바닥에 묻혀 안 보입니다. 흰색과 골드 두 단계로 다시
+   짭니다 — 곡 목록에서 쓰던 규칙과 같습니다.
+     제목·이름   흰색   17.3:1
+     보조·부제   골드    7.6:1
+   ─────────────────────────────────────────────────────────────── */
+/* 더보기 링크 — 밝은 바탕에서는 버건디 글자 + 금색 밑줄인데, 여기서는
+   버건디가 안 읽히므로 글자도 금색입니다. */
+.sec--dark .more{color:var(--on-ground);
+  border-bottom-color:color-mix(in srgb,var(--accent-gold) 45%,transparent)}
+.sec--dark .more:hover{color:#fff;border-bottom-color:#fff}
+
+/* KO/EN 소개 (홈) — 한국어가 본문, 영문이 옮긴 글입니다. 그래서 한국어를
+   거의 흰색(14.8:1)으로 올리고 영문을 금색(7.6:1)으로 한 단 내립니다.
+   --ink-mid 를 그대로 두면 어두운 바닥에서 아예 읽히지 않습니다. */
+.sec--dark .pair__ko{color:rgba(255,255,255,.92)}
+.sec--dark .pair__en{color:var(--on-ground)}
+
+/* 영상 (홈) */
+.sec--dark .vid__t{color:#fff}
+.sec--dark .vid__m{color:var(--on-ground)}
+/* 썸네일이 아직 없을 때 쓰는 자리표시. 바닥과 같은 색 계열이라 그냥 두면
+   칸이 어디서 시작하는지 안 보입니다. 한 단 밝히고 테두리를 둘렀습니다. */
+.sec--dark .vid__f{background:linear-gradient(150deg,#5c3840,#3a2026);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
+
+/* 문의 카드 (contact) */
+.sec--dark .card{border-color:rgba(255,255,255,.14)}
+.sec--dark .card--lead{border-color:color-mix(in srgb,var(--accent-gold) 62%,transparent)}
+.sec--dark .card h2{color:#fff}
+.sec--dark .card p{color:var(--on-ground-dim)}
+.sec--dark .card__k{color:var(--on-ground)}
+/* 채워진 단추는 버건디 바탕인데, 어두운 지면에서는 1.25:1 로 묻힙니다.
+   금색으로 채우고 글자를 버건디로 뒤집습니다(6.1:1) — btn--ghost 의
+   hover 모습과 같아서 새 규칙을 들이는 것이 아닙니다. */
+.sec--dark .btn--solid{background:var(--accent-gold);color:var(--brand)}
+.sec--dark .btn--solid:hover{background:#fff}
+/* 기본 단추(반투명 버건디)도 같은 이유로 테두리만 남깁니다. */
+.sec--dark .btn:not(.btn--solid):not(.btn--ghost){
+  background:none;color:var(--accent-gold);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent-gold) 55%,transparent)}
+.sec--dark .btn:not(.btn--solid):not(.btn--ghost):hover{
+  background:color-mix(in srgb,var(--accent-gold) 12%,transparent)}
+
+/* 포스터 (concert) */
+.sec--dark .poster__t{color:#fff}
+.sec--dark .poster__m{color:var(--on-ground)}
+.sec--dark .poster__ph{box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.sec--dark .poster__ph--empty{background:linear-gradient(150deg,#5c3840,#3a2026)}
+.sec--dark .poster__hint{color:var(--on-ground-dim)}
+.sec--dark .poster__hint b{color:#fff}
+
+/* 가운데 장식 — 새 그림을 들이지 않고 로고 마크를 실선 사이에 놓았습니다.
+   선은 flex:1 로 남는 자리를 나눠 가집니다. 그래서 폭을 픽셀로 고정하지 않고
+   .orn 의 max-width 하나로 길이를 정합니다 — 화면이 좁아지면 알아서 줄어들어
+   따로 미디어 쿼리를 두지 않았습니다.
+   바깥쪽으로 갈수록 흐려집니다. 선이 길어진 만큼 페이드 구간도 비율로 잡아
+   가운데 절반은 또렷하게 남깁니다. */
+.orn{display:flex;align-items:center;justify-content:center;gap:20px;
+  max-width:780px;margin:36px auto 48px}
+.orn::before,.orn::after{content:"";height:1px;flex:1 1 0;min-width:0}
+.orn::before{background:linear-gradient(90deg,transparent,
+  color-mix(in srgb,var(--accent-gold) 55%,transparent) 55%)}
+.orn::after{background:linear-gradient(90deg,
+  color-mix(in srgb,var(--accent-gold) 55%,transparent) 45%,transparent)}
+.orn span{flex:none;width:26px;height:26px;background:var(--on-ground);
+  /* ★ 단축 속성(mask: … center/contain) 으로 쓰면 크기(contain)를 못 읽고
+     지나가는 브라우저가 있습니다. 그러면 마크가 제 크기(155×150)로 그려지고
+     칸(52×50) 밖은 잘려서 — 아래와 오른쪽이 사라집니다.
+     낱개 속성으로 적으면 어느 브라우저에서도 같게 나옵니다. */
+  -webkit-mask-image:var(--mark);        mask-image:var(--mark);
+  -webkit-mask-repeat:no-repeat;         mask-repeat:no-repeat;
+  -webkit-mask-position:center;          mask-position:center;
+  -webkit-mask-size:contain;             mask-size:contain}
+
+.prog{display:grid;grid-template-columns:1fr 1fr;gap:60px var(--gx);
+  align-items:start;max-width:980px;margin-inline:auto;text-align:start}
+/* 묶음 제목 — 오른쪽으로 실선이 흘러나갑니다 */
+.prog__g{display:flex;align-items:center;gap:14px;margin-bottom:28px;
+  font:600 14px/1.5 var(--myeongjo);letter-spacing:.02em;color:var(--on-ground)}
+.prog__g::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.16)}
+.prog__i + .prog__i{margin-top:24px}
+/* 곡 이름만 흰색입니다. 부제(from …) · 작곡가 · 편성은 전부 골드로 한 단
+   내려갑니다 — 흰색과 골드 두 단계만 두면 어느 줄이 곡 이름인지 눈이 바로
+   찾습니다. 버건디 블랙 위 골드는 7.6:1 이라 이 크기에서도 AA 를 넘습니다. */
+.prog__t{font:500 16px/1.55 var(--myeongjo);color:#fff}
+.prog__t em{font-style:italic;font-size:13px;color:var(--on-ground)}
+.prog__c{margin-top:2px;font:400 13px/1.6 var(--myeongjo);color:var(--on-ground)}
+/* 편성. 있는 곡에만 붙습니다 — 없는 곡에 "전체 합주"라고 적지 않았습니다 */
+.prog__e{margin-top:6px;font:500 11px/1 var(--gothic);letter-spacing:.06em;
+  color:var(--on-ground)}
+.prog__note{margin-top:52px;text-align:center;
+  font:400 12px/1.8 var(--gothic);color:rgba(255,255,255,.55)}
+
+/* ══════════════════════════════════════════════════════════════
+   지난 공연 — Concert 의 연혁. 사진이 크고 그 아래 정보가 붙는 상자들.
+
+   3단이고, data 에서 wide 를 켠 공연은 두 칸을 차지합니다. 지금은 두 번의
+   정기연주회에 켜 두었습니다 — 7개가 3·3·3 으로 딱 맞아떨어집니다.
+     [정기연주회 2칸][1칸]  [1칸][1칸][1칸]  [1칸][정기연주회 2칸]
+   공연이 늘면 wide 를 옮기거나 꺼서 줄을 다시 맞추면 됩니다.
+
+   사진이 아직 없는 공연은 칸을 비우지 않고 로고 마크를 얹은 버건디 판을
+   둡니다. 빈 회색 상자는 "빠진 칸"으로 보이고, 칸을 아예 빼면 연혁에
+   구멍이 납니다. 사진을 넣으면 그 자리가 그대로 사진으로 바뀝니다.
+   ══════════════════════════════════════════════════════════════ */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:34px var(--gx)}
+.bento__c{display:block;text-decoration:none;color:inherit}
+.bento__c--w{grid-column:span 2}
+
+.bento__ph{display:block;position:relative;overflow:hidden;
+  aspect-ratio:4/3;
+  /* 밝은 사진이 흰 페이지에 묻히지 않게 안쪽으로 실선 하나 */
+  box-shadow:inset 0 0 0 1px var(--line-strong)}
+/* 넓은 칸의 8/3 은 눈대중이 아니라 계산한 값입니다.
+   1232px(wrap 안쪽) 기준으로 좁은 칸은 (1232-14)/3 = 406px, 4/3 이면 높이 305px.
+   넓은 칸은 406×2+7 = 819px 이니 같은 높이가 되려면 819/305 = 2.69 ≈ 8/3.
+   그래야 한 줄 안에서 사진 아랫변과 글줄이 나란히 섭니다.
+   16/9 로 두면 넓은 칸만 460px 로 훌쩍 커져서, 옆 칸 글 아래가 휑하게 빕니다.
+   가로는 그대로 두고 위아래만 잘리므로 단원이 옆으로 잘려 나가지 않습니다 —
+   무대 사진에서는 이쪽이 안전한 자르기입니다. */
+.bento__c--w .bento__ph{aspect-ratio:8/3}
+/* 위아래를 자를 때 바닥보다 얼굴 쪽을 남깁니다 */
+.bento__c--w .bento__ph img{object-position:50% 42%}
+.bento__ph img{display:block;width:100%;height:100%;object-fit:cover;
+  transition:transform 600ms cubic-bezier(.22,.61,.36,1)}
+a.bento__c:hover .bento__ph img{transform:scale(1.02)}
+.bento__ov{position:absolute;inset:0;background:rgba(0,0,0,0);
+  transition:background 300ms ease}
+a.bento__c:hover .bento__ov,
+a.bento__c:focus-visible .bento__ov{background:rgba(0,0,0,.28)}
+/* 사진이 여럿인 공연에 장수를 적습니다 — 눌러서 넘길 수 있다는 표시입니다.
+   바탕을 .78 까지 올린 이유 — 밝은 사진 위에서도 흰 글자가 버팁니다. */
+.bento__n{position:absolute;right:10px;bottom:10px;
+  font:600 10px/1 var(--gothic);letter-spacing:.08em;color:#fff;
+  background:color-mix(in srgb,var(--ground) 78%,transparent);
+  padding:6px 8px}
+
+/* 사진이 아직 없는 공연 */
+.bento__ph--empty{background:linear-gradient(150deg,#4a2a30,#2a1418);
+  box-shadow:none;display:grid;place-items:center}
+.bento__ph--empty::after{content:"";width:54px;height:53px;
+  background:color-mix(in srgb,var(--accent-gold) 52%,transparent);
+  /* ★ 단축 속성(mask: … center/contain) 으로 쓰면 크기(contain)를 못 읽고
+     지나가는 브라우저가 있습니다. 그러면 마크가 제 크기(155×150)로 그려지고
+     칸(52×50) 밖은 잘려서 — 아래와 오른쪽이 사라집니다.
+     낱개 속성으로 적으면 어느 브라우저에서도 같게 나옵니다. */
+  -webkit-mask-image:var(--mark);        mask-image:var(--mark);
+  -webkit-mask-repeat:no-repeat;         mask-repeat:no-repeat;
+  -webkit-mask-position:center;          mask-position:center;
+  -webkit-mask-size:contain;             mask-size:contain}
+
+/* 사진 아래 정보. a 안의 span 이라 display 를 주지 않으면 한 줄로 붙습니다. */
+.bento__d{display:block;margin-top:17px;
+  font:600 11px/1 var(--gothic);letter-spacing:.13em;
+  color:var(--brand);font-variant-numeric:tabular-nums}
+.bento__t{display:block;margin-top:9px;font:500 17px/1.5 var(--myeongjo)}
+.bento__t em{font-style:italic;font-size:13px;color:var(--ink-mid)}
+.bento__v{display:block;margin-top:4px;
+  font:450 12.5px/1.7 var(--gothic);color:var(--ink-mid)}
+
+/* ══════════════════════════════════════════════════════════════
+   지난 공연 포스터 — Concert
+   비율이 제각각이어도 미리보기 높이는 3/4 로 맞춥니다. 잘린 부분은
+   눌러서 크게 보면 전부 나옵니다.
+
+   왜 하필 3/4 인가 — 포스터는 맨 위(소제목)와 맨 아래(날짜·후원사)에
+   정보가 몰려 있어서 세로가 잘리면 그게 날아갑니다. 3/4 은 지금 두 장 중
+   세로로 긴 쪽(0.744)보다 아주 조금 넓어서, 세로는 거의 안 자르고
+   가로만 자릅니다. 세로로 더 긴 포스터가 들어오면 이 값을 낮추세요.
+   ══════════════════════════════════════════════════════════════ */
+.posters{display:grid;grid-template-columns:repeat(2,1fr);
+  gap:34px var(--gx);align-items:start;max-width:900px}
+.poster{display:block;text-decoration:none;color:inherit}
+.poster__ph{display:block;position:relative;overflow:hidden;
+  aspect-ratio:3/4;
+  /* 흰 바탕 포스터가 흰 페이지에 묻히지 않게 안쪽으로 실선 하나 */
+  box-shadow:inset 0 0 0 1px var(--line-strong)}
+.poster__ph img{display:block;width:100%;height:100%;object-fit:cover;
+  transition:transform 600ms cubic-bezier(.22,.61,.36,1)}
+.poster:hover .poster__ph img{transform:scale(1.02)}
+/* 사진이 아직 없을 때 — 갤러리 자리 표시와 같은 색. 비율은 위에서 이미 잡혔습니다 */
+.poster__ph--empty{
+  background:linear-gradient(150deg,color-mix(in srgb,var(--brand) 18%,transparent),color-mix(in srgb,var(--brand) 34%,transparent))}
+/* 안내 문구는 반드시 span 하나로 감싸서 넣습니다. grid 안에서는 자식 요소가
+   저마다 한 칸을 차지해서, b 태그가 섞이면 줄들이 세로로 흩어집니다. */
+/* 글자색이 --ink-mid 가 아니라 --ink 입니다. 자리표시 그라디언트의
+   진한 끝(#C1B3B5) 위에서 --ink-mid 는 3.8:1 로 AA 미달이었습니다.
+   (브라운 팔레트에서도 4.1:1 로 이미 못 미치던 자리입니다.)
+   --ink 로 올리면 5.9:1 입니다. b 는 굵기로만 구분합니다. */
+.poster__hint{position:absolute;inset:0;display:grid;place-items:center;
+  padding:24px;text-align:center;
+  font:500 12px/1.9 var(--gothic);color:var(--ink)}
+.poster__hint b{font-weight:600}
+/* 올려놓으면 어두워지면서 안내가 뜹니다. 갤러리 오버레이와 같은 동작입니다. */
+.poster__ov{position:absolute;inset:0;display:grid;place-items:center;
+  background:rgba(0,0,0,0);transition:background 300ms ease}
+.poster:hover .poster__ov,.poster:focus-visible .poster__ov{background:rgba(0,0,0,.42)}
+.poster__ov span{font:500 12px/1 var(--gothic);letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;opacity:0;transition:opacity 300ms ease}
+.poster:hover .poster__ov span,.poster:focus-visible .poster__ov span{opacity:1}
+/* a 안의 span 이라 display 를 주지 않으면 제목과 부제가 한 줄로 붙습니다. */
+.poster__t{display:block;font:500 17px/1.5 var(--myeongjo);margin-top:16px}
+.poster__m{display:block;font:500 12px/1.6 var(--gothic);letter-spacing:.02em;
+  color:var(--ink-mid);margin-top:4px}
+
+/* ══════════════════════════════════════════════════════════════
+   갤러리 — masonry. rosha 실측 gap 7px / 15px
+   ══════════════════════════════════════════════════════════════ */
+/* ── 사진 / 영상 탭 ──────────────────────────────────────────────────
+   한 줄에 왼쪽은 탭, 오른쪽은 정렬 단추입니다. 아래 헤어라인 하나가
+   두 덩어리를 같은 바닥에 앉힙니다 — 고른 탭의 금색 선이 그 헤어라인
+   위에 겹쳐 앉아서, 탭이 아래 내용과 이어져 보입니다.
+   좁아지면 정렬 단추가 아랫줄로 내려가 오른쪽에 붙습니다.            */
+.tabbar{display:flex;align-items:flex-end;flex-wrap:wrap;gap:0 24px;
+  margin-bottom:28px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:26px}
+.tabs__b{position:relative;font:600 19px/1.4 var(--myeongjo);
+  color:var(--ink-mid);padding-bottom:13px;
+  transition:color 180ms ease}
+.tabs__b:hover{color:var(--ink)}
+.tabs__b.is-on{color:var(--ink)}
+/* -1px 이라 바로 아래 헤어라인 자리에 정확히 겹칩니다. 2px 로 둔 것은
+   탭은 지금 보는 곳을 가리키는 표시라, 정렬 단추의 1px 보다 한 단 위입니다. */
+.tabs__b.is-on::after{content:"";position:absolute;inset-inline:0;bottom:-1px;
+  height:2px;background:var(--accent-gold)}
+
+/* 정렬 — 오른쪽 끝으로 밀어서 탭과 다투지 않게 했습니다.
+   아래 여백은 탭 글자(padding-bottom:13px)와 밑선 높이를 맞추려는 값입니다. */
+.sortbar{display:flex;margin-inline-start:auto;padding-bottom:16px}
+.sortbar[hidden]{display:none}   /* display:flex 가 [hidden] 을 이깁니다 */
+/* 직접 만든 고르개.
+   브라우저 기본 <select> 로 시작했다가 갈아엎었습니다 — 닫혀 있을 때는
+   CSS 로 꾸밀 수 있지만, 펼친 목록은 브라우저·운영체제가 직접 그려서
+   손이 닿지 않습니다(윈도우의 파란 선택 막대가 그것입니다).
+   글씨는 왼쪽 탭과 같은 명조로 두되 작고 조용하게 — 지금 보는 곳은
+   탭이고, 이쪽은 그 옆의 조작 장치입니다.                              */
+.sel{position:relative}
+.sel__b{display:flex;align-items:center;gap:9px;
+  font:500 15px/1 var(--myeongjo);color:var(--ink-mid);
+  cursor:pointer;transition:color 180ms ease}
+.sel__b:hover,.sel.is-open .sel__b{color:var(--ink)}
+/* 꺾쇠. 배경 그림 대신 테두리로 그려서 글자색(currentColor)을 따라가고,
+   펼치면 뒤집힙니다. data URI 였다면 색을 값으로 박아야 했습니다. */
+.sel__b::after{content:"";width:6px;height:6px;
+  border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform 220ms cubic-bezier(.22,.61,.36,1)}
+.sel.is-open .sel__b::after{transform:translateY(1px) rotate(-135deg)}
+
+/* 펼친 목록. 사이트에 그림자는 거의 쓰지 않지만, 본문 위에 떠 있는
+   판이라 아주 옅은 그늘로 층을 만듭니다. */
+.sel__list{position:absolute;top:calc(100% + 12px);right:0;z-index:20;
+  min-width:118px;padding:5px 0;
+  background:var(--paper);border:1px solid var(--line-strong);
+  box-shadow:0 6px 22px rgba(42,20,24,.09)}
+.sel__list[hidden]{display:none}
+.sel__o{position:relative;padding:10px 16px 10px 22px;white-space:nowrap;
+  font:450 13.5px/1.5 var(--gothic);color:var(--ink-mid);cursor:pointer;
+  transition:color 150ms ease,background 150ms ease}
+.sel__o:hover,.sel__o:focus-visible{
+  background:color-mix(in srgb,var(--brand) 5%,transparent);color:var(--ink)}
+/* 공통 초점 테두리는 바깥으로 3px 떠서 목록 판 밖으로 삐져나갑니다.
+   여기서는 안쪽으로 붙여 칸을 채우게 합니다 — 표시는 그대로 남깁니다. */
+.sel__o:focus-visible{outline-offset:-2px}
+/* 지금 골라져 있는 것에만 금색 표시가 붙습니다 */
+.sel__o[aria-selected="true"]{color:var(--brand)}
+.sel__o[aria-selected="true"]::before{content:"";position:absolute;
+  left:10px;top:50%;translate:0 -50%;
+  width:2px;height:12px;background:var(--accent-gold)}
+
+/* 사진 사이 간격. 가로와 세로가 같은 값이라 격자가 고르게 보입니다.
+   예전에는 사이트 공통값(--gx 7px 가로 / --gy 15px 세로)을 썼는데,
+   세로가 두 배라 사진이 가로로만 붙어 보였습니다.
+   여기만 쓰는 값이라 .mas 안에 두었습니다 — 다른 격자(단원·포스터·
+   영상·공연 카드)는 공통값을 그대로 씁니다.
+   3.5px 인 이유 — 예전 가로 간격 7px 의 절반입니다. 고해상도 화면에서는
+   딱 7 물리 픽셀이라 어긋나지 않습니다. */
+.mas{--mas-gap:3.5px;
+  columns:4;column-gap:var(--mas-gap)}
+/* 모서리는 각지게 둡니다. 간격을 3.5px 로 좁히고 나니 둥근 모서리가
+   서로 만나는 자리마다 흰 틈이 십자 모양으로 벌어져서, 촘촘한 격자가
+   오히려 성글어 보였습니다. overflow:hidden 은 남겨 둡니다 —
+   덮개와 사진이 칸 밖으로 새지 않게 잡아 줍니다. */
+.mas__i{break-inside:avoid;margin-bottom:var(--mas-gap);
+  position:relative;overflow:hidden;display:block;text-decoration:none}
+.mas__ph{width:100%;display:block;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--brand) 18%,transparent),color-mix(in srgb,var(--brand) 34%,transparent))}
+.mas__ph img{width:100%}
+/* 사진 위에 제목·부제목을 얹지 않습니다. 얹을 제목이 사진마다 있지는 않습니다.
+   덮개는 글 없이 남깁니다 — 눌러서 크게 볼 수 있다는 표시입니다.
+   원본(rosha)은 글이 있어서 50% 였습니다. 글이 빠진 지금 그 농도는
+   이유 없이 어둡기만 해서 28% 로 낮췄습니다. */
+.mas__ov{position:absolute;inset:0;background:rgba(0,0,0,0);
+  transition:background 300ms ease}
+.mas__i:hover .mas__ov,.mas__i:focus-visible .mas__ov{background:rgba(0,0,0,.28)}
+
+/* 라이트박스 */
+.lb{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.9);
+  display:grid;place-items:center;padding:5vmin;
+  opacity:0;visibility:hidden;transition:opacity 260ms ease,visibility 260ms}
+.lb.is-open{opacity:1;visibility:visible}
+.lb__fig{max-width:min(1100px,92vw);text-align:center}
+.lb__fig img{max-height:78vh;width:auto;margin-inline:auto}
+.lb__ph{width:min(880px,88vw);aspect-ratio:4/3;
+  background:linear-gradient(150deg,#4a2a30,#2a1418)}
+.lb__cap{margin-top:16px;color:rgba(255,255,255,.86);font-size:12px;
+  letter-spacing:.04em}
+.lb__cap b{display:block;font:500 17px/1.4 var(--myeongjo);color:#fff;
+  margin-bottom:5px}
+.lb__x{position:absolute;top:26px;right:30px;color:#fff;font-size:28px;
+  line-height:1}
+.lb__nav{position:absolute;top:50%;translate:0 -50%;color:#fff;font-size:30px;
+  line-height:1;padding:16px}
+.lb.is-single .lb__nav{display:none}   /* 한 장뿐이면 좌우 화살표가 필요 없습니다 */
+.lb__nav--p{left:10px}
+.lb__nav--n{right:10px}
+
+/* ══════════════════════════════════════════════════════════════
+   영상 — 썸네일 클릭 시에만 iframe 삽입 (초기 로딩 보호)
+   ══════════════════════════════════════════════════════════════ */
+.vids{display:grid;grid-template-columns:repeat(2,1fr);gap:34px var(--gx)}
+/* 한 편만 놓을 때(홈 소개 옆)는 한 칸으로 되돌립니다.
+   ★ 반드시 .vids 뒤에 와야 합니다 — 가중치가 같아서 앞에 두면 집니다. */
+.vids--one{grid-template-columns:1fr}
+.vid__f{position:relative;aspect-ratio:16/9;overflow:hidden;
+  background:linear-gradient(150deg,#4a2a30,#2a1418);
+  display:grid;place-items:center;width:100%}
+.vid__f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid__f iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid__f video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  background:#000}
+
+/* 인스타그램 임베드 —
+   높이를 인스타그램 쪽 스크립트가 스스로 정합니다(게시물마다 세로·정사각이
+   섞입니다). 그래서 위 16:9 틀을 씌우지 않고 자리만 내줍니다.
+   인스타그램 기본 CSS 가 min-width:326px 를 걸어서 좁은 화면에서 옆으로
+   삐져나갑니다. 그 한 줄만 눌러 둡니다. */
+.vid__ig{min-height:220px}
+.vid__ig .instagram-media{min-width:0 !important;margin:0 auto !important}
+.vid__play{position:relative;z-index:2;width:62px;height:62px;border-radius:50%;
+  background:rgba(255,255,255,.9);display:grid;place-items:center;
+  transition:transform 200ms ease,background 200ms ease}
+.vid__f:hover .vid__play{transform:scale(1.06);background:#fff}
+.vid__play::after{content:"";width:0;height:0;margin-left:4px;
+  border-left:15px solid var(--brand);
+  border-block:10px solid transparent}
+
+/* ── 유튜브 영상은 유튜브 재생 단추 그대로 ──────────────────────────────
+   빨간 모서리 둥근 네모 + 흰 삼각형. 사람들은 이 딱지 하나로 "누르면
+   유튜브가 열린다"를 압니다 — 글로 설명할 필요가 없습니다.
+
+   data-kind 는 main.js 가 붙입니다(yt · mp4 · ig). 그래서 유튜브 영상에만
+   걸리고, 직접 올린 mp4 는 원래의 흰 동그라미를 그대로 씁니다 —
+   유튜브가 아닌 것에 유튜브 딱지를 붙이면 거짓말이 됩니다.
+
+   크기는 유튜브 기본값(68×48)보다 조금 큽니다. 홈의 영상 자리는 폭이
+   1000px 을 넘어서, 기본 크기로 두면 화면에 비해 작아 보입니다.       */
+.vid__f[data-kind="yt"] .vid__play{
+  width:76px;height:54px;border-radius:13px;
+  background:#f00;
+  box-shadow:0 2px 14px rgba(0,0,0,.28)}
+.vid__f[data-kind="yt"]:hover .vid__play{background:#f00;transform:scale(1.08)}
+.vid__f[data-kind="yt"] .vid__play::after{
+  margin-left:3px;
+  border-left:19px solid #fff;
+  border-block:12px solid transparent}
+.vid__t{font:500 15px/1.5 var(--myeongjo);margin-top:14px}
+.vid__m{font:500 12px/1 var(--gothic);letter-spacing:.08em;
+  color:var(--ink-mid);margin-top:6px}
+
+/* ══════════════════════════════════════════════════════════════
+   CTA / 푸터
+   ══════════════════════════════════════════════════════════════ */
+/* 히어로와 같은 배치입니다 — 작은 골드 글자 → 큰 흰 제목 → 골드 테두리 버튼.
+   이쪽은 사진이 아니라 단색 버건디라 가림막을 따로 두지 않아도
+   골드가 6.1:1 로 통과합니다. */
+.cta{background:var(--brand);color:#fff;text-align:center;padding-block:92px}
+.cta h2{font:600 26px/1.5 var(--myeongjo);margin-bottom:12px;text-wrap:balance}
+.cta p{color:var(--accent-gold);line-height:1.85;margin-bottom:30px}
+.cta__b{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  align-items:center}
+/* 버튼은 .btn--ghost 기본형이 그대로 맞습니다 — 따로 덮어쓰지 않습니다. */
+/* 밴드 안의 보조 링크. 테두리 없이 밑줄만 남겨서 주 버튼보다 한 단 낮춥니다.
+   버건디 위 골드는 6.1:1 — 작은 글씨로도 AA 를 넘깁니다. */
+.cta__2nd{font:400 12px/1 var(--gothic);letter-spacing:.06em;
+  color:var(--accent-gold);text-decoration:none;padding-bottom:3px;
+  border-bottom:1px solid color-mix(in srgb,var(--accent-gold) 45%,transparent);
+  transition:color 180ms ease,border-color 180ms ease}
+.cta__2nd:hover{color:#fff;border-color:rgba(255,255,255,.84)}
+
+/* ══════════════════════════════════════════════════════════════
+   푸터
+   ══════════════════════════════════════════════════════════════ */
+/* 값의 층을 만듭니다: 흰 본문 → 버건디 CTA → 버건디 블랙 바닥.
+   푸터가 본문과 같은 흰색이면 페이지가 끝났다는 신호가 없습니다.
+   색은 --brand 를 더 어둡게 한 값이라 새 색조를 들이지 않습니다.
+   위 CTA 밴드(#4A1F24)와 이 바닥(#2A1418)의 명도차는 1.25:1 뿐입니다.
+   브라운 시절(1.86:1)처럼 색만으로는 경계가 서지 않아서, 골드 헤어라인
+   한 줄이 "여기서 페이지가 끝난다"는 신호를 대신 그립니다. */
+.foot{background:var(--ground);color:var(--on-ground-dim);
+  border-top:1px solid color-mix(in srgb,var(--accent-gold) 26%,transparent);
+  font:450 12px/1.9 var(--gothic)}
+.foot__top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;
+  padding-block:70px 52px}
+
+.foot__brand p{margin-top:14px;max-width:25ch;line-height:1.9;
+  color:rgba(255,255,255,.62)}
+.foot__logo{font:600 19px/1.35 var(--myeongjo);color:#fff;display:block;
+  text-decoration:none}
+.foot__en{font:500 10px/1 var(--gothic);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--on-ground);margin-top:8px;display:block}
+.foot__sns{margin-top:24px;display:flex;gap:16px}
+.foot__sns a{font:600 10px/1 var(--gothic);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--on-ground);text-decoration:none;padding-bottom:4px;
+  border-bottom:1px solid color-mix(in srgb,var(--on-ground) 34%,transparent);
+  transition:color 180ms ease,border-color 180ms ease}
+.foot__sns a:hover{color:#fff;border-color:#fff}
+
+.foot__col h2{font:600 10px/1 var(--gothic);letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.92);padding-bottom:15px;margin-bottom:17px;
+  border-bottom:1px solid rgba(255,255,255,.14)}
+.foot__col ul{display:grid;gap:10px}
+.foot__col a{font:450 12px/1.6 var(--gothic);color:var(--on-ground-dim);
+  text-decoration:none;transition:color 180ms ease}
+.foot__col a:hover{color:#fff}
+
+.foot__bot{border-top:1px solid rgba(255,255,255,.1);padding-block:28px 44px;
+  display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline}
+.foot__meta{display:flex;flex-wrap:wrap;gap:8px 20px;
+  color:rgba(255,255,255,.66)}
+.foot__meta span{white-space:nowrap}
+.foot__meta a{color:inherit;text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.2);
+  transition:color 180ms ease,border-color 180ms ease}
+.foot__meta a:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.foot__legal{margin-inline-start:auto;display:flex;flex-wrap:wrap;gap:8px 20px;
+  align-items:baseline}
+.foot__legal a{color:rgba(255,255,255,.66);text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.2);
+  transition:color 180ms ease,border-color 180ms ease}
+.foot__legal a:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.foot__c{color:rgba(255,255,255,.5);white-space:nowrap}
+
+/* 약관·방침 본문 */
+.doc{max-width:70ch}
+.doc h2{font:600 17px/1.5 var(--myeongjo);margin:38px 0 12px}
+.doc h2:first-child{margin-top:0}
+.doc p{line-height:1.95;margin-bottom:12px}
+.doc ul{display:grid;gap:8px;margin:12px 0 16px}
+.doc li{position:relative;padding-inline-start:15px;line-height:1.85;
+  color:var(--ink-mid)}
+.doc li::before{content:"";position:absolute;inset-inline-start:0;top:.72em;
+  width:5px;height:1px;background:var(--brand)}
+.doc__rev{margin-top:38px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--ink-mid)}
+
+
+/* ══════════════════════════════════════════════════════════════
+   원장 이야기 (about.html) — 사진 1 : 글 1.6
+   ══════════════════════════════════════════════════════════════ */
+.bio{display:grid;grid-template-columns:1fr 1.6fr;gap:56px;align-items:start}
+.bio__ph{aspect-ratio:3/4;overflow:hidden;
+  background:linear-gradient(160deg,
+    color-mix(in srgb,var(--brand) 13%,transparent),
+    color-mix(in srgb,var(--brand) 28%,transparent))}
+.bio__ph img{width:100%;height:100%;object-fit:cover}
+.bio__t p{font:400 16px/1.95 var(--myeongjo)}
+.bio__t p + p{margin-top:20px}
+/* 이름·역할은 사진 아래가 아니라 글 위에 있습니다.
+   .bio 를 앞에 붙인 건 우선순위 때문입니다 — 이제 이 둘도 .bio__t 안의 p 라서
+   위의 `.bio__t p`(0,1,1) 규칙에 먹힙니다. `.bio .bio__n`(0,2,0)이 이깁니다.
+   같은 이유로 margin 도 여기서 다시 잡습니다. */
+.bio .bio__n{font:600 17px/1.4 var(--myeongjo);margin-top:0}
+.bio .bio__r{font:500 11px/1 var(--gothic);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--brand);margin-top:5px}
+.bio .bio__r + p{margin-top:26px}   /* 이름 덩어리와 본문 사이 */
+.bio__q{margin-top:30px;padding-inline-start:22px;
+  border-inline-start:2px solid color-mix(in srgb,var(--brand) 30%,transparent);
+  font:400 16px/1.85 var(--myeongjo);color:var(--brand)}
+
+/* ══════════════════════════════════════════════════════════════
+   가치 3단 (about.html)
+   ══════════════════════════════════════════════════════════════ */
+.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:44px var(--gx)}
+.val__n{font:500 11px/1 var(--gothic);letter-spacing:.16em;color:var(--brand);
+  padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.val h3{font:600 17px/1.5 var(--myeongjo);margin-bottom:12px;text-wrap:balance}
+.val p{line-height:1.9;color:var(--ink-mid)}
+
+/* ══════════════════════════════════════════════════════════════
+   공연 안내 (concert.html)
+   ══════════════════════════════════════════════════════════════ */
+/* 두 갈래를 나란히 놓습니다.
+     정기 연주회 │ 자선 공연
+     [  사진  ] │ [  사진  ]
+     설명        │ 설명
+   가운데 세로 실선은 gap 자리에 그립니다 — 요소를 따로 두지 않아서
+   한 단으로 접힐 때(900px 아래) 지우기만 하면 됩니다.
+   위아래 패딩을 두지 않는 이유 — 섹션 padding(96px)이 이미 여백입니다. */
+.shows{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;position:relative}
+/* 항목 사이 헤어라인(--line)보다 한 단계 진한 --line-strong 을 씁니다.
+   짧은 구분선과 달리 이 선은 섹션 높이를 통째로 가로지릅니다 —
+   .07 로 두면 선이 있다 없다 하는 것처럼 흐릿하게 보입니다. */
+.shows::before{content:"";position:absolute;top:0;bottom:0;left:50%;
+  width:1px;background:var(--line-strong)}
+/* 한 단은 위에서 아래로 쌓입니다 — 제목 → 사진 → 설명.
+   위아래 패딩도, 항목 사이 가로선도 두지 않습니다. 예전에 두 덩어리가
+   세로로 쌓여 있을 때는 .show + .show 에 가로선을 그었는데, 좌우로
+   나란히 선 지금 그 선을 남겨두면 오른쪽 단 제목 위에만 선이 걸립니다.
+   가로선은 한 단으로 접히는 900px 아래에서만 다시 살아납니다. */
+.show{padding-block:0}
+.show__h{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 15px;
+  margin-bottom:20px}
+/* 두 장 다 900×600(3:2) 같은 크기로 맞춰 두었지만 비율은 CSS 에서도
+   3/2 로 못 박습니다 — 나중에 다른 사진으로 갈아 끼워도 두 단이 어긋나지 않습니다. */
+.show__ph{margin-bottom:22px}
+.show__ph img{width:100%;aspect-ratio:3/2;object-fit:cover}
+/* 제목과 주기 사이 세로 실선. 글자(|)가 아니라 선이라 굵기가 서체에 안 딸려갑니다. */
+.show--ph .show__f{margin-top:0;position:relative;padding-inline-start:16px}
+.show--ph .show__f::before{content:"";position:absolute;inset-inline-start:0;
+  top:-.1em;width:1px;height:1.25em;background:var(--line-strong)}
+.show__k{font:600 19px/1.45 var(--myeongjo)}
+.show__f{font:500 11px/1 var(--gothic);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--brand);margin-top:8px}
+.show__b p{line-height:1.95;max-width:62ch}
+.show__b p + p{margin-top:14px}
+.show__b ul{margin-top:18px;display:grid;gap:9px}
+.show__b li{position:relative;padding-inline-start:15px;line-height:1.8;
+  color:var(--ink-mid)}
+.show__b li::before{content:"";position:absolute;inset-inline-start:0;top:.68em;
+  width:5px;height:1px;background:var(--brand)}
+
+/* 연락 카드 (contact.html) */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gx)}
+.card{border:1px solid var(--line);padding:38px 32px}
+/* 먼저 보아야 할 카드 하나만 골드 테두리로 들어 올립니다.
+   면이 아니라 1px 선이라 금색이 넓게 깔리지 않습니다. */
+.card--lead{border-color:color-mix(in srgb,var(--accent-gold) 62%,transparent)}
+.card h2{font:600 19px/1.5 var(--myeongjo);margin-bottom:10px}
+.card p{color:var(--ink-mid);line-height:1.85;margin-bottom:24px}
+.card__k{font:600 11px/1 var(--gothic);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--brand);margin-bottom:16px}
+
+/* ══════════════════════════════════════════════════════════════
+   문의 팝업 — 까만 반투명 화면 + 중앙 카드 + X 닫기
+   ══════════════════════════════════════════════════════════════ */
+.mdl{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.62);
+  display:grid;place-items:center;padding:24px;
+  opacity:0;visibility:hidden;transition:opacity 240ms ease,visibility 240ms}
+.mdl.is-open{opacity:1;visibility:visible}
+.mdl__card{position:relative;width:min(440px,100%);
+  background:var(--paper);padding:46px 40px 40px;
+  text-align:center;
+  transform:translateY(12px);
+  transition:transform 240ms cubic-bezier(.22,.61,.36,1)}
+.mdl.is-open .mdl__card{transform:none}
+.mdl__x{position:absolute;top:12px;right:14px;width:38px;height:38px;
+  font-size:25px;line-height:1;color:var(--ink-mid)}
+.mdl__x:hover{color:var(--ink)}
+.mdl__k{font:600 11px/1 var(--gothic);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:16px}
+.mdl__t{font:600 21px/1.5 var(--myeongjo);text-wrap:balance}
+.mdl__b{margin-top:14px;line-height:1.85;color:var(--ink-mid)}
+
+/* 연락처 블록 */
+.ct{margin-top:30px;padding-top:26px;border-top:1px solid var(--line);
+  display:grid;gap:18px}
+.ct__row{display:grid;gap:9px}
+.ct__k{font:600 10px/1 var(--gothic);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-mid)}
+.ct__v{font:600 24px/1.2 var(--myeongjo);color:var(--brand);
+  font-variant-numeric:tabular-nums;letter-spacing:.01em;
+  text-decoration:none;display:block;word-break:break-all}
+a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
+.ct__v--sm{font-size:16px}
+.ct__b{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:3px}
+.ct__b .btn{padding:.8em 1.5em}
+.ct__note{font:450 12px/1.7 var(--gothic);color:var(--ink-mid)}
+
+/* ══════════════════════════════════════════════════════════════
+   등장 애니메이션
+   rosha 실측: ani_type slideInUp / ani_direction Up / duration 0.7s / delay 0
+   이동 거리를 14px 로 짧게 잡았습니다. 크게 움직이면 값싸 보입니다.
+   한 번만 재생합니다(main.js 가 첫 등장 뒤 관찰을 끊습니다).
+   ══════════════════════════════════════════════════════════════ */
+[data-reveal]{opacity:0;transform:translateY(14px);
+  transition:opacity .7s cubic-bezier(.22,.61,.36,1),
+             transform .7s cubic-bezier(.22,.61,.36,1);
+  transition-delay:var(--d,0ms)}
+[data-reveal].is-in{opacity:1;transform:none}
+
+/* 덩어리 안의 "항목" — 곡 한 줄, 사진 한 장. 블록보다 조금 덜 움직이고
+   조금 일찍 끝납니다. 여럿이 60~80ms 간격으로 잇달아 나오는 자리라
+   하나짜리 블록과 같은 14px / 0.7s 로 두면 화면이 출렁여 보입니다.
+   이 값은 main.js 가 안쪽 그룹의 자식에게만 붙입니다.              */
+[data-reveal="item"]{transform:translateY(11px);transition-duration:.58s}
+
+/* 히어로는 스크롤이 아니라 페이지가 열릴 때 순서대로 올라옵니다.
+   움직임은 이 한 곳에만 몰아넣고 나머지는 조용히 둡니다. */
+.hero__body > *{animation:rise .9s cubic-bezier(.22,.61,.36,1) both}
+.hero .eyebrow{animation-delay:.20s}
+.hero__lines{animation-delay:.34s}
+.hero__en{animation-delay:.52s}
+.hero__cta{animation-delay:.68s}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ══════════════════════════════════════════════════════════════
+   반응형
+   ══════════════════════════════════════════════════════════════ */
+/* about 제목 블록만 820px 에서 한 번 더 꺾습니다. 사이트 기준점(900px)이 아닌 이유 —
+   이 지점부터 사진이 화면보다 커지면서 단원들이 왼쪽으로 밀려 들어와,
+   글을 옆에 두면 제목이 단원들 위에 얹힙니다. 그래서 글을 위로 올리고
+   사진 높이(--ph)만큼 아래를 비웁니다. 배경색은 그대로 이어지므로
+   글은 여전히 같은 배경 위에 있습니다. */
+@media (max-width:820px){
+  .phead.phead--hero{--ph:200px;display:block;
+    padding-top:54px;padding-bottom:var(--ph)}
+  .phead--hero .wrap > *{max-width:62ch}
+  /* 좁은 화면에서는 자르지 않습니다. width:auto 면 사진 원래 비율대로
+     칸이 잡혀서 object-fit 이 할 일이 없어집니다. */
+  .phead__ph img{width:auto}
+}
+@media (max-width:900px){
+  :root{--hdr:102px;--pad:20px}    /* rosha 실측 모바일 헤더 102px */
+  .nav{display:none}
+  .burger{display:flex}
+  .hero{height:600px}
+  .hero__lines{font-size:24px}
+  .pair,.cards,.bio{grid-template-columns:1fr;gap:30px}
+  /* 미디어 + 글 — 한 단으로 접고, 뒤집었던 것도 미디어가 위로 옵니다 */
+  .duo{grid-template-columns:1fr;gap:28px}
+  .duo--flip .duo__m{order:0}
+  .vals{grid-template-columns:1fr;gap:34px}
+  /* 공연 안내 — 두 단을 한 단으로 접습니다. 세로 실선 대신 가로선이
+     둘 사이를 나눕니다. gap 34px 위에 선이 오고 그 아래로 다시 34px. */
+  .shows{grid-template-columns:1fr;gap:34px}
+  .shows::before{display:none}
+  .show + .show{border-top:1px solid var(--line);padding-top:34px}
+  .bio__ph{max-width:260px}
+  .prog{grid-template-columns:1fr;gap:46px}
+  .orn::before,.orn::after{flex:0 1 110px}
+  .mem{grid-template-columns:repeat(3,1fr)}
+  /* 8명은 2단이라야 4줄로 고르게 떨어집니다. 3단이면 3·3·2 로 끝줄이 빕니다.
+     .mem 과 가중치가 같아서 반드시 뒤에 와야 합니다. */
+  .mem--4{grid-template-columns:repeat(2,1fr)}
+  .mas{columns:2}
+  .vids{grid-template-columns:1fr}
+  .sec{padding-block:66px}
+  .phead{padding-top:calc(var(--hdr) + 54px);padding-bottom:42px}
+  .facts__r{grid-template-columns:1fr;gap:6px}
+  /* 지난 공연 — 2단. 넓은 칸은 한 줄을 통째로 씁니다 */
+  .bento{grid-template-columns:repeat(2,1fr);gap:28px var(--gx)}
+  .foot__top{grid-template-columns:1fr 1fr;gap:34px;padding-block:44px 34px}
+  .foot__brand{grid-column:1 / -1}
+  .foot__legal{margin-inline-start:0}
+}
+@media (max-width:520px){
+  /* 포스터는 작아지면 글자를 못 읽습니다. 한 줄로 내려 크게 봅니다. */
+  .posters{grid-template-columns:1fr;gap:30px}
+  .hdr__logo{gap:12px}
+  .hdr__mark{width:44px;height:43px}
+  .hdr__wm{font-size:16px}
+  .mem{grid-template-columns:repeat(2,1fr)}
+  .hero__lines{font-size:21px}
+  .foot__c{margin-inline-start:0}
+  /* 지난 공연 — 한 단. 넓은 칸도 다른 칸과 같은 폭·같은 비율이 됩니다 */
+  .bento{grid-template-columns:1fr}
+  .bento__c--w{grid-column:span 1}
+  .bento__c--w .bento__ph{aspect-ratio:4/3}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero__bg,.hero__body > *{animation:none}
+  /* 히어로 사진 넘기기는 main.js 가 아예 시작하지 않습니다(첫 장에서 멈춥니다).
+     여기서 전환까지 지워 두는 것은, 페이지를 연 뒤에 설정을 켠 경우까지
+     되돌리기 위해서입니다 — 패럴랙스를 되돌리는 아래 줄과 같은 이유입니다. */
+  .hero__s{transition:none}
+  /* 패럴랙스는 main.js 가 아예 붙이지 않습니다. 페이지를 연 뒤에 설정을
+     켠 경우까지 되돌리려고 인라인 값을 여기서 한 번 더 지웁니다.
+     인라인 스타일보다 세려면 !important 가 필요합니다. */
+  .hero__bg{translate:none !important;will-change:auto}
+  [data-reveal]{opacity:1 !important;transform:none !important;transition:none}
+  *,*::before,*::after{transition-duration:1ms !important}
+}
+@media print{
+  .hdr,.menu,.cta,.burger,.mdl,.phead__ph{display:none}
+  body{color:#000}
+  /* 어두운 푸터가 잉크 덩어리로 인쇄되지 않게 되돌립니다 */
+  .foot{background:#fff;color:#000;border-top:1px solid #ccc}
+  .foot__logo,.foot__col h2,.foot__brand p,.foot__col a,
+  .foot__meta,.foot__legal a,.foot__c,.foot__en,.foot__sns a{color:#000}
+  .foot__col h2,.foot__bot{border-color:#ccc}
+}

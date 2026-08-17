@@ -1,0 +1,32 @@
+[
+  {
+    "mp4": "assets/video/20260621-concert2-01.mp4",
+    "thumb": "assets/img/gallery/20260621-concert2-01.webp",
+    "title": "제2회 정기연주회",
+    "meta": "2026.06.21 · 로데아트센터"
+  },
+  {
+    "mp4": "assets/video/20250614-concert1-01.mp4",
+    "thumb": "assets/img/gallery/20250614-concert1-01.webp",
+    "title": "제1회 정기연주회",
+    "meta": "2025.06.14 · 거암아트홀"
+  },
+  {
+    "mp4": "assets/video/20250614-concert1-02.mp4",
+    "thumb": "assets/img/gallery/20250614-concert1-05.webp",
+    "title": "제1회 정기연주회 · 4중주",
+    "meta": "2025.06.14 · 거암아트홀"
+  },
+  {
+    "mp4": "assets/video/20250921-practice-01.mp4",
+    "thumb": "assets/img/gallery/20251023-practice-01.webp",
+    "title": "오늘도 연습",
+    "meta": "2025.09.21"
+  },
+  {
+    "mp4": "assets/video/20250921-practice-02.mp4",
+    "thumb": "assets/img/gallery/20251023-practice-02.webp",
+    "title": "세 시간째 연습 중",
+    "meta": "연습실"
+  }
+]
