@@ -4,7 +4,7 @@ import HomeBanners from "@/components/HomeBanners";
 import HomeConcerts from "@/components/HomeConcerts";
 import VideoCard from "@/components/VideoCard";
 import { Reveal } from "@/components/Reveal";
-import { HOME_VIDEO } from "@/lib/content";
+import { asset, HOME_VIDEO } from "@/lib/content";
 
 /* ==========================================================================
    홈
@@ -83,15 +83,16 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 3 — 공연 리스트 */}
-        <section className="sec">
-          <div className="wrap">
-            <Reveal>
-              <p className="eyebrow">Concert</p>
-            </Reveal>
-            <Reveal delay={80}>
-              <h2 className="sec__h">무대에 선 날들</h2>
-            </Reveal>
+        {/* 3 — 공연 넉 장.
+            무대 사진을 지면 가득 깔고 그 위에 세웁니다. .sec 을 쓰지
+            않는 이유 — 사진이 화면 끝까지 가야 해서 .wrap 의 안쪽
+            여백 밖으로 나가야 합니다. */}
+        <section className="csec">
+          <div className="csec__bg" aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={asset("assets/img/gallery/20250614-concert1-09.webp")} alt="" />
+          </div>
+          <div className="csec__in">
             <HomeConcerts />
           </div>
         </section>
