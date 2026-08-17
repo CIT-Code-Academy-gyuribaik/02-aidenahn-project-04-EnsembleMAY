@@ -1183,9 +1183,11 @@ a.tl__ph:hover img{transform:scale(1.04)}
   font-size:calc(var(--u) * 48);line-height:1.15;
   letter-spacing:0;color:#fff}
 
-/* 오른쪽 끝에 붙습니다 — 카드 넉 장의 오른쪽 선과 맞습니다 */
+/* 넉 장 아래, 오른쪽 끝에 붙습니다 — 카드의 오른쪽 선과 맞습니다.
+   시안에는 제목 옆(카드 위)에 있었지만, 넉 장을 다 보고 난 뒤가
+   "더 있나?" 하고 찾게 되는 자리입니다. */
 .cmore{display:flex;align-items:center;gap:.5em;
-  width:fit-content;margin:calc(var(--u) * 30) 0 0 auto;
+  width:fit-content;margin:calc(var(--u) * 26) 0 0 auto;
   font-family:var(--gothic);font-weight:600;
   font-size:max(12px, var(--u) * 13.7);line-height:1.4;
   letter-spacing:0;color:#fff;text-decoration:none;
@@ -1193,8 +1195,11 @@ a.tl__ph:hover img{transform:scale(1.04)}
 .cmore span{font-size:.9em;line-height:1}
 .cmore:hover{opacity:.72}
 
+/* 시안에서는 제목과 카드 사이에 [공연 더보기] 줄이 끼어 있어서 15 만
+   띄웠습니다. 그 줄이 아래로 내려가면서 제목 바로 밑에 붙게 되어,
+   시안에서 제목 아래로 비어 있던 만큼(약 40)을 그대로 줍니다. */
 .cgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:calc(var(--u) * 15);margin-top:calc(var(--u) * 15)}
+  gap:calc(var(--u) * 15);margin-top:calc(var(--u) * 40)}
 
 /* 카드는 보여 주기만 합니다 — 누르는 곳은 [공연 더보기] 하나입니다.
    그래서 손을 얹어도 아무 반응이 없습니다. 반응하면 누를 수 있는 줄
@@ -1231,10 +1236,10 @@ a.tl__ph:hover img{transform:scale(1.04)}
        그대로 지키므로 폭만 정하면 높이는 따라옵니다.                */
   .csec{min-height:0;padding:64px 20px}
   .csec__in{width:100%}
-  .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:14px}
+  .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:26px}
 
   .chd{font-size:clamp(28px,7vw,46px)}
-  .cmore{margin-top:20px;font-size:14px}
+  .cmore{margin-top:22px;font-size:14px}
   .ccd__d{margin-top:12px}
   .ccd__d,.ccd__v{font-size:clamp(12px,3.2vw,14px)}
   .ccd__t{margin-top:3px;font-size:clamp(15px,4.2vw,19px)}
