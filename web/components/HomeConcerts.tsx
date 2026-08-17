@@ -58,11 +58,6 @@ export default function HomeConcerts() {
     <>
       <h2 className="chd">Concert</h2>
 
-      <Link className="cmore" href="/concert/">
-        공연 더보기
-        <span aria-hidden="true">▶</span>
-      </Link>
-
       <RevealSeq className="cgrid" step={70}>
         {CARDS.map((c) => {
           const s = showById(c.show);
@@ -89,6 +84,13 @@ export default function HomeConcerts() {
           );
         })}
       </RevealSeq>
+
+      {/* 넉 장을 다 보고 난 다음에 나옵니다 — 여기가 "더 있나?" 하고
+          찾게 되는 자리입니다. 시안에는 제목 옆에 있었습니다. */}
+      <Link className="cmore" href="/concert/">
+        공연 더보기
+        <span aria-hidden="true">▶</span>
+      </Link>
     </>
   );
 }
