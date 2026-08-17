@@ -4,10 +4,9 @@
    사진과 영상을 추가할 때는 이 파일만 고치면 됩니다. HTML은 건드리지 않습니다.
 
    [사진 추가]
-     1. 파일을 assets/img/gallery/ 에 넣습니다. webp 를 권합니다 —
-        지금 있는 39장도 png·jpg 원본을 webp 로 바꾼 것이고, 그것만으로
-        15.4MB 가 2.6MB 가 됐습니다.
-     2. 아래 GALLERY 목록 맨 앞에 한 덩어리를 복사해서 붙이고 값을 고칩니다.
+     1. 파일 이름을 규칙대로 붙여 assets/img/gallery/ 에 넣습니다.
+        규칙은 그 폴더의 README.txt 에 있습니다 (YYYYMMDD-행사-번호.webp).
+     2. 아래 GALLERY 목록에 한 덩어리를 복사해서 붙이고 값을 고칩니다.
         src 를 비워두면 색 블록이 대신 나옵니다.
         ratio 는 가로/세로입니다. 사진의 실제 픽셀 크기를 그대로 적으면
         (예: "1170/780") 사진이 늦게 떠도 자리가 밀리지 않습니다.
@@ -52,133 +51,297 @@ window.CONTACT = {
               group    단체 사진
               detail   악기 · 손 같은 가까이 찍은 컷
 
-     date : show 가 없는 사진의 날짜입니다. "2026.01" 처럼 적습니다.
-            갤러리의 [최신순 / 과거순] 정렬에 쓰입니다.
-            비워 두면 정렬했을 때 맨 뒤로 갑니다 — 언제 것인지 모르는 사진을
-            아무 자리에나 끼워 넣지 않으려고 그렇게 두었습니다.
+   ★ 날짜는 파일 이름에서 읽습니다. 따로 적지 않습니다.
+     이름 규칙이 YYYYMMDD-행사-번호.webp 라서, 앞의 여덟 자리가 곧 날짜입니다.
+     날짜를 고치고 싶으면 파일 이름을 고치고 여기 src 한 줄만 맞추면
+     정렬이 따라옵니다. 같은 값을 두 군데 적어 두면 한쪽만 고치고 잊습니다.
+     (이름에 날짜가 없는 파일은 show 의 날짜를, 그것도 없으면 date 를 봅니다.)
 
-   ★ 22장은 tag 만 달고 show·date 를 비워 두었습니다. 인스타그램 캡션에
-     근거가 있는 17장만 공연에 이었습니다. 나머지는 어느 공연 것인지
-     제가 알 수 없어 비워 뒀습니다 — 아시는 대로 채워 주세요.
+   이 목록의 순서는 날짜 최신순입니다. 같은 날짜 안에서는 번호순입니다.
+   순서가 정하는 것 두 가지 —
+     · 홈 화면에 나가는 앞 8장
+     · 지난 공연 카드의 대표 사진 (그 공연 사진 중 맨 앞의 것)
+   갤러리 페이지는 화면에서 다시 정렬하므로 이 순서와 무관합니다.
+
+   ★ 연습 사진 17장에는 줄 끝에 "날짜 추정" 이라고 적어 두었습니다.
+     원본 파일명에 날짜가 없어서 실제로 연습한 날 중 하나를 골라 넣은
+     값입니다. 정확한 날짜를 아시면 파일 이름을 고치면 됩니다.
    ───────────────────────────────────────────────────────────────────────── */
 window.GALLERY = [
-  { src:"assets/img/gallery/stage-tutti.webp", ratio:"856/569",
-    title:"무대 위에서 전체 합주를 하는 단원들",
-    tag:"stage", date:"", caption:"정기 연주회" },
-  { src:"assets/img/gallery/group-after-concert.webp", ratio:"860/644",
-    title:"연주를 마치고 악기를 든 채 모인 단원들",
-    tag:"group", date:"", caption:"공연을 마치고" },
-  { src:"assets/img/gallery/stage-ensemble.webp", ratio:"1170/780",
-    title:"무대에서 함께 연주하는 앙상블",
-    show:"regular-1", tag:"stage" },
-  { src:"assets/img/gallery/stage-cello-part.webp", ratio:"1170/780",
-    title:"무대에 나란히 앉아 연주하는 첼로 파트",
-    show:"regular-1", tag:"stage" },
-  { src:"assets/img/gallery/library-cello.webp", ratio:"1170/780",
-    title:"‘음악이 흐르는 도서관’ 안내판 앞에서 연주하는 첼로 단원들",
-    show:"library-12", tag:"outreach" },
-  { src:"assets/img/gallery/stage-violin-part.webp", ratio:"1170/780",
-    title:"무대에서 활을 맞춰 켜는 바이올린 파트",
-    show:"regular-1", tag:"stage" },
-  { src:"assets/img/gallery/practice-tutti-piano.webp", ratio:"857/626",
-    title:"피아노를 가운데 두고 둘러앉아 합주하는 연습실",
-    tag:"practice", date:"", caption:"합주 연습" },
-  { src:"assets/img/gallery/practice-cello-hands.webp", ratio:"856/641",
-    title:"악보를 보며 첼로 활을 놀리는 손",
-    tag:"practice", date:"", caption:"파트 연습" },
-  { src:"assets/img/gallery/stage-violin.webp", ratio:"643/856",
-    title:"무대에서 바이올린을 켜는 단원",
-    tag:"stage", date:"", caption:"정기 연주회" },
-  { src:"assets/img/gallery/first-concert-stage.webp", ratio:"1170/780",
-    title:"첫 공연 무대에 선 앙상블 전체",
-    show:"regular-1", tag:"stage" },
-  { src:"assets/img/gallery/stage-cello-wide.webp", ratio:"1170/780",
-    title:"넓은 무대에서 연주하는 첼로 단원들",
-    show:"regular-1", tag:"stage" },
-  { src:"assets/img/gallery/stage-conducted.webp", ratio:"856/650",
-    title:"지휘에 맞춰 연주하는 무대 위 앙상블",
-    tag:"stage", date:"", caption:"정기 연주회" },
-  { src:"assets/img/gallery/stage-quartet.webp", ratio:"857/571",
-    title:"그랜드 피아노 곁에서 연주하는 단원들",
-    tag:"stage", date:"", caption:"정기 연주회" },
-  { src:"assets/img/gallery/outreach-way-to-school.webp", ratio:"856/450",
-    title:"‘학교 가는 길’ 화면을 띄운 무대에서 연주하는 단원들",
-    tag:"outreach", date:"", caption:"나눔 공연" },
-  { src:"assets/img/gallery/school-members.webp", ratio:"1170/721",
-    title:"악기를 안고 나란히 선 단원 네 명",
-    show:"sfs", tag:"group" },
-  { src:"assets/img/gallery/school-outdoor-stage.webp", ratio:"1170/721",
-    title:"야외 무대에서 연주하는 단원들",
-    show:"sfs", tag:"outreach" },
-  { src:"assets/img/gallery/library-audience.webp", ratio:"1170/777",
-    title:"가족 관객 앞에서 연주하는 단원들",
-    show:"library-12", tag:"outreach" },
-  { src:"assets/img/gallery/library-wide.webp", ratio:"1170/776",
-    title:"도서관 로비를 가득 채운 관객과 연주",
-    show:"library-12", tag:"outreach" },
-  { src:"assets/img/gallery/library-lobby.webp", ratio:"859/447",
-    title:"도서관 로비에 자리를 잡고 연주하는 단원들",
-    tag:"outreach", date:"", caption:"어린이청소년도서관" },
-  { src:"assets/img/gallery/outreach-children.webp", ratio:"720/405",
-    title:"바로 앞에 앉은 아이들에게 들려주는 연주",
-    tag:"outreach", date:"", caption:"나눔 공연" },
-  { src:"assets/img/gallery/outreach-hall.webp", ratio:"720/405",
-    title:"밝은 로비에서 관객과 마주 보고 연주하는 모습",
-    tag:"outreach", date:"", caption:"나눔 공연" },
-  { src:"assets/img/gallery/library-stands.webp", ratio:"857/571",
-    title:"크리스마스 트리 옆에 줄지어 선 빈 악보대",
-    tag:"outreach", date:"", caption:"공연을 준비하며" },
-  { src:"assets/img/gallery/yearend-stage.webp", ratio:"1170/782",
-    title:"붉은 옷을 맞춰 입고 연주하는 단원들",
-    show:"yearend", tag:"stage" },
-  { src:"assets/img/gallery/yearend-group.webp", ratio:"1170/782",
-    title:"연말 공연을 마치고 다 함께 모인 단원들",
-    show:"yearend", tag:"group" },
-  { src:"assets/img/gallery/yearend-cello.webp", ratio:"1170/782",
-    title:"붉은 조명 아래에서 첼로를 켜는 단원",
-    show:"yearend", tag:"stage" },
-  { src:"assets/img/gallery/yearend-backstage.webp", ratio:"1170/786",
-    title:"무대 옆에서 차례를 기다리는 단원들",
-    show:"yearend", tag:"stage" },
-  { src:"assets/img/gallery/yearend-violin.webp", ratio:"856/596",
-    title:"붉은 옷을 입고 바이올린을 켜는 단원",
-    tag:"stage", date:"", caption:"연말 공연" },
-  { src:"assets/img/gallery/yearend-practice.webp", ratio:"860/480",
-    title:"크리스마스 트리를 곁에 두고 연습하는 단원들",
-    tag:"practice", date:"", caption:"12월 연습" },
-  { src:"assets/img/gallery/practice-tutti-wide.webp", ratio:"856/642",
-    title:"넓은 연습실에 둘러앉아 맞추는 합주",
-    tag:"practice", date:"", caption:"합주 연습" },
-  { src:"assets/img/gallery/practice-tutti-window.webp", ratio:"858/607",
-    title:"창가에 자리를 잡고 연습하는 단원들",
-    tag:"practice", date:"", caption:"합주 연습" },
-  { src:"assets/img/gallery/practice-tutti-parts.webp", ratio:"858/606",
-    title:"파트별로 나눠 앉아 연습하는 모습",
-    tag:"practice", date:"", caption:"합주 연습" },
-  { src:"assets/img/gallery/practice-with-piano.webp", ratio:"859/587",
-    title:"피아노 옆에서 함께 맞추는 연습",
-    tag:"practice", date:"", caption:"합주 연습" },
-  { src:"assets/img/gallery/practice-hall.webp", ratio:"821/447",
-    title:"공연장에서 하는 마지막 리허설",
-    tag:"practice", date:"", caption:"리허설" },
-  { src:"assets/img/gallery/practice-violin-part.webp", ratio:"1170/612",
-    title:"악보를 보며 파트 연습을 하는 바이올린 단원들",
-    tag:"practice", date:"2026.01", caption:"2026년 첫 연습" },
-  { src:"assets/img/gallery/practice-cello-part.webp", ratio:"1170/618",
-    title:"뒤에서 바라본 첼로 파트 연습",
-    tag:"practice", date:"2026.01", caption:"2026년 첫 연습" },
-  { src:"assets/img/gallery/practice-piano.webp", ratio:"540/285",
-    title:"악보를 보며 피아노를 치는 손",
-    tag:"practice", date:"2026.01", caption:"2026년 첫 연습" },
-  { src:"assets/img/gallery/detail-violin-score.webp", ratio:"859/644",
-    title:"악보대 너머로 보이는 바이올린과 활",
-    tag:"detail", date:"", caption:"연습실에서" },
-  { src:"assets/img/gallery/detail-piano-keys.webp", ratio:"858/642",
-    title:"건반 위에 올린 손",
-    tag:"detail", date:"", caption:"연습실에서" },
-  { src:"assets/img/gallery/group-polaroid.webp", ratio:"637/854",
-    title:"폴라로이드처럼 붙여 놓은 단원 단체 사진 넉 장",
-    tag:"group", date:"", caption:"함께한 날들" }
+  { src:"assets/img/gallery/20260621-concert2-01.webp", ratio:"856/569",
+    title:"제2회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert2", tag:"stage" },
+  { src:"assets/img/gallery/20260621-concert2-02.webp", ratio:"1170/780",
+    title:"제2회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert2", tag:"stage" },
+  { src:"assets/img/gallery/20260621-concert2-03.webp", ratio:"643/856",
+    title:"제2회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert2", tag:"stage" },
+  { src:"assets/img/gallery/20260621-concert2-04.webp", ratio:"860/644",
+    title:"제2회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert2", tag:"stage" },
+  { src:"assets/img/gallery/20260621-concert2-05.webp", ratio:"1280/960",
+    title:"제2회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert2", tag:"stage" },
+  { src:"assets/img/gallery/20260620-practice-01.webp", ratio:"856/650",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260620-practice-02.webp", ratio:"1280/720",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260617-practice-01.webp", ratio:"857/626",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260617-practice-02.webp", ratio:"1280/960",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260614-practice-01.webp", ratio:"856/642",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260614-practice-02.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260531-practice-01.webp", ratio:"637/854",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260531-practice-02.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260525-mekorea-01.webp", ratio:"856/450",
+    title:"미앤코리아 공연에서 연주하는 앙상블 메이 단원들",
+    show:"mekorea", tag:"stage" },
+  { src:"assets/img/gallery/20260511-practice-01.webp", ratio:"859/587",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260511-practice-02.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260510-sfs-01.webp", ratio:"1170/721",
+    title:"SFS 국제학교에서 연주하는 앙상블 메이 단원들",
+    show:"sfs", tag:"stage" },
+  { src:"assets/img/gallery/20260510-sfs-02.webp", ratio:"1170/721",
+    title:"SFS 국제학교에서 연주하는 앙상블 메이 단원들",
+    show:"sfs", tag:"stage" },
+  { src:"assets/img/gallery/20260426-practice-01.webp", ratio:"858/607",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260426-practice-02.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260322-practice-01.webp", ratio:"858/642",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260322-practice-02.webp", ratio:"856/596",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260322-practice-03.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260111-practice-01.webp", ratio:"1170/612",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260111-practice-02.webp", ratio:"1170/618",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260111-practice-03.webp", ratio:"540/285",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20260111-practice-04.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20260111-practice-05.webp", ratio:"1278/853",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20251224-yearend-01.webp", ratio:"1170/786",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-02.webp", ratio:"1170/782",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-03.webp", ratio:"1170/782",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-04.webp", ratio:"1170/782",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-05.webp", ratio:"1600/1200",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-06.webp", ratio:"1600/1200",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-07.webp", ratio:"1600/1200",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-08.webp", ratio:"1600/1200",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-09.webp", ratio:"1600/1200",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251224-yearend-10.webp", ratio:"1600/1200",
+    title:"가족 연말 파티 공연에서 연주하는 앙상블 메이 단원들",
+    show:"yearend24", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-01.webp", ratio:"1170/777",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-02.webp", ratio:"1170/776",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-03.webp", ratio:"1170/780",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-04.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-05.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-06.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-07.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-08.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-09.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-10.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-11.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-12.webp", ratio:"1600/1063",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-13.webp", ratio:"1600/1200",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-14.webp", ratio:"1600/1200",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251213-library-15.webp", ratio:"1600/1200",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2512", tag:"stage" },
+  { src:"assets/img/gallery/20251103-practice-01.webp", ratio:"859/644",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20251103-practice-02.webp", ratio:"1600/1200",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20251103-practice-03.webp", ratio:"1280/720",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20251023-practice-01.webp", ratio:"858/606",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20251023-practice-02.webp", ratio:"1600/1600",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20251023-practice-03.webp", ratio:"1280/1280",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20250913-library-01.webp", ratio:"859/447",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2509", tag:"stage" },
+  { src:"assets/img/gallery/20250913-library-02.webp", ratio:"720/405",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2509", tag:"stage" },
+  { src:"assets/img/gallery/20250913-library-03.webp", ratio:"720/405",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2509", tag:"stage" },
+  { src:"assets/img/gallery/20250913-library-04.webp", ratio:"1600/1200",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2509", tag:"stage" },
+  { src:"assets/img/gallery/20250913-library-05.webp", ratio:"1600/1200",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2509", tag:"stage" },
+  { src:"assets/img/gallery/20250913-library-06.webp", ratio:"1600/1200",
+    title:"국립어린이청소년도서관에서 연주하는 앙상블 메이 단원들",
+    show:"library2509", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-01.webp", ratio:"1170/780",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-02.webp", ratio:"1170/780",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-03.webp", ratio:"1170/780",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-04.webp", ratio:"857/571",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-05.webp", ratio:"1170/780",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-06.webp", ratio:"1600/1200",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-07.webp", ratio:"1400/1050",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-08.webp", ratio:"1440/1080",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-09.webp", ratio:"1278/853",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-10.webp", ratio:"1278/853",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250614-concert1-11.webp", ratio:"1278/853",
+    title:"제1회 정기연주회 무대에 선 앙상블 메이 단원들",
+    show:"concert1", tag:"stage" },
+  { src:"assets/img/gallery/20250420-practice-01.webp", ratio:"856/641",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20250420-practice-02.webp", ratio:"1440/960",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20250420-practice-03.webp", ratio:"1280/1280",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20250224-practice-01.webp", ratio:"860/480",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },
+  { src:"assets/img/gallery/20250224-practice-02.webp", ratio:"1440/960",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+  { src:"assets/img/gallery/20250224-practice-03.webp", ratio:"1280/720",
+    title:"합주 연습 중인 앙상블 메이 단원들",
+    tag:"practice" },   /* 날짜 추정 — 파일 이름을 고치면 순서가 따라옵니다 */
+];
+
+/* ── 단원 ─────────────────────────────────────────────────────────────────
+   홈 화면 [함께 연주하는 아이들] 에 나옵니다. 4단이라 8명이 두 줄로 떨어집니다.
+   인원을 늘리거나 줄이면 줄이 어긋날 수 있으니 4의 배수가 보기 좋습니다.
+
+   src   : 사진. 세로로 긴 사진이 잘 맞습니다(칸 비율이 3:4 입니다).
+           비워 두면 버건디 자리 표시가 대신 들어갑니다.
+   name  : 이름. 비워 두면 이름 줄이 아예 생기지 않습니다.
+   part  : 파트(Violin · Viola · Cello). 비워 두면 그 줄도 생기지 않습니다.
+
+   ★ 사진 8장은 들어가 있습니다. 이름과 파트는 제가 지어낼 수 없어
+     비워 두었습니다 — 채우면 사진 아래에 줄이 생깁니다.
+
+   ※ 아이들 얼굴에 이름을 함께 붙이면 누구인지 특정됩니다. 홈페이지는
+     검색으로 누구나 닿는 곳이라, 이름은 성만 쓰거나(김○○) 아예 비우고
+     파트만 두는 쪽을 권합니다. privacy.html 에 적어 둔 "아동 사진은
+     보호자 동의분만" 과 같은 맥락입니다.
+   ───────────────────────────────────────────────────────────────────────── */
+window.MEMBERS = [
+  { src:"assets/img/members/member-01.webp", ratio:"853/1280", name:"", part:"" },
+  { src:"assets/img/members/member-02.webp", ratio:"853/1280", name:"", part:"" },
+  { src:"assets/img/members/member-03.webp", ratio:"854/1280", name:"", part:"" },
+  { src:"assets/img/members/member-04.webp", ratio:"853/1280", name:"", part:"" },
+  { src:"assets/img/members/member-05.webp", ratio:"853/1280", name:"", part:"" },
+  { src:"assets/img/members/member-06.webp", ratio:"853/1280", name:"", part:"" },
+  { src:"assets/img/members/member-07.webp", ratio:"854/1280", name:"", part:"" },
+  { src:"assets/img/members/member-08.webp", ratio:"855/1280", name:"", part:"" }
 ];
 
 /* ── 지난 공연 ────────────────────────────────────────────────────────────
@@ -210,24 +373,19 @@ window.GALLERY = [
    목록의 맨 앞이 사이트에서도 맨 앞입니다 — 최신 공연을 위에 둡니다.
    ───────────────────────────────────────────────────────────────────────── */
 window.SHOWS = [
-  { id:"regular-2",  date:"2026.06", title:"제2회 정기연주회", venue:"로데아트센터",
-    note:"When Melodies Meet", wide:true },
+  { id:"concert2", date:"2026.06.21", title:"제2회 정기연주회", venue:"로데아트센터", note:"When Melodies Meet", wide:true },
 
-  { id:"meandkorea", date:"2026.05", title:"미앤코리아 공연", venue:"", note:"" },
+  { id:"mekorea", date:"2026.05.25", title:"미앤코리아 공연", venue:"", note:"" },
 
-  { id:"sfs",        date:"2026.05", title:"SFS 국제학교 공연", venue:"", note:"" },
+  { id:"sfs", date:"2026.05.10", title:"SFS 국제학교 공연", venue:"", note:"" },
 
-  { id:"yearend",    date:"2025.12", title:"가족 연말 파티 공연", venue:"",
-    note:"단원 가족 초대" },
+  { id:"yearend24", date:"2025.12.24", title:"가족 연말 파티 공연", venue:"", note:"단원 가족 초대" },
 
-  { id:"library-12", date:"2025.12", title:"음악이 흐르는 도서관",
-    venue:"국립어린이청소년도서관", note:"" },
+  { id:"library2512", date:"2025.12.13", title:"음악이 흐르는 도서관", venue:"국립어린이청소년도서관", note:"" },
 
-  { id:"library-09", date:"2025.09", title:"음악이 흐르는 도서관",
-    venue:"국립어린이청소년도서관", note:"" },
+  { id:"library2509", date:"2025.09.13", title:"음악이 흐르는 도서관", venue:"국립어린이청소년도서관", note:"" },
 
-  { id:"regular-1",  date:"2025.06", title:"제1회 정기연주회", venue:"거암아트홀",
-    note:"창단 공연", wide:true }
+  { id:"concert1", date:"2025.06.14", title:"제1회 정기연주회", venue:"거암아트홀", note:"창단 공연", wide:true }
 ];
 
 /* ── 지난 공연 포스터 ──────────────────────────────────────────────────────
@@ -279,21 +437,100 @@ window.POSTERS = [
        올린 영상은 [게시물 → 오른쪽 위 … → 링크 복사]가 아니라, 올릴 때 쓴
        원본 파일을 그대로 assets 에 두고 mp4 로 걸면 됩니다.
    ───────────────────────────────────────────────────────────────────────── */
+/* ── ★ 홈 첫 화면(히어로) 사진 ────────────────────────────────────────────
+   홈을 열면 맨 처음 보이는, 화면을 가득 채우는 사진입니다.
+   여기에 여러 장을 적으면 한 장씩 부드럽게 넘어갑니다.
+
+   ★ 사진 크기 — 2400 × 1350 (16:9) 을 권합니다. 자세한 이유는
+     README 의 [히어로 사진] 항목에 적어 두었습니다. 요약하면:
+       · 이 사진은 이제 화면 높이를 전부 씁니다(예전 750px 고정이 아닙니다)
+       · 잘리는 것을 감안해 중요한 것(아이들 얼굴)은 가운데에 두세요
+         — 넓은 화면에서는 위아래가, 휴대폰에서는 좌우가 잘립니다
+       · WebP, 한 장 400KB 아래. 여러 장이면 다 받아야 넘어갑니다
+
+   한 장만 적어도 됩니다(넘기지 않고 그 한 장이 그대로 있습니다).
+   아예 비워 두면 예전처럼 assets/img/hero.webp 한 장을 씁니다.
+
+   예)  window.HERO = [
+          "assets/img/hero/hero-1.webp",
+          "assets/img/hero/hero-2.webp",
+          "assets/img/hero/hero-3.webp"
+        ];
+   ───────────────────────────────────────────────────────────────────────── */
+window.HERO = [
+  "assets/img/hero/hero-1.webp",   /* 무대 위 합주 — 앙상블 전체가 보입니다 */
+  "assets/img/hero/hero-2.webp",   /* 연말 파티 연습 — 웃는 첼로 */
+  "assets/img/hero/hero-3.webp",   /* 연습 가까이 — 활과 지판 */
+  "assets/img/hero/hero-4.webp"    /* 단체 사진 — 흰 배경 */
+  /* 순서를 바꾸고 싶으면 이 줄들의 차례만 바꾸면 됩니다.
+     맨 위가 홈을 열었을 때 처음 보이는 사진입니다. */
+];
+
+/* 넘어가는 속도. 숫자는 1000 이 1초입니다.
+     hold : 한 장에서 다음 장으로 넘어가는 간격
+     fade : 다음 장으로 녹아드는 시간
+   실제로 사진이 멈춰 있는 시간은 hold - fade 입니다.
+   지금 값이면 3초 가만히 있다가 1초에 걸쳐 넘어갑니다.
+
+   hold 를 바꿀 때는 fade 도 같이 봐 주세요. 둘의 차이가 멈춰 있는
+   시간인데, 그게 1초 아래로 내려가면 사진이 멎는 순간이 없어서
+   계속 흐물거리는 것처럼 보입니다.
+     hold 2000 / fade  700  → 1.3초 멈춤 (빠릅니다)
+     hold 4000 / fade 1000  → 3초 멈춤   ← 지금
+     hold 6000 / fade 1200  → 4.8초 멈춤 (느긋합니다)
+
+   hold 는 fade 보다 반드시 길어야 합니다 — 짧으면 다 나타나기도 전에
+   다음 장이 시작해서 사진 두 장이 겹쳐 보입니다.                       */
+window.HERO_MS = { hold: 4000, fade: 1000 };
+
+/* ── ★ 홈 두 번째 칸의 큰 영상 ────────────────────────────────────────────
+   홈 화면을 내리면 두 번째로 나오는, 화면을 꽉 채우는 영상 한 편입니다.
+   아래 VIDEOS(갤러리 목록)와는 따로 놉니다 — 여기를 바꿔도 갤러리의
+   영상 순서는 흔들리지 않습니다.
+
+   ★★ 지금은 자리만 잡아 둔 상태입니다. id 가 비어 있어서 버건디 바탕에
+       재생 단추만 나오고, 눌러도 아무 일도 일어나지 않습니다.
+       유튜브 주소를 받으면 id 에 "영상 id" 만 넣으면 끝입니다.
+
+   유튜브 id 는 주소에서 이 부분입니다 —
+       https://youtu.be/dQw4w9WgXcQ              → dQw4w9WgXcQ
+       https://www.youtube.com/watch?v=dQw4w9WgXcQ → dQw4w9WgXcQ
+   주소 전체가 아니라 id 만 넣어야 합니다.
+
+   예)  window.HOME_VIDEO = {
+          id:    "dQw4w9WgXcQ",
+          title: "제2회 정기연주회",
+          meta:  "2026.06.21 · 로데아트센터"
+        };
+
+   썸네일은 적지 않아도 됩니다 — 유튜브가 주는 그림을 자동으로 씁니다.
+   유튜브 말고 직접 올린 파일을 걸고 싶으면 id 대신
+   mp4:"assets/video/….mp4" 와 thumb:"assets/img/….webp" 를 쓰면 됩니다.
+   ───────────────────────────────────────────────────────────────────────── */
+window.HOME_VIDEO = {
+  id:    "ghWBQgkz_Xo",         /* https://youtu.be/ghWBQgkz_Xo */
+  title: "제2회 정기연주회 · 가면무도회 왈츠",
+  meta:  "2026.06.21 · 로데아트센터"
+};
+
 window.VIDEOS = [
-  { id:"", title:"2026 정기 연주회", meta:"전곡 · 1부 / 2부", thumb:"" },
-  { id:"", title:"자선 공연 실황",   meta:"Libertango",       thumb:"" },
-  { id:"", title:"Csárdás",          meta:"Violin 솔로",       thumb:"" },
-  { id:"", title:"Sound of Music Medley", meta:"Cello 2중주",  thumb:"" }
+  { mp4:"assets/video/20260621-concert2-01.mp4",
+    thumb:"assets/img/gallery/20260621-concert2-01.webp",
+    title:"제2회 정기연주회", meta:"2026.06.21 · 로데아트센터" },
 
-  /* 인스타그램 — 주소만 붙여넣으면 됩니다
-  ,{ ig:"https://www.instagram.com/reel/XXXXXXXXXXX/",
-     thumb:"assets/img/gallery/practice-tutti-piano.webp",
-     title:"오늘도 연습", meta:"연습실" }
-  */
+  { mp4:"assets/video/20250614-concert1-01.mp4",
+    thumb:"assets/img/gallery/20250614-concert1-01.webp",
+    title:"제1회 정기연주회", meta:"2025.06.14 · 거암아트홀" },
 
-  /* 직접 올린 영상
-  ,{ mp4:"assets/video/encore.mp4",
-     thumb:"assets/img/gallery/first-concert-stage.webp",
-     title:"앵콜곡", meta:"첫 공연" }
-  */
+  { mp4:"assets/video/20250614-concert1-02.mp4",
+    thumb:"assets/img/gallery/20250614-concert1-05.webp",
+    title:"제1회 정기연주회 · 4중주", meta:"2025.06.14 · 거암아트홀" },
+
+  { mp4:"assets/video/20250921-practice-01.mp4",
+    thumb:"assets/img/gallery/20251023-practice-01.webp",
+    title:"오늘도 연습", meta:"2025.09.21" },
+
+  { mp4:"assets/video/20250921-practice-02.mp4",
+    thumb:"assets/img/gallery/20251023-practice-02.webp",
+    title:"세 시간째 연습 중", meta:"연습실" }
 ];
