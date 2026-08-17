@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ScrollTop from "@/components/ScrollTop";
 import Shell from "@/components/Shell";
 import { baseMetadata } from "@/lib/seo";
 
@@ -9,5 +10,12 @@ import { baseMetadata } from "@/lib/seo";
 export const metadata: Metadata = baseMetadata;
 
 export default function SubLayout({ children }: { children: React.ReactNode }) {
-  return <Shell hdr="solid">{children}</Shell>;
+  return (
+    <Shell hdr="solid">
+      {/* 갈래를 옮길 때 히어로가 위로 밀려 올라가지 않게 합니다 —
+          까닭은 components/ScrollTop.tsx 주석에 적어 두었습니다. */}
+      <ScrollTop />
+      {children}
+    </Shell>
+  );
 }

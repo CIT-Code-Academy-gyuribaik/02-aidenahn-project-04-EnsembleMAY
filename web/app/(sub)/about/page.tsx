@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MemberGrid } from "@/components/HomeSections";
+import MemberGrid from "@/components/MemberGrid";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({

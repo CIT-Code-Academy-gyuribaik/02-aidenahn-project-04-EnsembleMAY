@@ -370,7 +370,6 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
   color:var(--brand);text-decoration:none;padding-bottom:4px;
   border-bottom:1px solid var(--accent-gold);transition:border-color 200ms ease}
 .more:hover{border-color:var(--brand)}
-.more--c{margin-inline:auto}
 
 /* ── 모바일 메뉴 ── */
 .burger{display:none;margin-inline-start:auto;width:26px;height:14px;
@@ -525,10 +524,6 @@ body.menu-open{overflow:hidden}
 /* 자선 공연 문의 단추도 같은 이유로 흰 테두리·흰 글자입니다. */
 .hero .btn--ghost{color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)}
 .hero .btn--ghost:hover{background:#fff;color:var(--brand)}
-.hero__note{margin-top:24px;font:400 12px/1.8 var(--gothic);font-style:italic;
-  color:rgba(255,255,255,.72)}
-.hero__cta{margin-top:32px;display:flex;gap:11px;justify-content:center;
-  flex-wrap:wrap}
 
 /* ══════════════════════════════════════════════════════════════
    서브페이지 제목 블록
@@ -607,17 +602,7 @@ body.menu-open{overflow:hidden}
 /* 섹션 제목 바로 아래 한두 문장. 그 아래 목록이 무엇인지 먼저 알려줍니다. */
 .sec__lead{margin-top:-6px;margin-bottom:34px;max-width:62ch;
   color:var(--ink-mid);line-height:1.95}
-
-/* ── 미디어 + 글 두 단 ────────────────────────────────────────────────
-   왼쪽에 영상이나 사진, 오른쪽에 글. duo--flip 이면 좌우가 바뀝니다.
-   글이 조금 좁아야 읽기 좋아서 1.05 : 1 로 미디어 쪽을 살짝 넓혔습니다.
-   align-items:center 로 둔 이유 — 글 길이가 미디어 높이와 딱 맞는 일은
-   드물어서, 위로 붙이면 한쪽 아래가 허전하게 남습니다.               */
-.duo{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
-.duo--flip .duo__m{order:2}
-.duo__m img{width:100%;display:block}
 .duo__t .sec__h{margin-bottom:18px}
-.duo__t p + p{margin-top:14px}
 .duo__t .facts{margin-top:26px;max-width:none}
 .duo__t .more{margin-top:24px}
 
@@ -655,7 +640,6 @@ body.menu-open{overflow:hidden}
 .pair__ko{font:400 16px/1.95 var(--myeongjo)}
 .pair__en{color:var(--ink-mid);line-height:1.9}
 
-
 /* 정의 목록 (활동 방식 / FAQ) */
 .facts{display:grid;gap:0;max-width:760px}
 .facts__r{display:grid;grid-template-columns:150px 1fr;gap:24px;
@@ -671,7 +655,6 @@ body.menu-open{overflow:hidden}
 .mem{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--gy) var(--gx)}
 /* 홈의 단원 8명 — 4단이라 두 줄로 딱 떨어집니다 */
 .mem--4{grid-template-columns:repeat(4,1fr)}
-.mem--3{grid-template-columns:repeat(3,1fr);max-width:660px;margin-inline:auto}
 .mem--3 .mem__ph{aspect-ratio:1/1}
 .mem__c{text-align:center}
 /* display:block 이 꼭 있어야 합니다. span 으로 쓰면 인라인이 되고,
@@ -687,38 +670,11 @@ body.menu-open{overflow:hidden}
   display:grid;place-items:center}
 .mem__c--open .mem__ph::after{content:"+";font:400 26px/1 var(--gothic);
   color:color-mix(in srgb,var(--brand) 42%,transparent)}
-.mem__hint{margin-top:28px;text-align:center;
-  font:500 15px/1.7 var(--myeongjo);color:var(--ink-mid)}
-
 
 /* ══════════════════════════════════════════════════════════════
    레퍼토리
    ══════════════════════════════════════════════════════════════ */
 .rep{max-width:780px}
-.rep--c{margin-inline:auto}
-/* 묶음 제목. 원래 "1부 / 2부" 용이라 자간이 .16em 이었는데, 한국어 문장이
-   들어오면서 글자가 흩어져 보였습니다. 명조 소제목으로 바꿨습니다. */
-.rep__part{font:600 15px/1.5 var(--myeongjo);letter-spacing:.01em;
-  color:var(--ink);margin:52px 0 3px}
-.rep__part:first-child{margin-top:0}
-.rep__r{display:flex;align-items:baseline;gap:12px;padding-block:13px;
-  border-bottom:1px solid var(--line)}
-.rep__t{font:500 15px/1.55 var(--myeongjo)}
-.rep__t em{font-style:italic;color:var(--ink-mid);font-size:12.5px}
-.rep__dots{flex:1;border-bottom:1px dotted var(--ink-dot);translate:0 -4px}
-.rep__c{font:400 12px/1.55 var(--gothic);letter-spacing:.02em;
-  color:var(--ink-mid);white-space:nowrap}
-.rep__r--cast{flex-wrap:wrap}
-.rep__cast{flex-basis:100%;margin-top:6px;
-  font:500 12px/1.65 var(--gothic);letter-spacing:.04em;
-  color:var(--ink-mid)}
-.rep__int{text-align:center;padding-block:30px;
-  font:600 11px/1 var(--gothic);letter-spacing:.22em;text-transform:uppercase;
-  color:var(--ink-mid)}
-.rep__note{margin-top:16px;text-align:right;font-size:12px;
-  color:var(--ink-mid);line-height:1.8}
-/* 묶음 제목 아래 한 줄 설명. rep__part 와 목록 사이에 들어갑니다. */
-.rep__sub{margin:0 0 12px;font-size:12.5px;color:var(--ink-mid);line-height:1.8}
 
 /* ══════════════════════════════════════════════════════════════
    연주 목록 — About 의 [지금까지 연주한 곡]
@@ -810,10 +766,6 @@ body.menu-open{overflow:hidden}
 
 .prog{display:grid;grid-template-columns:1fr 1fr;gap:60px var(--gx);
   align-items:start;max-width:980px;margin-inline:auto;text-align:start}
-/* 묶음 제목 — 오른쪽으로 실선이 흘러나갑니다 */
-.prog__g{display:flex;align-items:center;gap:14px;margin-bottom:28px;
-  font:600 14px/1.5 var(--myeongjo);letter-spacing:.02em;color:var(--on-ground)}
-.prog__g::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.16)}
 .prog__i + .prog__i{margin-top:24px}
 /* 곡 이름만 흰색입니다. 부제(from …) · 작곡가 · 편성은 전부 골드로 한 단
    내려갑니다 — 흰색과 골드 두 단계만 두면 어느 줄이 곡 이름인지 눈이 바로
@@ -824,8 +776,6 @@ body.menu-open{overflow:hidden}
 /* 편성. 있는 곡에만 붙습니다 — 없는 곡에 "전체 합주"라고 적지 않았습니다 */
 .prog__e{margin-top:6px;font:500 11px/1 var(--gothic);letter-spacing:.06em;
   color:var(--on-ground)}
-.prog__note{margin-top:52px;text-align:center;
-  font:400 12px/1.8 var(--gothic);color:rgba(255,255,255,.55)}
 
 /* ══════════════════════════════════════════════════════════════
    지난 공연 — Concert 의 연혁. 사진이 크고 그 아래 정보가 붙는 상자들.
@@ -1065,14 +1015,6 @@ a.bento__c:focus-visible .bento__ov{background:rgba(0,0,0,.28)}
 .vid__f iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .vid__f video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   background:#000}
-
-/* 인스타그램 임베드 —
-   높이를 인스타그램 쪽 스크립트가 스스로 정합니다(게시물마다 세로·정사각이
-   섞입니다). 그래서 위 16:9 틀을 씌우지 않고 자리만 내줍니다.
-   인스타그램 기본 CSS 가 min-width:326px 를 걸어서 좁은 화면에서 옆으로
-   삐져나갑니다. 그 한 줄만 눌러 둡니다. */
-.vid__ig{min-height:220px}
-.vid__ig .instagram-media{min-width:0 !important;margin:0 auto !important}
 .vid__play{position:relative;z-index:2;width:62px;height:62px;border-radius:50%;
   background:rgba(255,255,255,.9);display:grid;place-items:center;
   transition:transform 200ms ease,background 200ms ease}
@@ -1221,7 +1163,6 @@ a.tl__ph:hover img{transform:scale(1.04)}
   .st__b{grid-template-columns:1fr;gap:26px}
 }
 
-
 /* ══════════════════════════════════════════════════════════════
    홈 — 공연 리스트 (포스터 + 최근 공연)
    ══════════════════════════════════════════════════════════════
@@ -1322,7 +1263,6 @@ a.hcon__r:hover{background:color-mix(in srgb,var(--brand) 4%,transparent)}
   color:var(--accent-gold);text-decoration:none;padding-bottom:3px;
   border-bottom:1px solid color-mix(in srgb,var(--accent-gold) 45%,transparent);
   transition:color 180ms ease,border-color 180ms ease}
-.cta__2nd:hover{color:#fff;border-color:rgba(255,255,255,.84)}
 
 /* ══════════════════════════════════════════════════════════════
    푸터
@@ -1390,7 +1330,6 @@ a.hcon__r:hover{background:color-mix(in srgb,var(--brand) 4%,transparent)}
 .doc__rev{margin-top:38px;padding-top:20px;border-top:1px solid var(--line);
   font-size:12px;color:var(--ink-mid)}
 
-
 /* ══════════════════════════════════════════════════════════════
    원장 이야기 (about.html) — 사진 1 : 글 1.6
    ══════════════════════════════════════════════════════════════ */
@@ -1409,17 +1348,12 @@ a.hcon__r:hover{background:color-mix(in srgb,var(--brand) 4%,transparent)}
 .bio .bio__n{font:600 17px/1.4 var(--myeongjo);margin-top:0}
 .bio .bio__r{font:500 11px/1 var(--gothic);letter-spacing:.13em;text-transform:uppercase;
   color:var(--brand);margin-top:5px}
-.bio .bio__r + p{margin-top:26px}   /* 이름 덩어리와 본문 사이 */
-.bio__q{margin-top:30px;padding-inline-start:22px;
-  border-inline-start:2px solid color-mix(in srgb,var(--brand) 30%,transparent);
-  font:400 16px/1.85 var(--myeongjo);color:var(--brand)}
+.bio .bio__r + p{margin-top:26px}
 
 /* ══════════════════════════════════════════════════════════════
    가치 3단 (about.html)
    ══════════════════════════════════════════════════════════════ */
 .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:44px var(--gx)}
-.val__n{font:500 11px/1 var(--gothic);letter-spacing:.16em;color:var(--brand);
-  padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:20px}
 .val h3{font:600 17px/1.5 var(--myeongjo);margin-bottom:12px;text-wrap:balance}
 .val p{line-height:1.9;color:var(--ink-mid)}
 
@@ -1537,7 +1471,6 @@ a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
 .hero .eyebrow{animation-delay:.20s}
 .hero__lines{animation-delay:.34s}
 .hero__en{animation-delay:.52s}
-.hero__cta{animation-delay:.68s}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
 /* ══════════════════════════════════════════════════════════════
@@ -1563,10 +1496,6 @@ a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
   .hero{height:600px}
   .hero__lines{font-size:24px}
   .pair,.cards,.bio{grid-template-columns:1fr;gap:30px}
-  /* 미디어 + 글 — 한 단으로 접고, 뒤집었던 것도 미디어가 위로 옵니다 */
-  .duo{grid-template-columns:1fr;gap:28px}
-  .duo--flip .duo__m{order:0}
-  .vals{grid-template-columns:1fr;gap:34px}
   /* 공연 안내 — 두 단을 한 단으로 접습니다. 세로 실선 대신 가로선이
      둘 사이를 나눕니다. gap 34px 위에 선이 오고 그 아래로 다시 34px. */
   .shows{grid-template-columns:1fr;gap:34px}

@@ -166,14 +166,3 @@ export function photoDate(p: Photo): string {
   return showById(p.show)?.date ?? "";
 }
 
-/** 최근 사진이 앞으로. 날짜가 없는 사진은 맨 뒤. */
-export function galleryByDate(): Photo[] {
-  return [...GALLERY].sort((a, b) => {
-    const da = photoDate(a);
-    const db = photoDate(b);
-    if (!da && !db) return 0;
-    if (!da) return 1;
-    if (!db) return -1;
-    return db.localeCompare(da);
-  });
-}
