@@ -1414,22 +1414,18 @@ a.tl__ph:hover img{transform:scale(1.04)}
   .pbn__k{margin-top:12px;font-size:13px}
   .pbn__b{margin-top:14px;font-size:13px;line-height:1.7}
   /* ── Read more ──
-     넓은 화면에서는 1px 테두리만 두른 단추이고, 손을 얹으면 색이 찹니다.
-     손가락으로 보는 화면에는 "손을 얹는" 일이 없으니 처음부터 채워
-     둡니다 — 가는 테두리는 작은 화면에서 눌러야 할 것처럼 안 보입니다.
+     색·테두리는 넓은 화면과 같습니다 — 평소에는 테두리만, 손을 얹으면
+     색이 찹니다. 여기서는 크기와 자리만 고칩니다.
+
+     카드 안쪽 폭을 꽉 채웁니다. 좁은 화면에서는 어디를 눌러야 할지
+     한눈에 들어오는 편이 낫고, 손가락이 어디에 닿아도 눌립니다.
+     글자는 가운데에 둡니다 — 상자가 넓어져서 왼쪽에 붙여 두면 오른쪽이
+     휑하게 빕니다.
      높이 44px 은 손가락으로 누르는 것의 최소 크기입니다.
-     오른쪽 끝으로 보냅니다. 글은 왼쪽에서 시작해 오른쪽에서 끝나므로,
-     다 읽고 눈이 멈추는 자리가 오른쪽입니다.                          */
-  .pbn__m{display:flex;width:fit-content;margin:26px 0 0 auto;
-    height:44px;padding-inline:22px;font-size:13px;
-    color:#F4F2F1;background:#660020;box-shadow:none}
-  .pbn--flip .pbn__m{color:#F3F1F4;background:#242424;box-shadow:none}
-  /* 채운 것이 기본이라 hover 는 반대로 갑니다 — 넓은 화면과 정확히
-     뒤집힌 짝입니다. 창을 좁혀 보는 분에게도 반응이 남습니다. */
-  .pbn__m:hover{background:none;color:#660020;
-    box-shadow:inset 0 0 0 1px #660020}
-  .pbn--flip .pbn__m:hover{background:none;color:#242424;
-    box-shadow:inset 0 0 0 1px #242424}
+     좌우 여백은 카드의 안여백(24px)이 그대로 맡습니다.               */
+  .pbn__m{display:flex;justify-content:center;
+    width:auto;margin:26px 0 0;
+    height:44px;padding-inline:22px;font-size:13px}
 
   /* ── 첫 장의 사진 ── */
   /* 아래 여백을 없애야 사진 아래가 카드 바닥선에 정확히 닿습니다 */
