@@ -1,14 +1,17 @@
-"use client";
-
 /* ==========================================================================
    홈 — 공연 넉 장
 
    무대 사진을 지면 가득 깔고 그 위에 카드 넉 장을 세웁니다. 앞의 둘은
    정기 연주회 포스터, 뒤의 둘은 공연 현장 사진입니다.
 
+   ★ 카드는 누르는 것이 아닙니다
+     보여 주기만 합니다. 눌러서 크게 보거나 사진첩으로 들어가는 길은
+     [공연 더보기] 하나로 모읍니다 — 카드마다 누를 곳이 있으면 어디를
+     눌러야 무엇이 나오는지가 애매해집니다.
+
    ★ 왜 넉 장만 걸까
      스냅 스크롤이라 한 화면에 담겨야 합니다. 전부 늘어놓는 대신 대표
-     넉 장만 걸고 나머지는 [공연 더보기] 로 Concert 에 넘깁니다.
+     넉 장만 걸고 나머지는 Concert 로 넘깁니다.
 
    ★ 날짜·장소는 여기서 짓지 않습니다
      content/shows.json 한 곳에서만 옵니다. 아래 CARDS 에는 "어떤 넷을
@@ -22,10 +25,8 @@
    ========================================================================== */
 
 import Link from "next/link";
-import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
 import { POSTERS, asset, showById } from "@/lib/content";
-import { postersToLbItems, showAlbum } from "@/lib/photos";
 
 type Card = {
   /** shows.json 의 id — 날짜·장소·이름이 여기서 옵니다 */
@@ -52,16 +53,7 @@ const CARDS: readonly Card[] = [
 /** "2026.06.21" → "2026.6.21". 시안이 앞의 0 을 떼고 씁니다. */
 const shortDate = (d: string) => d.replace(/\.0/g, ".");
 
-/* 현장 사진 카드를 누르면 그 공연 사진첩이 열리고, 계속 넘기면 다음
-   공연으로 이어집니다 — 공연마다 목록을 따로 만들면 마지막 장에서
-   막힙니다. 포스터 카드는 포스터를 큰 그림으로 엽니다. */
-const albumShows = CARDS.filter((c) => c.src).map((c) => ({ id: c.show }));
-const { items: albumPix, startOf } = showAlbum(albumShows);
-const posterItems = postersToLbItems(POSTERS);
-
 export default function HomeConcerts() {
-  const lb = useLightbox();
-
   return (
     <>
       <h2 className="chd">Concert</h2>
@@ -76,24 +68,13 @@ export default function HomeConcerts() {
           const s = showById(c.show);
           const poster = c.poster !== undefined ? POSTERS[c.poster] : undefined;
           const title = c.title || poster?.title || s?.title || "";
-          const src = poster?.src || (c.src ? asset(c.src) : "");
-          const start = startOf.get(c.show);
 
-          /* 포스터는 제 그림을, 현장 사진은 사진첩을 엽니다.
-             둘 다 열 것이 없으면 누를 수 없는 카드로 둡니다. */
-          const open =
-            poster && c.poster !== undefined
-              ? () => lb.open(posterItems, c.poster as number)
-              : start !== undefined
-                ? () => lb.open(albumPix, start)
-                : undefined;
-
-          const inner = (
-            <>
+          return (
+            <div className="ccd" key={c.show}>
               <span className="ccd__ph">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={src}
+                  src={poster?.src || (c.src ? asset(c.src) : "")}
                   alt={poster ? `${title} 포스터` : title}
                   loading="lazy"
                   style={c.pos ? { objectPosition: `${c.pos} center` } : undefined}
@@ -101,33 +82,13 @@ export default function HomeConcerts() {
               </span>
               <span className="ccd__d">{s ? shortDate(s.date) : ""}</span>
               {/* 장소가 없는 공연도 있습니다. 칸은 남겨 둡니다 —
-                  지우면 그 카드만 제목이 한 줄 올라와 넷이 어긋납니다. */}
+                  지우면 그 카드만 이름이 한 줄 올라와 넷이 어긋납니다. */}
               <span className="ccd__v">{s?.venue}</span>
               <span className="ccd__t">{title}</span>
-            </>
-          );
-
-          return open ? (
-            <a
-              className="ccd"
-              key={c.show}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                open();
-              }}
-            >
-              {inner}
-            </a>
-          ) : (
-            <div className="ccd" key={c.show}>
-              {inner}
             </div>
           );
         })}
       </RevealSeq>
-
-      <Lightbox {...lb.props} />
     </>
   );
 }
