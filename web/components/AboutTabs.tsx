@@ -17,10 +17,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+/* [주요 연혁] 이 여기 있었습니다. 그 갈래는 shows.json 을 그대로 세로로
+   늘어놓은 것이라 Concert 페이지와 같은 내용이었습니다 — 같은 기록을
+   두 군데에 두면 한쪽만 고치는 일이 생깁니다. 공연 기록은 Concert 로
+   모았습니다. */
 const TABS = [
   { href: "/about/", label: "단원" },
   { href: "/about/director/", label: "단장" },
-  { href: "/about/history/", label: "주요 연혁" },
   { href: "/about/story/", label: "앙상블메이 스토리" },
 ] as const;
 

@@ -52,9 +52,6 @@ export default function SiteFooter() {
                 <Link href="/about/director/">단장 이야기</Link>
               </li>
               <li>
-                <Link href="/about/history/">주요 연혁</Link>
-              </li>
-              <li>
                 <Link href="/about/story/">앙상블메이 스토리</Link>
               </li>
             </ul>
