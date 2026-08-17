@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Reveal, RevealSeq } from "@/components/Reveal";
+import { RevealSeq } from "@/components/Reveal";
 import { SHOWS } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
 
@@ -21,6 +21,10 @@ export const metadata: Metadata = pageMeta({
        (2) 공연 아닌 것도 넣겠다 → web/content/history.json 을 새로 만들고
                                  이 파일이 그것을 읽도록 바꿉니다.
                                  말씀해 주시면 만들어 드리겠습니다
+
+   생김새는 .facts(질문/답변 표)를 쓰지 않습니다. 그것을 쓰면 Contact 의
+   FAQ 와 똑같이 생겨서, 시간이 흐르는 기록으로 읽히지 않습니다.
+   세로선과 점으로 그립니다(.tl).
    ========================================================================== */
 
 export default function AboutHistoryPage() {
@@ -30,22 +34,20 @@ export default function AboutHistoryPage() {
 
   return (
     <>
-      <h2 className="sec__h">주요 연혁</h2>
-      <Reveal>
-        <p className="sec__lead">
-          앙상블 메이가 무대에 선 기록입니다. 정기 연주회와 자선 공연을 함께 적었습니다.
-        </p>
-      </Reveal>
+      <h2 className="sr">주요 연혁</h2>
+      <p className="abt__lead">
+        앙상블 메이가 무대에 선 기록입니다. 정기 연주회와 자선 공연을 함께 적었습니다.
+      </p>
 
-      <RevealSeq className="facts" step={60}>
+      <RevealSeq className="tl" step={60}>
         {rows.map((s) => (
-          <div className="facts__r" key={s.id}>
-            <div className="facts__k">{s.date}</div>
-            <div className="facts__v">
-              <b>{s.title}</b>
-              {s.venue && <> · {s.venue}</>}
-              {s.note && <> — {s.note}</>}
-            </div>
+          <div className="tl__r" key={s.id}>
+            <p className="tl__d">{s.date}</p>
+            <p className="tl__t">
+              {s.title}
+              {s.note && <em>{s.note}</em>}
+            </p>
+            {s.venue && <p className="tl__v">{s.venue}</p>}
           </div>
         ))}
       </RevealSeq>

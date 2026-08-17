@@ -647,24 +647,6 @@ body.menu-open{overflow:hidden}
 .pair__ko{font:400 16px/1.95 var(--myeongjo)}
 .pair__en{color:var(--ink-mid);line-height:1.9}
 
-/* ── 앙상블메이 스토리 (About) ──────────────────────────────────────────
-   세 대목을 국문·영문 한 쌍씩 놓습니다. 각 대목은 한 줄짜리 선언문과
-   그것을 풀어쓴 본문으로 이뤄집니다.
-
-   선언문을 본문보다 크게 두는 이유 — 세 대목이 이어지면 글이 길어져서,
-   빠르게 훑는 사람은 선언문 세 줄만 읽고도 무엇을 말하는지 알 수 있어야
-   합니다. 본문은 궁금한 사람이 읽습니다.
-
-   대목 사이는 선으로 나눕니다. 여백만으로는 어디까지가 한 대목인지
-   흐려집니다 — 국·영문이 나란히 놓여 이미 가로로 갈라져 있어서요. */
-.story + .story{margin-top:46px;padding-top:46px;border-top:1px solid var(--line)}
-.story__lead{font:600 18px/1.6 var(--myeongjo);margin-bottom:14px;text-wrap:balance}
-.story__lead--en{color:var(--ink-mid);font-weight:500}
-@media (max-width:900px){
-  /* 한 단으로 접히면 국문 선언문 바로 아래 국문 본문, 그다음 영문 —
-     .pair 가 이미 그렇게 접힙니다. 대목 사이 여백만 줄입니다. */
-  .story + .story{margin-top:34px;padding-top:34px}
-}
 
 /* 정의 목록 (활동 방식 / FAQ) */
 .facts{display:grid;gap:0;max-width:760px}
@@ -1113,6 +1095,99 @@ a.bento__c:focus-visible .bento__ov{background:rgba(0,0,0,.28)}
 .vid__t{font:500 15px/1.5 var(--myeongjo);margin-top:14px}
 .vid__m{font:500 12px/1 var(--gothic);letter-spacing:.08em;
   color:var(--ink-mid);margin-top:6px}
+
+/* ══════════════════════════════════════════════════════════════
+   About — 하위 메뉴 띠
+   ══════════════════════════════════════════════════════════════
+   히어로(사진 깔린 큰 제목 블록)와 본문 사이에 놓입니다.
+   갤러리의 탭(.tabs)을 그대로 가져다 썼더니 붕 떴습니다 — 그쪽은
+   얇은 제목 블록 아래에 붙는 것을 전제로 만든 것이라, 사진이 깔린
+   큰 블록 아래에서는 선 하나에 글자만 얹힌 꼴이 됩니다.
+
+   그래서 띠로 만듭니다. 화면 폭을 다 쓰고 아래 헤어라인으로 경계를
+   지어 "여기서부터 고르는 자리" 임을 보이게 합니다.
+
+   상단 바 바로 아래 붙어 따라옵니다(sticky). 네 갈래를 오가며 읽는
+   자리라, 아래로 내려간 뒤 다른 갈래로 가려고 매번 위로 올라가야
+   하면 번거롭습니다. 상단 바 높이(--hdr)만큼 내려서 겹치지 않습니다. */
+.abt{position:sticky;top:var(--hdr);z-index:200;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.abt__in{display:flex;justify-content:center;flex-wrap:wrap;
+  max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+.abt__b{position:relative;padding:19px 21px;
+  font:600 15px/1 var(--myeongjo);letter-spacing:.01em;
+  color:var(--ink-mid);text-decoration:none;white-space:nowrap;
+  transition:color 200ms ease}
+.abt__b:hover{color:var(--ink)}
+.abt__b[aria-current="page"]{color:var(--brand)}
+/* 고른 갈래 아래 금선. 상단 내비의 밑줄과 같은 언어입니다. */
+.abt__b[aria-current="page"]::after{content:"";position:absolute;
+  left:21px;right:21px;bottom:-1px;height:2px;background:var(--accent-gold)}
+@media (max-width:640px){
+  /* 좁으면 가운데 정렬 대신 왼쪽부터. 넘치면 옆으로 밀어 봅니다 */
+  .abt__in{justify-content:flex-start;flex-wrap:nowrap;
+    overflow-x:auto;scrollbar-width:none}
+  .abt__in::-webkit-scrollbar{display:none}
+  .abt__b{padding-inline:15px;font-size:14px}
+  .abt__b[aria-current="page"]::after{left:15px;right:15px}
+}
+
+/* 갈래마다 첫 줄에 놓이는 한 문장. 탭 이름이 제목 노릇을 하므로
+   여기서 같은 말을 되풀이하지 않고, 그 갈래가 무엇을 담고 있는지만
+   짧게 알려 줍니다. */
+.abt__lead{font:400 17px/1.85 var(--myeongjo);color:var(--ink-mid);
+  max-width:54ch;margin-bottom:38px;text-wrap:pretty}
+
+/* ══════════════════════════════════════════════════════════════
+   About — 주요 연혁 (세로 흐름)
+   ══════════════════════════════════════════════════════════════
+   예전에는 .facts(질문/답변 표)를 썼는데, 그러면 Contact 의 FAQ 와
+   똑같이 생깁니다. 연혁은 목록이 아니라 시간이 흐르는 것이라
+   세로선과 점으로 그립니다.                                        */
+.tl{position:relative;padding-left:30px}
+.tl::before{content:"";position:absolute;left:4px;top:14px;bottom:14px;width:1px;
+  background:linear-gradient(180deg,
+    var(--accent-gold),
+    color-mix(in srgb,var(--accent-gold) 18%,transparent))}
+.tl__r{position:relative;padding-block:20px}
+.tl__r + .tl__r{border-top:1px solid var(--line)}
+/* 점은 선 위에 얹습니다. 첫 항목(가장 최근)만 채워서 지금 자리를 표시합니다. */
+.tl__r::before{content:"";position:absolute;left:-30px;top:28px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--paper);box-shadow:0 0 0 1px var(--accent-gold)}
+.tl__r:first-child::before{background:var(--accent-gold)}
+.tl__d{font:600 12px/1 var(--gothic);letter-spacing:.08em;color:var(--brand)}
+.tl__t{font:600 18px/1.5 var(--myeongjo);margin-top:9px;text-wrap:balance}
+.tl__t em{font:400 13px/1 var(--gothic);font-style:normal;
+  color:var(--ink-mid);margin-inline-start:9px}
+.tl__v{font:450 13px/1.7 var(--gothic);color:var(--ink-mid);margin-top:5px}
+
+/* ══════════════════════════════════════════════════════════════
+   About — 앙상블메이 스토리
+   ══════════════════════════════════════════════════════════════
+   세 대목을 세워 놓습니다. 국문 선언문을 크게 앞세우고, 그것을
+   풀어쓴 국·영문을 아래 두 단으로 둡니다.
+
+   선언문을 크게 두는 이유 — 세 대목이 이어지면 글이 깁니다. 빠르게
+   훑는 사람은 선언문 세 줄만 읽고도 무엇을 말하는지 알 수 있어야
+   하고, 본문은 궁금한 사람이 읽습니다.                              */
+.st__i{padding-block:46px}
+.st__i:first-child{padding-top:6px}
+.st__i + .st__i{border-top:1px solid var(--line)}
+.st__n{font:600 11px/1 var(--gothic);letter-spacing:.22em;color:var(--accent-gold)}
+.st__ko{font:600 23px/1.7 var(--myeongjo);margin-top:15px;
+  max-width:26ch;text-wrap:balance}
+.st__b{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:24px}
+.st__en{font:500 15px/1.7 var(--gothic);color:var(--ink);margin-bottom:11px;
+  text-wrap:pretty}
+@media (max-width:900px){
+  .st__i{padding-block:36px}
+  .st__ko{font-size:20px;max-width:none}
+  .st__b{grid-template-columns:1fr;gap:26px}
+}
+
 
 /* ══════════════════════════════════════════════════════════════
    홈 — 공연 리스트 (포스터 + 최근 공연)

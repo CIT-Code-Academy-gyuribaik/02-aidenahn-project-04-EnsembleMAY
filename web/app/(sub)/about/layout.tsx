@@ -34,11 +34,12 @@ export default function AboutLayout({ children }: { children: React.ReactNode })
         </div>
       </div>
 
+      {/* 띠는 .wrap 밖에 둡니다 — 화면 폭을 다 써야 히어로 아래 경계가
+          제대로 지어집니다. 안쪽 항목만 본문 폭에 맞춥니다. */}
+      <AboutTabs />
+
       <section className="sec sec--first">
-        <div className="wrap">
-          <AboutTabs />
-          {children}
-        </div>
+        <div className="wrap">{children}</div>
       </section>
     </>
   );

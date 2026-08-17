@@ -11,7 +11,11 @@ export const metadata: Metadata = pageMeta({
 export default function AboutDirectorPage() {
   return (
     <>
-      <h2 className="sec__h">단장 이야기</h2>
+      <h2 className="sr">단장 이야기</h2>
+      <p className="abt__lead">
+        잘 켜는 아이가 즐거워 보이지 않고, 아직 서툰 아이가 활을 들 때 눈이 반짝이는 일이
+        많았습니다. 앙상블 메이는 그 차이를 지키려고 만들었습니다.
+      </p>
       <div className="bio">
         {/* 사진이 준비되면 이 자리에 <img> 를 넣으면 됩니다 */}
         <div className="bio__ph" />
