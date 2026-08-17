@@ -11,35 +11,13 @@
    이어집니다. Concert 페이지의 지난 공연 카드와 같은 동작입니다.
    ========================================================================== */
 
-import { Lightbox, useLightbox, type LbItem } from "@/components/Lightbox";
+import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
-import { SHOWS, photosOf, showById } from "@/lib/content";
+import { photosOf } from "@/lib/content";
+import { showAlbum, showsByDate } from "@/lib/photos";
 
-function captionOf(showId: string | undefined) {
-  const s = showById(showId);
-  return s ? [s.title, s.date].filter(Boolean).join(" · ") : "";
-}
-
-/* 최근이 위로 옵니다. 날짜가 "2026.06.21" 꼴이라 글자 그대로 비교해도
-   시간 순서가 맞습니다. */
-const rows = [...SHOWS].sort((a, b) => b.date.localeCompare(a.date));
-
-/* 공연별 사진을 한 줄로 이어 붙이고, 공연마다 시작 자리를 적어 둡니다. */
-const pix: LbItem[] = [];
-const startOf = new Map<string, number>();
-for (const s of rows) {
-  const pics = photosOf(s.id);
-  if (!pics.length) continue;
-  startOf.set(s.id, pix.length);
-  for (const p of pics) {
-    pix.push({
-      src: p.src,
-      ratio: p.ratio || "3/2",
-      title: p.title,
-      caption: captionOf(p.show),
-    });
-  }
-}
+const rows = showsByDate();
+const { items: pix, startOf } = showAlbum(rows);
 
 export default function Timeline() {
   const lb = useLightbox();

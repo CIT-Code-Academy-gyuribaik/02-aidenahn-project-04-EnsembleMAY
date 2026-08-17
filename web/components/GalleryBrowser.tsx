@@ -13,21 +13,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { Lightbox, useLightbox, type LbItem } from "@/components/Lightbox";
+import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
 import VideoCard from "@/components/VideoCard";
-import { GALLERY, VIDEOS, photoDate, showById } from "@/lib/content";
+import { GALLERY, VIDEOS, photoDate } from "@/lib/content";
+import { toLbItems } from "@/lib/photos";
 
 type Tab = "photos" | "videos";
 type Sort = "new" | "old";
 
 const SORT_LABEL: Record<Sort, string> = { new: "최신순", old: "과거순" };
-
-/** 사진 설명줄 — 공연 사진이면 공연 이름·날짜가 그대로 나옵니다. */
-function captionOf(showId: string | undefined) {
-  const s = showById(showId);
-  return s ? [s.title, s.date].filter(Boolean).join(" · ") : "";
-}
 
 export default function GalleryBrowser() {
   const [tab, setTab] = useState<Tab>("photos");
@@ -76,16 +71,7 @@ export default function GalleryBrowser() {
     });
   }, [sort]);
 
-  const lbItems: LbItem[] = useMemo(
-    () =>
-      photos.map((p) => ({
-        src: p.src,
-        ratio: p.ratio || "3/2",
-        title: p.title,
-        caption: captionOf(p.show),
-      })),
-    [photos]
-  );
+  const lbItems = useMemo(() => toLbItems(photos), [photos]);
 
   return (
     <>

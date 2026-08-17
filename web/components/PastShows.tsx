@@ -15,41 +15,13 @@
      같은 경로를 두 군데 적어 두면 한쪽만 고치고 잊습니다.
    ========================================================================== */
 
-import { Lightbox, useLightbox, type LbItem } from "@/components/Lightbox";
+import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
-import { POSTERS, SHOWS, photosOf, showById } from "@/lib/content";
+import { POSTERS, SHOWS, photosOf } from "@/lib/content";
+import { postersToLbItems, showAlbum } from "@/lib/photos";
 
-/** 사진 설명줄 — 공연 사진이면 공연 이름·날짜가 그대로 나옵니다. */
-function captionOf(showId: string | undefined) {
-  const s = showById(showId);
-  return s ? [s.title, s.date].filter(Boolean).join(" · ") : "";
-}
-
-/* showPix 는 [공연1 사진들, 공연2 사진들, …] 을 한 줄로 이어 붙인 것입니다.
-   카드마다 그 공연이 시작되는 자리를 적어 두면, 눌렀을 때 그 공연 첫
-   사진부터 열리고 계속 넘기면 다음 공연 사진으로 이어집니다. */
-const showPix: LbItem[] = [];
-const startOf = new Map<string, number>();
-for (const s of SHOWS) {
-  const pics = photosOf(s.id);
-  if (!pics.length) continue;
-  startOf.set(s.id, showPix.length);
-  for (const p of pics) {
-    showPix.push({
-      src: p.src,
-      ratio: p.ratio || "3/2",
-      title: p.title,
-      caption: captionOf(p.show),
-    });
-  }
-}
-
-const posterItems: LbItem[] = POSTERS.map((p) => ({
-  src: p.src,
-  ratio: p.ratio,
-  title: p.title,
-  caption: p.caption,
-}));
+const { items: showPix, startOf } = showAlbum(SHOWS);
+const posterItems = postersToLbItems(POSTERS);
 
 export function PastShows() {
   const lb = useLightbox();

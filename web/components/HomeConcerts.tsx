@@ -11,44 +11,18 @@
    ========================================================================== */
 
 import Link from "next/link";
-import { Lightbox, useLightbox, type LbItem } from "@/components/Lightbox";
+import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
-import { POSTERS, SHOWS, photosOf, showById } from "@/lib/content";
+import { POSTERS, photosOf } from "@/lib/content";
+import { postersToLbItems, showAlbum, showsByDate } from "@/lib/photos";
 
 /** 지난 공연은 최근 몇 개까지 보여 줄지. 나머지는 Concert 에 있습니다. */
 const SHOW_LIMIT = 3;
 
-function captionOf(showId: string | undefined) {
-  const s = showById(showId);
-  return s ? [s.title, s.date].filter(Boolean).join(" · ") : "";
-}
-
-/* 공연별 사진을 한 줄로 이어 붙입니다. 카드마다 자기 공연이 시작되는
-   자리를 적어 두면, 눌렀을 때 그 공연 첫 사진부터 열리고 계속 넘기면
-   다음 공연 사진으로 이어집니다. */
-const recent = [...SHOWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, SHOW_LIMIT);
-const showPix: LbItem[] = [];
-const startOf = new Map<string, number>();
-for (const s of recent) {
-  const pics = photosOf(s.id);
-  if (!pics.length) continue;
-  startOf.set(s.id, showPix.length);
-  for (const p of pics) {
-    showPix.push({
-      src: p.src,
-      ratio: p.ratio || "3/2",
-      title: p.title,
-      caption: captionOf(p.show),
-    });
-  }
-}
-
-const posterItems: LbItem[] = POSTERS.map((p) => ({
-  src: p.src,
-  ratio: p.ratio,
-  title: p.title,
-  caption: p.caption,
-}));
+/* 최근 것만 보여 주고 나머지는 Concert 로 보냅니다. */
+const recent = showsByDate().slice(0, SHOW_LIMIT);
+const { items: showPix, startOf } = showAlbum(recent);
+const posterItems = postersToLbItems(POSTERS);
 
 export default function HomeConcerts() {
   const lb = useLightbox();
