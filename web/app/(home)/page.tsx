@@ -57,7 +57,10 @@ export default function HomePage() {
             <Reveal>
               <div className="feat">
                 <div className="vids vids--one feat__v">
-                  <VideoCard video={HOME_VIDEO} />
+                  {/* 이 칸은 그 자체가 영상입니다. 칸이 자리를 잡으면
+                      소리를 끈 채로 알아서 시작합니다 — 자세한 조건은
+                      components/VideoCard.tsx 의 auto 설명에 있습니다. */}
+                  <VideoCard video={HOME_VIDEO} auto />
                 </div>
                 <div className="feat__t">
                   {/* 영상이 제목 역할을 하는 자리라 제목을 눈에 보이게 두지
