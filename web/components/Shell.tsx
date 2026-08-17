@@ -20,9 +20,16 @@ import "@/app/style.css";
 
 export default function Shell({
   hdr,
+  ownFooter,
   children,
 }: {
   hdr: "overlay" | "solid";
+  /**
+   * 홈은 푸터를 마지막 칸으로 직접 넣습니다.
+   * 홈 전체가 스냅이라 푸터도 한 칸이어야 합니다 — 스냅과 일반 스크롤을
+   * 섞으면 그 이음매에서 아무 위치에나 멈춰 화면이 깨져 보입니다.
+   */
+  ownFooter?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -38,7 +45,7 @@ export default function Shell({
 
         <main id="main">{children}</main>
 
-        <SiteFooter />
+        {!ownFooter && <SiteFooter />}
       </body>
     </html>
   );

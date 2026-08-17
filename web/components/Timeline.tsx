@@ -1,0 +1,93 @@
+"use client";
+
+/* ==========================================================================
+   주요 연혁 — 세로 흐름 + 사진
+
+   공연마다 대표 사진 한 장을 답니다. 사진은 GALLERY 에서 그 공연을
+   가리키는(show) 것 중 맨 앞을 씁니다 — 따로 고르지 않아도 되고,
+   사진 목록 순서를 바꾸면 여기도 같이 바뀝니다.
+
+   사진을 누르면 그 공연 사진첩이 열리고, 계속 넘기면 다음 공연으로
+   이어집니다. Concert 페이지의 지난 공연 카드와 같은 동작입니다.
+   ========================================================================== */
+
+import { Lightbox, useLightbox, type LbItem } from "@/components/Lightbox";
+import { RevealSeq } from "@/components/Reveal";
+import { SHOWS, photosOf, showById } from "@/lib/content";
+
+function captionOf(showId: string | undefined) {
+  const s = showById(showId);
+  return s ? [s.title, s.date].filter(Boolean).join(" · ") : "";
+}
+
+/* 최근이 위로 옵니다. 날짜가 "2026.06.21" 꼴이라 글자 그대로 비교해도
+   시간 순서가 맞습니다. */
+const rows = [...SHOWS].sort((a, b) => b.date.localeCompare(a.date));
+
+/* 공연별 사진을 한 줄로 이어 붙이고, 공연마다 시작 자리를 적어 둡니다. */
+const pix: LbItem[] = [];
+const startOf = new Map<string, number>();
+for (const s of rows) {
+  const pics = photosOf(s.id);
+  if (!pics.length) continue;
+  startOf.set(s.id, pix.length);
+  for (const p of pics) {
+    pix.push({
+      src: p.src,
+      ratio: p.ratio || "3/2",
+      title: p.title,
+      caption: captionOf(p.show),
+    });
+  }
+}
+
+export default function Timeline() {
+  const lb = useLightbox();
+
+  return (
+    <>
+      <RevealSeq className="tl" step={60}>
+        {rows.map((s) => {
+          const pics = photosOf(s.id);
+          const start = startOf.get(s.id);
+          const face = pics[0];
+
+          return (
+            <div className="tl__r" key={s.id}>
+              <div className="tl__t-box">
+                <p className="tl__d">{s.date}</p>
+                <p className="tl__t">
+                  {s.title}
+                  {s.note && <em>{s.note}</em>}
+                </p>
+                {s.venue && <p className="tl__v">{s.venue}</p>}
+              </div>
+
+              {face && start !== undefined ? (
+                <a
+                  className="tl__ph"
+                  href="#"
+                  aria-label={`${s.title} 사진 ${pics.length}장 크게 보기`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    lb.open(pix, start);
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={face.src} alt={face.title} loading="lazy" />
+                  {pics.length > 1 && <span className="tl__n">{pics.length}장</span>}
+                </a>
+              ) : (
+                /* 사진이 아직 없는 공연. 빈 회색 칸을 두면 "빠진 자리" 로
+                   보여서, 로고 마크를 얹은 버건디 판으로 둡니다. */
+                <span className="tl__ph tl__ph--empty" aria-hidden="true" />
+              )}
+            </div>
+          );
+        })}
+      </RevealSeq>
+
+      <Lightbox {...lb.props} />
+    </>
+  );
+}

@@ -36,7 +36,12 @@ export default function GalleryBrowser() {
   const lb = useLightbox();
   const selRef = useRef<HTMLDivElement>(null);
 
-  /* 주소 끝의 #videos 로 들어오면 영상 탭이 먼저 열립니다. */
+  /* 주소 끝의 #videos 로 들어오면 영상 탭이 먼저 열립니다.
+
+     ★ 패널의 id 를 photos/videos 가 아니라 panel-photos/panel-videos 로
+       둔 이유 — 같은 이름을 쓰면 브라우저가 그 자리로 화면을 뛰웁니다.
+       그러면 페이지를 열자마자 제목 블록이 위로 밀려 올라가 안 보입니다.
+       해시는 "어느 탭을 열지" 신호로만 쓰고, 화면은 맨 위에서 시작합니다. */
   useEffect(() => {
     if (window.location.hash === "#videos") setTab("videos");
   }, []);
@@ -92,7 +97,7 @@ export default function GalleryBrowser() {
               className={"tabs__b" + (tab === t ? " is-on" : "")}
               role="tab"
               aria-selected={tab === t}
-              aria-controls={t}
+              aria-controls={"panel-" + t}
               id={`tab-${t}`}
               onClick={() => setTab(t)}
             >
@@ -137,7 +142,7 @@ export default function GalleryBrowser() {
         )}
       </div>
 
-      <div id="photos" role="tabpanel" aria-labelledby="tab-photos" hidden={tab !== "photos"}>
+      <div id="panel-photos" role="tabpanel" aria-labelledby="tab-photos" hidden={tab !== "photos"}>
         {/* 사진이 한 장씩 40ms 간격으로 올라옵니다.
             key 에 sort 를 섞어 두면 정렬을 바꿀 때 다시 흐릅니다. */}
         <RevealSeq className="mas" step={40} key={sort}>
@@ -161,7 +166,7 @@ export default function GalleryBrowser() {
         </RevealSeq>
       </div>
 
-      <div id="videos" role="tabpanel" aria-labelledby="tab-videos" hidden={tab !== "videos"}>
+      <div id="panel-videos" role="tabpanel" aria-labelledby="tab-videos" hidden={tab !== "videos"}>
         <div className="vids">
           {VIDEOS.map((v) => (
             <VideoCard key={v.mp4 ?? v.id ?? v.title} video={v} />
