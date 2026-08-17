@@ -1,6 +1,39 @@
 # 앙상블 메이 공식 홈페이지
 
-정적 사이트입니다. 빌드 과정이 없습니다. `index.html`을 브라우저로 열면 바로 동작합니다.
+Next.js 로 만든 사이트입니다. 빌드하면 서버가 필요 없는 정적 파일이 나옵니다 —
+페이지마다 진짜 HTML 이 만들어지므로 네이버·구글이 내용을 그대로 읽습니다.
+
+## 시작하기
+
+```bash
+cd web
+npm install       # 처음 한 번만
+npm run dev       # http://localhost:3000 에서 고치면서 보기
+npm run build     # web/out/ 에 배포할 파일이 떨어집니다
+```
+
+## 폴더
+
+```
+web/
+  content/     ★ 내용은 전부 여기 있습니다 (json 6개)
+                 members · gallery · shows · posters · videos ·
+                 repertoire · site(연락처·히어로·홈 영상)
+  app/         페이지. (home) 과 (sub) 두 갈래입니다 —
+               홈만 상단 바가 사진 위에 투명하게 얹혀서 갈라 두었습니다
+  app/style.css  사이트 전체 스타일 (1420줄, 이 문서가 설명하는 그것)
+  components/  헤더·푸터·라이트박스·문의 팝업 같은 공용 조각
+  public/      사진·영상·파비콘
+  out/         빌드 결과물 (git 에 올리지 않습니다)
+
+assets/
+  영상/         공연 마스터 원본 28GB — 보관용. git 에 올리지 않습니다
+  img/_원본/    사진 원본 170MB — 보관용. git 에 올리지 않습니다
+```
+
+**내용을 고치실 때는 `web/content/` 안의 json 만 보시면 됩니다.**
+사진을 새로 넣으실 때는 `web/public/assets/img/` 에 파일을 두고
+json 에 경로를 적습니다.
 
 ## 구조
 
@@ -37,11 +70,11 @@
 
 ```
 ensemblemay/
-├─ index.html          홈 — 각 페이지로 보내는 관문
-├─ about.html          단장 이야기 · 앙상블의 가치 · 지금까지 연주한 곡
-├─ concert.html        정기/자선 공연 안내 · 지난 공연 · 포스터 · 자선공연 문의
-├─ gallery.html        활동 사진 · 연주 영상
-├─ contact.html        입단 문의 · 자선 공연 문의 · FAQ
+├─ 홈          홈 — 각 페이지로 보내는 관문
+├─ About 페이지          단장 이야기 · 앙상블의 가치 · 지금까지 연주한 곡
+├─ Concert 페이지        정기/자선 공연 안내 · 지난 공연 · 포스터 · 자선공연 문의
+├─ Gallery 페이지        활동 사진 · 연주 영상
+├─ Contact 페이지        입단 문의 · 자선 공연 문의 · FAQ
 ├─ privacy.html        개인정보처리방침 (푸터에서 링크)
 ├─ favicon.ico         탭 아이콘 (16 · 32 · 48 세 장이 한 파일에)
 ├─ favicon.svg         탭 아이콘 (최신 브라우저용)
@@ -60,15 +93,15 @@ ensemblemay/
 
 | 주소 | 위치 |
 |---|---|
-| `about.html#director` | 단장 이야기 |
-| `about.html#repertoire` | 지금까지 연주한 곡 |
-| `concert.html#history` | 지난 공연 (연혁 목록) |
-| `concert.html#posters` | 지난 공연 포스터 |
-| `concert.html#charity` | 자선 공연 문의 |
-| `gallery.html#photos` | 활동 사진 |
-| `gallery.html#videos` | 연주 영상 |
-| `contact.html#enroll` | 입단 문의 |
-| `contact.html#charity` | 자선 공연 문의 |
+| `About 페이지#director` | 단장 이야기 |
+| `About 페이지#repertoire` | 지금까지 연주한 곡 |
+| `Concert 페이지#history` | 지난 공연 (연혁 목록) |
+| `Concert 페이지#posters` | 지난 공연 포스터 |
+| `Concert 페이지#charity` | 자선 공연 문의 |
+| `Gallery 페이지#photos` | 활동 사진 |
+| `Gallery 페이지#videos` | 연주 영상 |
+| `Contact 페이지#enroll` | 입단 문의 |
+| `Contact 페이지#charity` | 자선 공연 문의 |
 
 ### 왜 Enroll 을 따로 두지 않았나
 
@@ -85,7 +118,7 @@ ensemblemay/
 
 ## ★ 전화번호 넣기 (공개 전 필수)
 
-`data/content.js` 맨 위 한 줄입니다. **여기만 채우면 사이트 전체 팝업에 반영됩니다.**
+`web/content/ 의 json 파일` 맨 위 한 줄입니다. **여기만 채우면 사이트 전체 팝업에 반영됩니다.**
 
 ```js
 window.CONTACT = {
@@ -123,11 +156,11 @@ window.CONTACT = {
 
 ## 사진
 
-지금 **82장**입니다. 그 밖에 단원 사진 8장(`assets/img/members/`)과
+지금 **82장**입니다. 그 밖에 단원 사진 8장(`web/public/assets/img/members/`)과
 영상 5개(`assets/video/`)가 따로 있습니다.
 
 **파일 이름이 곧 날짜이자 분류입니다.** 규칙은
-`assets/img/gallery/README.txt` 에 한 장으로 적어 두었습니다.
+`web/public/assets/img/gallery/README.txt` 에 한 장으로 적어 두었습니다.
 
 ```
 20250614-concert1-03.webp
@@ -141,18 +174,18 @@ window.CONTACT = {
 
 ### 더 넣을 때
 
-1. 사진 파일을 `assets/img/gallery/` 에 넣습니다.
-2. `data/content.js` 를 메모장으로 엽니다.
+1. 사진 파일을 `web/public/assets/img/gallery/` 에 넣습니다.
+2. `web/content/ 의 json 파일` 를 메모장으로 엽니다.
 3. `window.GALLERY` 목록 **맨 앞**에 한 덩어리를 복사해 붙이고 값을 고칩니다.
 
 ```js
 /* 공연장에서 찍은 사진 — 어느 공연인지만 적습니다 */
-{ src:"assets/img/gallery/first-concert-stage.webp", ratio:"1170/780",
+{ src:"web/public/assets/img/gallery/first-concert-stage.webp", ratio:"1170/780",
   title:"첫 공연 무대에 선 앙상블 전체",
   show:"regular-1", tag:"stage" },
 
 /* 공연이 아닌 사진 — 종류와 날짜를 적습니다 */
-{ src:"assets/img/gallery/practice-piano.webp", ratio:"540/285",
+{ src:"web/public/assets/img/gallery/practice-piano.webp", ratio:"540/285",
   title:"악보를 보며 피아노를 치는 손",
   tag:"practice", date:"2026.01", caption:"2026년 첫 연습" },
 ```
@@ -194,8 +227,8 @@ window.CONTACT = {
 
 ### 갤러리 — 탭과 정렬
 
-`gallery.html` 은 **사진 / 영상** 두 탭입니다. 처음에는 사진이 열립니다.
-푸터의 `gallery.html#videos` 로 들어오면 영상 탭이 열린 채 시작합니다.
+`Gallery 페이지` 은 **사진 / 영상** 두 탭입니다. 처음에는 사진이 열립니다.
+푸터의 `Gallery 페이지#videos` 로 들어오면 영상 탭이 열린 채 시작합니다.
 
 탭 오른쪽에 정렬 고르개가 있습니다. **처음은 최신순**이고 **과거순**으로
 바꿀 수 있습니다. 사진에만 쓰이므로 영상 탭에서는 숨습니다.
@@ -222,8 +255,8 @@ CSS 로 꾸밀 수 있지만 **펼친 목록은 운영체제가 직접 그려서
 
 ## 지난 공연 (연혁)
 
-Concert 페이지 `#history` 의 목록입니다. `data/content.js` 의 `window.SHOWS`
-한 곳에서 옵니다 — 공연을 늘리거나 사진을 붙일 때 `concert.html` 은 건드리지
+Concert 페이지 `#history` 의 목록입니다. `web/content/ 의 json 파일` 의 `window.SHOWS`
+한 곳에서 옵니다 — 공연을 늘리거나 사진을 붙일 때 `Concert 페이지` 은 건드리지
 않습니다.
 
 ```js
@@ -280,11 +313,11 @@ Concert 페이지 `#history` 의 목록입니다. `data/content.js` 의 `window.
 
 Concert 페이지의 **지난 공연 포스터** 입니다. 장수는 자유입니다.
 
-1. 포스터 파일을 `assets/img/poster/` 에 넣습니다.
-2. `data/content.js` 의 `window.POSTERS` 를 고칩니다.
+1. 포스터 파일을 `web/public/assets/img/poster/` 에 넣습니다.
+2. `web/content/ 의 json 파일` 의 `window.POSTERS` 를 고칩니다.
 
 ```js
-{ src:"assets/img/poster/2026-second-concert.webp", ratio:"3/4",
+{ src:"web/public/assets/img/poster/2026-second-concert.webp", ratio:"3/4",
   title:"제2회 정기연주회", caption:"When Melodies Meet · 2026. 6. 21. 로데아트센터" },
 ```
 
@@ -320,7 +353,7 @@ Concert 페이지의 **지난 공연 포스터** 입니다. 장수는 자유입�
 
 ## 영상 추가하기
 
-세 가지를 받습니다. `data/content.js` 의 `window.VIDEOS` 에 한 덩어리씩 붙입니다.
+세 가지를 받습니다. `web/content/ 의 json 파일` 의 `window.VIDEOS` 에 한 덩어리씩 붙입니다.
 **어느 쪽이든 썸네일을 누를 때까지 아무것도 불러오지 않습니다.** 페이지가 처음
 열릴 때 느려지지 않고, 누르기 전에는 유튜브·인스타그램에 요청이 가지 않습니다.
 
@@ -344,7 +377,7 @@ https://www.youtube.com/watch?v=AbCdEfGh123   →   id 는 AbCdEfGh123
 
 ```js
 { ig:"https://www.instagram.com/reel/XXXXXXXXXXX/",
-  thumb:"assets/img/gallery/practice-tutti-piano.webp",
+  thumb:"web/public/assets/img/gallery/practice-tutti-piano.webp",
   title:"오늘도 연습", meta:"연습실" },
 ```
 
@@ -372,7 +405,7 @@ https://www.youtube.com/watch?v=AbCdEfGh123   →   id 는 AbCdEfGh123
 
 ```js
 { mp4:"assets/video/encore.mp4",
-  thumb:"assets/img/gallery/first-concert-stage.webp",
+  thumb:"web/public/assets/img/gallery/first-concert-stage.webp",
   title:"앵콜곡", meta:"첫 공연" },
 ```
 
@@ -388,7 +421,7 @@ https://www.youtube.com/watch?v=AbCdEfGh123   →   id 는 AbCdEfGh123
 파일이 없는 동안에는 버건디 그라디언트가 대신 나옵니다 — 사진 층만 그려지지 않고
 그 아래 층이 그대로 보이는 구조라서, 없어도 화면이 깨지지 않습니다.
 
-다른 이름을 쓰고 싶으면 `index.html` 의 `.hero__bg` 에 인라인으로 붙이면
+다른 이름을 쓰고 싶으면 `홈` 의 `.hero__bg` 에 인라인으로 붙이면
 CSS 를 덮어씁니다.
 
 ```html
@@ -414,15 +447,15 @@ CSS 를 덮어씁니다.
 아이들 실명은 사이트 어디에도 없습니다. 지난 공연 프로그램의 연주자 표기도
 `Violin — 솔로`, `Cello — 2중주` 처럼 **편성만** 적었습니다.
 
-모집 파트를 보여주던 `about.html#parts` 는 지금 없습니다. 다시 두고 싶으면
+모집 파트를 보여주던 `About 페이지#parts` 는 지금 없습니다. 다시 두고 싶으면
 About 에 섹션을 만들고 푸터의 [연주한 곡] 자리에 링크를 넣으면 됩니다.
 
-> `about.html#repertoire` 끝에 `Piano 반주` 를 적어둔 자리가 있습니다.
+> `About 페이지#repertoire` 끝에 `Piano 반주` 를 적어둔 자리가 있습니다.
 > 반주자가 성인 지도교사라면 성함을 넣어도 됩니다. 확인이 필요합니다.
 
 ## 연주한 곡 목록은 About 에 있습니다
 
-`about.html#repertoire`. 원래 Concert 의 **지난 정기 연주회 프로그램** 이었는데,
+`About 페이지#repertoire`. 원래 Concert 의 **지난 정기 연주회 프로그램** 이었는데,
 한 공연의 순서표가 아니라 **지금까지 아이들이 무대에 올린 곡이 쌓인 목록**이라서
 About 으로 옮겼습니다. 그래서 표현도 바꿨습니다.
 
@@ -493,7 +526,7 @@ transition:transform 280ms cubic-bezier(.22,.61,.36,1), … ;
 상단 바 왼쪽은 두 덩어리입니다. 6개 파일에 같은 마크업이 들어 있습니다.
 
 ```html
-<a class="hdr__logo" href="index.html">
+<a class="hdr__logo" href="홈">
   <span class="hdr__mark" aria-hidden="true"></span>   <!-- 마크 -->
   <span class="hdr__wm">Ensemble M.A.Y</span>          <!-- 워드마크 -->
 </a>
@@ -501,14 +534,14 @@ transition:transform 280ms cubic-bezier(.22,.61,.36,1), … ;
 
 ### 마크는 그림 파일이 아니라 CSS 안의 SVG 입니다
 
-`assets/css/style.css` 맨 위 `--mark` 한 줄이 전부입니다. 이유가 두 가지입니다.
+`web/app/style.css` 맨 위 `--mark` 한 줄이 전부입니다. 이유가 두 가지입니다.
 
 1. 마크는 자리마다 색이 달라야 합니다. 사진 위에서는 흰색, 흰 배경에서는
    잉크색입니다. CSS 마스크로 넣으면 글자색을 그대로 따라갑니다.
 2. HTML 파일을 브라우저로 그냥 열었을 때(`file://`) 크롬이 외부 파일 마스크를
    막습니다. 이 사이트는 서버 없이도 열려야 하므로 주소가 없는 형태로 넣었습니다.
 
-원본은 **`assets/img/icon/logo-emblem.png`** (917×904, 투명 PNG) 입니다.
+원본은 **`web/public/assets/img/icon/logo-emblem.png`** (917×904, 투명 PNG) 입니다.
 `--mark` 는 그 **알파(투명도)만 256px 로 줄여 넣은 것**입니다.
 
 > **왜 SVG 가 아니라 PNG 인가.** 받은 `logo.svg` 두 벌 모두 아래쪽 이중 아치가
@@ -578,7 +611,7 @@ transition:transform 280ms cubic-bezier(.22,.61,.36,1), … ;
 > 보입니다. 전체 엠블럼을 쓰기로 한 결과이고, 탭 아이콘에서만 가운데 모노그램을
 > 쓰면 그 크기에서도 또렷해집니다 — 원하시면 그렇게 바꿀 수 있습니다.
 
-네 장 모두 `assets/img/icon/logo-emblem.png` 에서 구웠습니다. 로고를 바꾸면
+네 장 모두 `web/public/assets/img/icon/logo-emblem.png` 에서 구웠습니다. 로고를 바꾸면
 이 네 장도 같이 다시 만들어야 합니다.
 
 `favicon.svg` 는 벡터가 아니라 **192px 그림을 SVG 안에 담은 것**입니다 —
@@ -586,7 +619,7 @@ transition:transform 280ms cubic-bezier(.22,.61,.36,1), … ;
 
 ## 브랜드 색 바꾸기
 
-`assets/css/style.css` 맨 위 `--brand` 한 줄만 고치면 사이트 전체가 따라옵니다.
+`web/app/style.css` 맨 위 `--brand` 한 줄만 고치면 사이트 전체가 따라옵니다.
 
 ```css
 --brand:#4A1F24;   /* 딥 버건디 (현재) */
@@ -717,7 +750,7 @@ rosha는 본문에 **마포꽃섬(고딕)** 을 쓰는데 우리는 명조 제�
 
 ## 등장 애니메이션
 
-`index.html` 전체와 `about.html` 의 연주 목록, `gallery.html` 의 사진첩에 적용했습니다.
+`홈` 전체와 `About 페이지` 의 연주 목록, `Gallery 페이지` 의 사진첩에 적용했습니다.
 
 - **히어로** — 페이지가 열릴 때 눈썹 → 제목 → 영문 → 버튼 순으로 올라옵니다 (0.2s ~ 0.68s)
 - **히어로 배경** — 스크롤한 만큼의 **0.4배**로 사진이 따라 내려옵니다. **20px 에서 멈춥니다**
@@ -818,14 +851,14 @@ Instagram                      단장 이야기   지난 공연         연주 �
 소스에서 `DRAFT` 로 검색하면 전부 찾을 수 있습니다.
 
 ```
-grep -rn DRAFT *.html data/content.js
+grep -rn DRAFT *.html web/content/ 의 json 파일
 ```
 
 | 위치 | 채워둔 내용 | 확인할 것 |
 |---|---|---|
-| `data/content.js` `CONTACT.tel` | `010-0000-0000` | **실제 번호.** 제2회 포스터에 `010-6589-4953` 이 문의 번호로 찍혀 있습니다. 그 번호가 맞으면 바꿔주세요. 그럴싸한 번호를 지어내면 모르는 사람에게 전화가 가므로 일부러 명백한 자리표시 값을 두었습니다 |
-| `about.html#director` | 단장 이야기 4문단 + 인용 | 포스터 두 장 모두 음악감독을 **Shine Minyoung Kwon** 으로 적고 있습니다. 한글 성함 확인 필요 — 로마자에서 역으로 짐작하지 않았습니다. "오래 반주를 했다"는 전제도 지난 프로그램의 `Piano` 표기에서 추정한 것입니다 |
-| `contact.html` FAQ 뒤 4항목 | 나이(초3~중학생), 오디션 없음, 개인 악기, 월 회비 있음 | 실제 운영 방식. **회비는 금액을 적지 않았습니다** — 틀린 금액이 나가면 안 되므로 "상담 때 안내"로 뒀습니다 |
+| `web/content/ 의 json 파일` `CONTACT.tel` | `010-0000-0000` | **실제 번호.** 제2회 포스터에 `010-6589-4953` 이 문의 번호로 찍혀 있습니다. 그 번호가 맞으면 바꿔주세요. 그럴싸한 번호를 지어내면 모르는 사람에게 전화가 가므로 일부러 명백한 자리표시 값을 두었습니다 |
+| `About 페이지#director` | 단장 이야기 4문단 + 인용 | 포스터 두 장 모두 음악감독을 **Shine Minyoung Kwon** 으로 적고 있습니다. 한글 성함 확인 필요 — 로마자에서 역으로 짐작하지 않았습니다. "오래 반주를 했다"는 전제도 지난 프로그램의 `Piano` 표기에서 추정한 것입니다 |
+| `Contact 페이지` FAQ 뒤 4항목 | 나이(초3~중학생), 오디션 없음, 개인 악기, 월 회비 있음 | 실제 운영 방식. **회비는 금액을 적지 않았습니다** — 틀린 금액이 나가면 안 되므로 "상담 때 안내"로 뒀습니다 |
 | 푸터 · `privacy.html` | `대표 ○○○` | 대표자 성함 |
 
 **확인된 것** — 포스터에서 나왔습니다.
@@ -838,9 +871,9 @@ grep -rn DRAFT *.html data/content.js
 
 그 밖에 비어 있는 것:
 
-- `data/content.js` 의 `VIDEOS` — `id` 가 비어 있어 재생되지 않습니다.
+- `web/content/videos.json` — `id` 가 비어 있어 재생되지 않습니다.
   유튜브 id · 인스타그램 주소 · mp4 경로 중 하나를 채우면 됩니다
-- `assets/img/gallery/` 의 `.mp4` 4개 — 아직 사이트에 걸려 있지 않습니다.
+- `web/public/assets/img/gallery/` 의 `.mp4` 4개 — 아직 사이트에 걸려 있지 않습니다.
   `VIDEOS` 에 `mp4:` 로 적으면 바로 나옵니다
 
 ### ★ 아이들 얼굴이 사이트 전체에 나옵니다
@@ -853,7 +886,7 @@ grep -rn DRAFT *.html data/content.js
 안전합니다.** 인스타그램은 팔로워 대상이고 홈페이지는 검색으로 누구나
 닿습니다. 공개 전에 한 번 확인하세요.
 
-개별 사진을 빼려면 `data/content.js` 의 `GALLERY` 에서 그 줄만 지우면 됩니다.
+개별 사진을 빼려면 `web/content/gallery.json` 에서 그 줄만 지우면 됩니다.
 파일까지 지울 필요는 없습니다.
 
 ## 배포 (Cloudflare Pages)
