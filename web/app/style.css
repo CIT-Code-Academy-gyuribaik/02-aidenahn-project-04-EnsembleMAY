@@ -1350,7 +1350,7 @@ a.tl__ph:hover img{transform:scale(1.04)}
   font-size:max(13px, var(--u) * 10.2);line-height:1;
   letter-spacing:0;color:#660020;text-decoration:none;
   box-shadow:inset 0 0 0 1px #660020;
-  transition:background 200ms ease,color 200ms ease}
+  transition:background 200ms ease,color 200ms ease,box-shadow 200ms ease}
 .pbn--flip .pbn__m{color:#242424;box-shadow:inset 0 0 0 1px #242424}
 .pbn__m:hover{background:#660020;color:#F4F2F1}
 .pbn--flip .pbn__m:hover{background:#242424;color:#F3F1F4}
@@ -1424,6 +1424,12 @@ a.tl__ph:hover img{transform:scale(1.04)}
     height:44px;padding-inline:22px;font-size:13px;
     color:#F4F2F1;background:#660020;box-shadow:none}
   .pbn--flip .pbn__m{color:#F3F1F4;background:#242424;box-shadow:none}
+  /* 채운 것이 기본이라 hover 는 반대로 갑니다 — 넓은 화면과 정확히
+     뒤집힌 짝입니다. 창을 좁혀 보는 분에게도 반응이 남습니다. */
+  .pbn__m:hover{background:none;color:#660020;
+    box-shadow:inset 0 0 0 1px #660020}
+  .pbn--flip .pbn__m:hover{background:none;color:#242424;
+    box-shadow:inset 0 0 0 1px #242424}
 
   /* ── 첫 장의 사진 ── */
   /* 아래 여백을 없애야 사진 아래가 카드 바닥선에 정확히 닿습니다 */
