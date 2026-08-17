@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import InquiryButton from "@/components/InquiryButton";
 import { Reveal } from "@/components/Reveal";
 import { PastShows, Posters } from "@/components/PastShows";
+import Repertoire from "@/components/Repertoire";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "공연",
   description:
     "앙상블 메이는 1년에 한 번 정기 연주회를 열고, 그 사이사이 자선 공연으로 무대에 섭니다. " +
-    "지난 공연 기록과 정기 공연 포스터를 볼 수 있습니다.",
+    "지금까지 연주한 곡, 지난 공연 기록, 정기 공연 포스터를 볼 수 있습니다.",
   path: "/concert/",
 });
 
@@ -81,6 +82,10 @@ export default function ConcertPage() {
           </div>
         </div>
       </section>
+
+      {/* 연주한 곡 — About 에서 옮겨왔습니다. 어두운 지면이라
+          위(틴트)·아래(흰색)와 번갈아 놓입니다. */}
+      <Repertoire />
 
       {/* 지난 공연 : 목록은 web/content/shows.json 에서 옵니다.
           공연을 추가하거나 사진을 붙일 때 이 파일은 건드리지 않습니다. */}

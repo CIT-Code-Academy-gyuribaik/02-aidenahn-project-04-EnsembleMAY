@@ -167,7 +167,7 @@ export default function GalleryBrowser() {
             <VideoCard key={v.mp4 ?? v.id ?? v.title} video={v} />
           ))}
         </div>
-        <Link className="more" href="/about/#repertoire">
+        <Link className="more" href="/concert/#repertoire">
           아이들이 연주한 곡 보기
         </Link>
       </div>
