@@ -1170,40 +1170,91 @@ a.tl__ph:hover img{transform:scale(1.04)}
 }
 
 /* ══════════════════════════════════════════════════════════════
-   홈 — 공연 리스트 (포스터 + 최근 공연)
+   홈 — 공연 넉 장
    ══════════════════════════════════════════════════════════════
-   왼쪽에 포스터, 오른쪽에 최근 공연 목록. 스냅 스크롤에서 한 칸에
-   담겨야 해서 전부 늘어놓지 않습니다 — 나머지는 Concert 에 있습니다.
+   시안(Group 4.png)을 픽셀로 재서 옮겼습니다. 배너와 같은 방식으로,
+   "시안에서의 1px" 을 --u 하나로 두고 잰 값을 그대로 적습니다.
 
-   포스터를 왼쪽에 둔 이유 — 세로로 긴 인쇄물이라 오른쪽에 두면
-   목록의 마지막 줄과 바닥이 어긋나 보입니다. 긴 것을 기둥 삼고
-   짧은 줄을 옆에 쌓는 편이 안정적입니다.                              */
-.hcon{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
-  gap:var(--gx) 52px;align-items:start}
-.hcon__posters{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gx)}
+     ── 잰 값 (시안 px, 시안 판 1575 × 814) ──
+       무대 사진        지면 가득, 밝기 30% (= 검정 70% 가림막)
+       Concert         48  명조 700  흰색  가운데
+         ↓ 30
+       공연 더보기 ▶     13.7  고딕  흰색  오른쪽 끝
+         ↓ 15
+       카드 넉 장       한 장 234 × 이미지 3:4(312), 사이 15, 전체 981
+         ↓ 16
+       날짜             13.5  #C4C4C4   줄사이 22
+       장소             13.5  #C4C4C4
+         ↓ 3.6
+       이름             17    #FFFFFF   700
 
-/* 공연 한 줄. 사진이 있으면 눌러서 그 공연 사진첩이 열립니다. */
-.hcon__list{display:grid}
-.hcon__r{display:grid;grid-template-columns:auto 1fr auto;
-  align-items:baseline;gap:6px 16px;
-  padding-block:15px;border-bottom:1px solid var(--line);
-  text-decoration:none;color:inherit;
-  transition:background 180ms ease}
-.hcon__r:first-child{border-top:1px solid var(--line)}
-a.hcon__r:hover{background:color-mix(in srgb,var(--brand) 4%,transparent)}
-.hcon__d{font:500 12px/1 var(--gothic);letter-spacing:.06em;
-  color:var(--ink-mid);white-space:nowrap}
-.hcon__t{font:600 16px/1.5 var(--myeongjo)}
-.hcon__t em{font:400 13px/1 var(--gothic);font-style:normal;
-  color:var(--ink-mid);margin-inline-start:8px}
-.hcon__v{grid-column:2;font:450 12px/1 var(--gothic);color:var(--ink-mid)}
-/* 장수는 오른쪽 끝에. 눌러서 넘길 수 있다는 표시입니다. */
-.hcon__n{grid-row:1;grid-column:3;font:500 11px/1 var(--gothic);
-  letter-spacing:.08em;color:var(--accent-gold);white-space:nowrap}
+   ★ 자간 0.
+     한글은 한 글자가 1em 이라 가로폭을 글자수로 나누면 바로 나옵니다.
+     "로데아트센터" 6자 79px → 13.2px/자. "제 2회 정기연주회" 9.15em
+     155px → 16.9px/자. 둘 다 자간 0 입니다.
+
+   ★ 가림막 70% 는 눈대중이 아닙니다.
+     시안의 나무 벽 rgb(57,37,21) ÷ 원본 같은 자리 rgb(196,125,71)
+     = 세 채널 모두 0.30. 흰 글자는 이 위에서 18:1, 회색 #C4C4C4 도
+     10:1 로 지나갑니다.                                              */
+.csec{position:relative;overflow:hidden;
+  display:grid;place-items:center;
+  min-height:100dvh;
+  /* 카드 폭(981)·전체 높이(814)·화면 폭 중 가장 빡빡한 것에 맞춥니다 */
+  --u:min(1.25px, (100vw - 48px) / 981, 100dvh / 814)}
+.csec__bg{position:absolute;inset:0}
+.csec__bg img{width:100%;height:100%;object-fit:cover;display:block;
+  /* 사진을 어둡게 깔아야 글이 읽힙니다. filter 로 낮추면 사진만
+     어두워지고 그 위 글자는 그대로라, 가림막을 따로 얹지 않아도
+     됩니다 — 요소가 하나 줄어듭니다. */
+  filter:brightness(.30)}
+.csec__in{position:relative;width:calc(var(--u) * 981);max-width:100%}
+
+.chd{margin:0;text-align:center;
+  font-family:var(--myeongjo);font-weight:700;
+  font-size:calc(var(--u) * 48);line-height:1.15;
+  letter-spacing:0;color:#fff}
+
+/* 오른쪽 끝에 붙습니다 — 카드 넉 장의 오른쪽 선과 맞습니다 */
+.cmore{display:flex;align-items:center;gap:.5em;
+  width:fit-content;margin:calc(var(--u) * 30) 0 0 auto;
+  font-family:var(--gothic);font-weight:600;
+  font-size:max(12px, var(--u) * 13.7);line-height:1.4;
+  letter-spacing:0;color:#fff;text-decoration:none;
+  transition:opacity 180ms ease}
+.cmore span{font-size:.9em;line-height:1}
+.cmore:hover{opacity:.72}
+
+.cgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:calc(var(--u) * 15);margin-top:calc(var(--u) * 15)}
+
+.ccd{display:block;text-decoration:none;color:inherit}
+.ccd__ph{display:block;aspect-ratio:3/4;overflow:hidden;background:#000}
+.ccd__ph img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 520ms cubic-bezier(.22,.61,.36,1)}
+a.ccd:hover .ccd__ph img{transform:scale(1.04)}
+
+.ccd__d,.ccd__v{display:block;
+  font-family:var(--gothic);font-weight:450;
+  font-size:max(12px, var(--u) * 13.5);line-height:1.63;
+  letter-spacing:0;color:#C4C4C4}
+.ccd__d{margin-top:calc(var(--u) * 16)}
+/* 장소가 빈 공연이 있습니다. 줄을 지우지 않고 자리만 남겨야 넉 장의
+   이름 줄이 같은 높이에 섭니다. */
+.ccd__v{min-height:calc(1em * 1.63)}
+.ccd__t{display:block;margin-top:calc(var(--u) * 3.6);
+  font-family:var(--gothic);font-weight:700;
+  font-size:max(15px, var(--u) * 17);line-height:1.4;
+  letter-spacing:0;color:#fff;text-wrap:balance}
 
 @media (max-width:900px){
-  .hcon{grid-template-columns:1fr;gap:34px}
-  .hcon__posters{max-width:420px;margin-inline:auto}
+  /* 좁으면 두 줄로 접습니다. 넉 장을 한 줄에 두면 카드가 손톱만 해져
+     포스터 글씨가 안 읽힙니다. 스냅도 꺼져 있어 세로는 여유가 있으므로
+     화면 높이 제약을 빼고 폭으로만 --u 를 잡습니다. */
+  .csec{min-height:0;padding-block:64px;
+    --u:min(1.25px, (100vw - 40px) / 500)}
+  .cgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chd{font-size:calc(var(--u) * 40)}
 }
 
 /* ══════════════════════════════════════════════════════════════
