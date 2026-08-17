@@ -33,7 +33,7 @@ import { asset, HOME_VIDEO } from "@/lib/content";
 export default function HomePage() {
   return (
     <>
-      <SnapScroll solidFrom={2}>
+      <SnapScroll>
         {/* 1 — 히어로 */}
         <section className="hero">
           <HeroSlideshow />
