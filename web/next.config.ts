@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
        (히어로 4장 합쳐 415KB). */
     unoptimized: true,
   },
+
+  /* 개발 서버에서만 쓰는 설정입니다. 빌드 결과에는 영향이 없습니다.
+
+     Next 는 개발 중에 "localhost 가 아닌 주소로 들어온 요청"에는
+     자바스크립트 덩어리를 내주지 않습니다. 127.0.0.1 도 남의 주소로
+     칩니다 — 같은 컴퓨터인데도요. 그러면 화면은 뜨는데 JS 가 하나도
+     안 붙어서, 스냅 스크롤(Swiper)이 시작하지 않고 홈의 둘째 칸부터
+     안 보입니다. 그 상태로 접속하면 나오는 안내가 이 항목입니다. */
+  allowedDevOrigins: ["127.0.0.1"],
 };
 
 export default nextConfig;
