@@ -125,10 +125,15 @@ export default function SnapScroll({
         forceToAxis: true,
         thresholdDelta: THRESHOLD_DELTA,
         thresholdTime: THRESHOLD_TIME,
-        /* 끝에서 놓아주지 않습니다. 놓아주면 그 뒤로는 아무 위치에나
-           멈춰서, 제목이 상단 바에 잘리고 사진이 중간에서 끊깁니다.
-           홈은 푸터까지 전부 칸입니다 — 이음매를 만들지 않습니다. */
-        releaseOnEdges: false,
+        /* 마지막 칸(배너)까지 넘긴 뒤 더 굴리면 스냅을 놓고 페이지
+           스크롤로 넘깁니다. 그래야 스냅 밖에 있는 푸터가 따라 나옵니다.
+
+           예전에 이 방식으로 배너까지 스냅 밖에 뒀다가 화면이 깨졌는데,
+           원인은 놓아주는 것 자체가 아니라 배너가 칸이 아니었던 것입니다.
+           칸이 아니면 아무 위치에나 멈춰서 상단 바에 잘립니다.
+           지금은 배너까지 칸이고 푸터만 밖이라, 놓아준 뒤 이어지는 것이
+           푸터 하나뿐입니다. */
+        releaseOnEdges: true,
       }}
       keyboard={{ enabled: true, onlyInViewport: true }}
       /* 기본은 꺼진 상태입니다 — 좁은 화면이 기본값이라야 모바일에서

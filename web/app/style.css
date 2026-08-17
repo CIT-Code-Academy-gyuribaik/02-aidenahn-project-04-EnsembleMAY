@@ -278,8 +278,16 @@ body[data-hdr="overlay"] .nav a{text-shadow:0 1px 10px rgba(0,0,0,.5)}
 body[data-hdr="overlay"] .hdr__mark{filter:drop-shadow(0 1px 8px rgba(0,0,0,.5))}
 body[data-hdr="overlay"] .hdr__logo,
 body[data-hdr="overlay"] .nav a,
-body[data-hdr="overlay"] .burger span,
-body[data-hdr="overlay"] .nav__ind{transition:color 260ms ease,background 260ms ease}
+body[data-hdr="overlay"] .burger span{transition:color 260ms ease,background 260ms ease}
+/* 밑줄은 색만 바꾸면 안 됩니다 — 원래 갖고 있던 [미끄러지는] 전환까지
+   같이 적어 줘야 합니다. transition 은 덮어쓰는 속성이라, 여기서 색만
+   적으면 위(.nav__ind)의 transform·width 전환이 통째로 지워집니다.
+   홈에서만 밑줄이 미끄러지지 않고 툭툭 뛰던 원인이 이것이었습니다. */
+body[data-hdr="overlay"] .nav__ind{
+  transition:transform 280ms cubic-bezier(.22,.61,.36,1),
+             width     280ms cubic-bezier(.22,.61,.36,1),
+             opacity   180ms ease,
+             background 260ms ease}
 
 /* 밝은 구간 위 — 먹색으로 뒤집습니다 */
 body[data-hdr="overlay"] .hdr.is-onlight{border-bottom-color:var(--line)}
