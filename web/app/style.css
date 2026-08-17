@@ -453,71 +453,27 @@ body.menu-open{overflow:hidden}
      ▸ 어두운 사진만 쓰면 네 숫자를 더 낮춰도 됩니다.
      ▸ 골드 글자로 되돌리고 싶으면 가운데 두 값을 .70 이상으로 올리세요.
        사진은 그만큼 어두워집니다.                                     */
-/* ★ 검정이 아니라 아주 어두운 갈색(20,14,10)입니다.
-     순수한 검정을 덮으면 사진의 나무 무대와 악기의 따뜻한 기운이 회색으로
-     빠집니다. 색을 조금 남겨 두면 사진이 어두워지면서도 제 색을 지킵니다.
-
-   ★ 가장자리로 갈수록 어두워지는 층(비네트)을 하나 더 얹습니다.
-     글은 한가운데에 앉고 사진의 주인공도 가운데 아래에 있습니다. 바깥으로
-     갈수록 눌러 두면 가운데가 저절로 밝아 보여서, 가림막을 더 진하게 하지
-     않고도 시선이 가운데로 모입니다.
-     비네트의 중심을 50% 62% 에 두었습니다 — 글자리(약 50%)가 투명한
-     구간 안에 들어와야 위에 적어 둔 대비 계산이 그대로 유지됩니다. */
 .hero__veil{position:absolute;inset:0;z-index:1;
-  background:
-    radial-gradient(118% 84% at 50% 62%, transparent 30%, rgba(12,8,6,.66) 100%),
-    linear-gradient(180deg,rgba(20,14,10,.78) 0%,rgba(20,14,10,.6) 26%,
-      rgba(20,14,10,.56) 62%,rgba(20,14,10,.66) 100%)}
-
-/* 금색 물결선. 가림막 위(z-index 2), 글 아래(3)입니다 —
-   모양은 components/HeroWaves.tsx 에 있습니다. */
-.hero__wave{position:absolute;inset:0;z-index:2;
-  width:100%;height:100%;pointer-events:none}
-/* 좁은 화면에서는 뺍니다. 비율을 지키지 않고 늘이는 그림이라(그래야 넓은
-   화면에서 화면을 가로지르는 한 줄기가 됩니다), 폭이 1440 에서 375 로
-   줄면 가로로 네 배 눌려 부드러운 물결이 아니라 지그재그가 됩니다. */
-@media (max-width:700px){ .hero__wave{display:none} }
+  background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.52) 30%,
+    rgba(0,0,0,.52) 70%,rgba(0,0,0,.46) 100%)}
 @keyframes kenburns{from{transform:scale(1.07)}to{transform:scale(1)}}
 /* max-width 는 히어로 두 줄 중 긴 쪽(약 451px)이 들어가는 폭이어야 합니다.
    58ch 였는데 ch 는 본문 고딕 기준이라 실제로는 444px 밖에 안 됐고,
    본명조로 바꾸면서 둘째 줄이 밀려 "다." 만 셋째 줄로 떨어졌습니다.
    글자 폭에 딸려 가지 않도록 px 로 못 박습니다. */
-.hero__body{position:relative;z-index:3;padding-inline:24px;max-width:760px}
+.hero__body{position:relative;z-index:2;padding-inline:24px;max-width:580px}
 .eyebrow{font:600 12px/1 var(--gothic);letter-spacing:.22em;text-transform:uppercase;
   color:var(--brand);margin-bottom:15px}
-/* ── 히어로의 글 ────────────────────────────────────────────────────
-   흰색 대신 아주 옅은 상아색으로 갑니다. 사진이 나무 무대와 악기라
-   전체가 따뜻한데, 그 위의 순백은 혼자 차갑게 떠서 오려 붙인 것처럼
-   보입니다. 밝기는 거의 그대로라 대비 계산(위 .hero__veil 주석)에는
-   영향이 없습니다 — #FBF4E6 은 흰색 대비 밝기 96% 입니다.
+/* 히어로 안에서는 골드 대신 흰색입니다. 가림막을 걷어 사진을 보이게 한
+   대가입니다 — 위 .hero__veil 주석에 실측값을 적어 두었습니다.
    골드는 사이트의 다른 곳(섹션 눈썹 · 더보기 · CTA)에서 그대로 씁니다.
-
-   눈썹의 자간을 .22 에서 .38 로 벌립니다. 넉 자짜리 짧은 말이라 촘촘히
-   두면 제목에 딸린 한 줄로 붙어 보입니다. 벌려 두면 제목 위에 따로 얹힌
-   표제로 읽힙니다.                                                      */
-.hero .eyebrow{color:#F4E9D8;letter-spacing:.38em;margin-bottom:30px}
-/* 32px 에서 키웠습니다. 첫 화면에 이 한 문장뿐이라 그만한 자리를 줍니다.
-   위 한도 40px 은 둘째 줄(14.4em)이 .hero__body 안에 한 줄로 들어가는
-   크기입니다 — 40 × 14.4 = 576px, 글자리 712px. */
-.hero__lines{font:400 clamp(28px,3vw,40px)/1.65 var(--myeongjo);color:#FBF4E6;
+   흰색이라도 농도를 조금 낮춰 제목(#fff)과 층을 나눕니다. */
+.hero .eyebrow{color:rgba(255,255,255,.88);margin-bottom:26px}
+.hero__lines{font:400 32px/1.6 var(--myeongjo);color:#fff;
   letter-spacing:.015em;text-wrap:balance;
   text-shadow:0 1px 30px rgba(0,0,0,.45)}
-
-/* 제목과 영문 사이를 끊는 금선. About 의 .orn 과 같은 방식입니다 —
-   가운데 표식을 두고 양옆으로 선이 흐려집니다. 길이는 .orn 처럼
-   max-width 하나로 정해서 좁은 화면에서 알아서 줄어듭니다. */
-.hero__orn{display:flex;align-items:center;justify-content:center;gap:18px;
-  width:min(320px,72%);margin:24px auto 20px}
-.hero__orn::before,.hero__orn::after{content:"";height:1px;flex:1 1 0;min-width:0}
-.hero__orn::before{background:linear-gradient(90deg,transparent,rgba(233,214,180,.75))}
-.hero__orn::after{background:linear-gradient(90deg,rgba(233,214,180,.75),transparent)}
-/* 마름모. 45도 돌린 네모의 테두리만 남깁니다 — box-shadow 로 그리면
-   border 와 달리 상자 크기를 건드리지 않아 선의 가운데에 정확히 앉습니다. */
-.hero__orn span{flex:none;width:7px;height:7px;rotate:45deg;
-  box-shadow:inset 0 0 0 1px rgba(244,233,216,.92)}
-
-.hero__en{font:400 13px/1.75 var(--gothic);color:rgba(255,255,255,.9);
-  letter-spacing:.02em}
+.hero__en{font:400 13px/1.75 var(--gothic);color:rgba(255,255,255,.86);
+  margin-top:22px}
 /* 자선 공연 문의 단추도 같은 이유로 흰 테두리·흰 글자입니다. */
 .hero .btn--ghost{color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)}
 .hero .btn--ghost:hover{background:#fff;color:var(--brand)}
@@ -1686,10 +1642,7 @@ a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
 .hero__body > *{animation:rise .9s cubic-bezier(.22,.61,.36,1) both}
 .hero .eyebrow{animation-delay:.20s}
 .hero__lines{animation-delay:.34s}
-/* 금선은 제목이 다 뜬 뒤에 그어집니다 — 제목과 같이 뜨면 선이 글자를
-   가로지르는 것처럼 보입니다. */
-.hero__orn{animation-delay:.54s}
-.hero__en{animation-delay:.66s}
+.hero__en{animation-delay:.52s}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
 /* ══════════════════════════════════════════════════════════════
