@@ -1387,20 +1387,62 @@ a.tl__ph:hover img{transform:scale(1.04)}
 .pbn--flip .pbn__ph{left:calc(var(--u) * 30)}
 
 @media (max-width:900px){
-  /* 좁으면 위아래로 세웁니다. 사진이 먼저 오고 글이 아래입니다 —
-     사진이 카드 위로 솟는 모양은 그대로 살립니다.
-     여기서는 스냅이 꺼져 있어 세로 여유가 있으므로 화면 높이 제약을
-     빼고 폭으로만 --u 를 잡습니다. */
+  /* ── 좁은 화면 ────────────────────────────────────────────────────
+     옆으로 나란히 두던 글과 사진을 위아래로 세웁니다.
+
+     첫 장 — 글 아래에 사진을 놓고, 사진 아래를 카드 바닥선에 맞춥니다.
+       넓은 화면에서 사진이 카드 오른쪽·아래 모서리에 붙어 있던 모양을
+       그대로 내려놓은 것입니다.
+     둘째 장 — 첼로를 뺍니다. 세로로 긴 누끼라, 폭이 좁아지면 카드
+       하나가 통째로 첼로가 되어 버립니다.
+
+     align-items 는 건드리지 않습니다(=stretch). 예전에 flex-start 로
+     두었더니 글 상자가 제 내용 폭만큼만 잡혀서, 긴 줄이 카드 밖으로
+     삐져나갔습니다.                                                  */
   .pbns{--u:min(1.5px, (100vw - 40px) / 710)}
-  .pbn,.pbn--flip{display:flex;flex-direction:column;align-items:flex-start;
-    min-height:0;padding:0 24px calc(var(--u) * 28)}
-  /* 여기서는 사진을 자를 일이 없습니다 — 세로로 세우면서 사진 전체를
-     제 비율대로 보여 주므로, 넓은 화면에서 아래를 자르던 clip-path 도
-     같이 풉니다. 안 풀면 첼로 아래가 그대로 잘린 채 남습니다. */
-  .pbn__ph,.pbn--flip .pbn__ph{position:static;order:-1;
-    height:auto;overflow:visible;clip-path:none;align-self:center;
-    margin:calc(var(--u) * -36) 0 22px;inset:auto}
-  .pbn__ph img{height:auto;width:min(64vw,300px)}
+  .pbn,.pbn--flip{display:flex;flex-direction:column;
+    min-height:0;padding:32px 24px}
+
+  /* ── 글씨는 --u 를 따르지 않습니다 ──────────────────────────────────
+     --u 는 "글 옆에 사진" 이라는 넓은 화면의 짜임을 옮기려고 만든 자라,
+     세로로 세우는 순간 기준을 잃습니다. 실제로 폭 375 화면에서 --u 가
+     0.47 까지 떨어져서, 글씨는 제 아래한도(12.5·13px)에 걸려 멈추는데
+     여백과 단추만 절반 이하로 쪼그라들었습니다. 단추는 높이가 14px 로
+     내려앉아 그 안의 13px 글자가 상자를 뚫고 나왔습니다.
+     여기서는 화면 폭을 보고 직접 정합니다.                            */
+  .pbn__h{font-size:clamp(24px,6.5vw,40px)}
+  .pbn__k{margin-top:12px;font-size:13px}
+  .pbn__b{margin-top:14px;font-size:13px;line-height:1.7}
+  /* ── Read more ──
+     넓은 화면에서는 1px 테두리만 두른 단추이고, 손을 얹으면 색이 찹니다.
+     손가락으로 보는 화면에는 "손을 얹는" 일이 없으니 처음부터 채워
+     둡니다 — 가는 테두리는 작은 화면에서 눌러야 할 것처럼 안 보입니다.
+     높이 44px 은 손가락으로 누르는 것의 최소 크기입니다.
+     오른쪽 끝으로 보냅니다. 글은 왼쪽에서 시작해 오른쪽에서 끝나므로,
+     다 읽고 눈이 멈추는 자리가 오른쪽입니다.                          */
+  .pbn__m{display:flex;width:fit-content;margin:26px 0 0 auto;
+    height:44px;padding-inline:22px;font-size:13px;
+    color:#F4F2F1;background:#660020;box-shadow:none}
+  .pbn--flip .pbn__m{color:#F3F1F4;background:#242424;box-shadow:none}
+
+  /* ── 첫 장의 사진 ── */
+  /* 아래 여백을 없애야 사진 아래가 카드 바닥선에 정확히 닿습니다 */
+  .pbn:not(.pbn--flip){padding-bottom:0}
+  .pbn:not(.pbn--flip) .pbn__ph{position:static;inset:auto;order:0;
+    height:auto;overflow:visible;
+    /* 넓은 화면에서 아래를 자르던 자국입니다. 여기서는 사진 전체를
+       제 비율대로 보여 주므로 풀어야 합니다 — 안 풀면 그대로 잘립니다. */
+    clip-path:none;
+    /* 오른쪽 안여백을 상쇄해 카드 오른쪽 선까지 나갑니다 */
+    align-self:flex-end;margin:26px -24px 0 0}
+  .pbn:not(.pbn--flip) .pbn__ph img{height:auto;width:min(70vw,320px)}
+  /* 손이 아니라 손가락으로 보는 화면이라 hover 를 없앱니다. 자르는
+     것도 풀어 놓아서, 커지면 카드 밖으로 흘러넘치기도 합니다. */
+  .pbn__ph img{transition:none}
+  .pbn:hover .pbn__ph img{transform:none}
+
+  /* ── 둘째 장 ── */
+  .pbn--flip .pbn__ph{display:none}
 }
 
 /* ══════════════════════════════════════════════════════════════
