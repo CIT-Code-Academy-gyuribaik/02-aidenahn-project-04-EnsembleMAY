@@ -33,6 +33,10 @@ const SPEED = 700;
     전환이 끝나자마자 다음 휠을 받아 연속 스크롤이 답답하지 않습니다. */
 const THRESHOLD_TIME = 550;
 
+/** 창 높이가 이보다 낮으면 스냅을 끕니다. 한 칸이 한 화면이라
+    낮은 창에서는 칸 안 내용이 넘치고, Swiper 는 넘친 부분을 잘라 냅니다. */
+const BREAK_H = 700;
+
 /** 이보다 약한 휠은 무시합니다 — 손가락이 스친 정도로 넘어가지 않게. */
 const THRESHOLD_DELTA = 6;
 
@@ -51,17 +55,38 @@ export default function SnapScroll({
   const slides = Children.toArray(children).filter(isValidElement);
   const hdrRef = useRef<HTMLElement | null>(null);
 
-  /* 동작 줄이기를 켠 분에게는 스냅을 걸지 않습니다. 스크롤이 손을 떠나
-     저절로 움직이는 것은 어지럼증이 있는 분에게 부담이 큽니다.
-     처음 그릴 때는 false 로 두어 서버가 만든 HTML 과 어긋나지 않게 합니다. */
+  /* 스냅을 끄는 두 가지 경우.
+
+       calm  동작 줄이기 설정. 스크롤이 손을 떠나 저절로 움직이는 것은
+             어지럼증이 있는 분에게 부담이 큽니다.
+
+       short 창이 낮을 때. 한 칸이 한 화면이라, 화면이 낮으면 칸 안
+             내용이 넘칩니다. Swiper 는 넘친 부분을 잘라 버려서 영영
+             못 보게 됩니다. 그럴 바엔 평범한 스크롤이 낫습니다.
+             ★ Swiper 의 breakpoints 는 너비만 봅니다. 높이는 여기서
+               직접 재야 합니다 — 이걸 빠뜨려서 낮은 창에서 잘렸습니다.
+
+     처음 그릴 때는 둘 다 false 로 두어 서버가 만든 HTML 과 어긋나지
+     않게 합니다. 붙자마자 실제 값으로 맞춥니다. */
   const [calm, setCalm] = useState(false);
+  const [short, setShort] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion:reduce)");
-    const sync = () => setCalm(mq.matches);
+    const motion = window.matchMedia("(prefers-reduced-motion:reduce)");
+    const height = window.matchMedia(`(max-height:${BREAK_H}px)`);
+    const sync = () => {
+      setCalm(motion.matches);
+      setShort(height.matches);
+    };
     sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
+    motion.addEventListener("change", sync);
+    height.addEventListener("change", sync);
+    return () => {
+      motion.removeEventListener("change", sync);
+      height.removeEventListener("change", sync);
+    };
   }, []);
+
+  const off = calm || short;
 
   /* 상단 바 색. 바뀌는 것 자체는 style.css 의 transition 이 380ms 에
      걸쳐 녹입니다 — 여기서는 언제 바꿀지만 정합니다.
@@ -87,7 +112,7 @@ export default function SnapScroll({
 
   return (
     <Swiper
-      className={"snap" + (calm ? " snap--off" : "")}
+      className={"snap" + (off ? " snap--off" : "")}
       modules={[Mousewheel, Keyboard]}
       direction="vertical"
       slidesPerView={1}
@@ -106,7 +131,7 @@ export default function SnapScroll({
          style.css 가 상단 내비를 감추고 햄버거로 바꾸는 경계와 같은
          자리라, "메뉴는 모바일인데 스크롤은 데스크톱"인 구간이 없습니다. */
       enabled={false}
-      breakpoints={{ 901: { enabled: !calm } }}
+      breakpoints={{ 901: { enabled: !off } }}
       onSlideChange={(s: SwiperClass) => {
         /* 위로 갈 때만 미리 바꿉니다 */
         if (s.activeIndex < s.previousIndex) paint(s.activeIndex);
