@@ -306,7 +306,7 @@ body[data-hdr="overlay"] .hdr.is-onlight .nav a.nav__cta[aria-current="page"]{
   background:var(--brand);color:#fff;box-shadow:inset 0 0 0 1px var(--brand)}
 
 /* ── 홈: 세 번째 칸부터 흰 바탕 ─────────────────────────────────────────
-   home-fullpage.js 가 칸 번호를 보고 .is-solid 를 붙였다 뗍니다.
+   components/SnapScroll.tsx 가 칸 번호를 보고 .is-solid 를 붙였다 뗍니다.
 
    ★ 왜 data-hdr 을 "solid" 로 바꾸지 않고 클래스를 얹는가 —
      data-hdr 을 바꾸면 위 body[data-hdr="overlay"] 규칙 묶음이 통째로
@@ -623,7 +623,7 @@ body.menu-open{overflow:hidden}
    여러 줄짜리 문단을 가운데 정렬하면 줄 끝이 들쭉날쭉해 읽기 힘듭니다.
 
    ★ 스냅 스크롤이 켜진 화면에서는 영상 크기를 화면 높이에서 거꾸로
-     계산합니다. fullpage-home.css 의 .feat__v 를 함께 보세요.        */
+     계산합니다. app/(home)/snap.css 의 .feat__v 를 함께 보세요.        */
 .feat{display:grid;justify-items:center;gap:40px}
 .feat__v,.feat__t{width:100%}
 /* 영상 아래 제목·날짜(제2회 정기연주회 · 2026.06.21)는 이 칸에서 감춥니다.

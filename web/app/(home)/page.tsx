@@ -1,4 +1,5 @@
-import HeaderTone from "@/components/HeaderTone";
+import SnapScroll from "@/components/SnapScroll";
+import SiteFooter from "@/components/SiteFooter";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import InquiryButton from "@/components/InquiryButton";
 import VideoCard from "@/components/VideoCard";
@@ -22,10 +23,7 @@ import { HOME_VIDEO } from "@/lib/content";
 
 export default function HomePage() {
   return (
-    <>
-      {/* 세 번째 칸부터 상단 바를 흰 바탕으로. 화면에 그리는 것은 없습니다. */}
-      <HeaderTone />
-
+    <SnapScroll solidFrom={2}>
       {/* 1 — 히어로 */}
       <section className="hero">
         <HeroSlideshow />
@@ -102,20 +100,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5 — 입단 CTA (푸터는 Shell 이 이어서 렌더합니다) */}
-      <section className="cta">
-        <div className="wrap">
-          <h2>입단 상담을 받고 있습니다.</h2>
-          <p>
-            바이올린 · 비올라 · 첼로.
-            <br />
-            어떻게 시작하면 되는지 편하게 물어봐 주세요.
-          </p>
-          <div className="cta__b">
-            <InquiryButton kind="enroll" label="입단 문의" />
+      {/* 5 — 입단 CTA + 푸터. 둘을 한 칸에 담아야 마지막까지 내려왔을 때
+          연락처와 저작권 줄이 한 화면에 같이 들어옵니다. */}
+      <div className="section--end">
+        <section className="cta">
+          <div className="wrap">
+            <h2>입단 상담을 받고 있습니다.</h2>
+            <p>
+              바이올린 · 비올라 · 첼로.
+              <br />
+              어떻게 시작하면 되는지 편하게 물어봐 주세요.
+            </p>
+            <div className="cta__b">
+              <InquiryButton kind="enroll" label="입단 문의" />
+            </div>
           </div>
-        </div>
-      </section>
-    </>
+        </section>
+
+        <SiteFooter />
+      </div>
+    </SnapScroll>
   );
 }
