@@ -57,7 +57,20 @@ export default function HomePage() {
                 {/* 영상이 제목 역할을 하는 자리라 제목을 눈에 보이게 두지
                     않습니다. 다만 화면 낭독기와 검색엔진에는 이 칸이 무엇에
                     관한 자리인지 알려 줘야 해서 글자만 감춥니다. */}
-                <h2 className="sec__h sr">앙상블 메이 연주 영상</h2>
+                <h2 className="sec__h sr">음악을 사랑하는 아이들이 만들어 가는 현악 앙상블</h2>
+                {/* 국문·영문을 두 단으로 나란히. 세로로 쌓는 것보다 낮게 끝나서
+                    그만큼 위 영상을 크게 걸 수 있습니다. */}
+                <div className="pair">
+                  <p className="pair__ko">
+                    1년에 한 번 정기 공연을 열고, 그 사이사이 자선 공연으로 무대에 섭니다. 잘 하는
+                    아이들만 모인 곳이 아니라, 함께 연습하며 자라는 자리입니다.
+                  </p>
+                  <p className="pair__en">
+                    Ensemble MAY is a string ensemble created by children who love music. We hold
+                    one regular concert each year and perform at charity concerts through the
+                    seasons. We practice sharing and service through music.
+                  </p>
+                </div>
               </div>
             </div>
           </Reveal>
