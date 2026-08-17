@@ -34,8 +34,10 @@ const SPEED = 700;
 const THRESHOLD_TIME = 550;
 
 /** 창 높이가 이보다 낮으면 스냅을 끕니다. 한 칸이 한 화면이라
-    낮은 창에서는 칸 안 내용이 넘치고, Swiper 는 넘친 부분을 잘라 냅니다. */
-const BREAK_H = 700;
+    낮은 창에서는 칸 안 내용이 넘치고, Swiper 는 넘친 부분을 잘라 냅니다.
+    푸터를 스냅 밖으로 뺀 덕에 기준을 560 까지 낮출 수 있었습니다 —
+    예전에는 푸터(390px)까지 한 화면에 넣느라 700 이어야 했습니다. */
+const BREAK_H = 580;
 
 /** 이보다 약한 휠은 무시합니다 — 손가락이 스친 정도로 넘어가지 않게. */
 const THRESHOLD_DELTA = 6;
@@ -123,7 +125,9 @@ export default function SnapScroll({
         forceToAxis: true,
         thresholdDelta: THRESHOLD_DELTA,
         thresholdTime: THRESHOLD_TIME,
-        releaseOnEdges: false,
+        /* 마지막 칸에서 더 굴리면 스냅을 놓고 페이지 스크롤로 넘깁니다.
+           그래야 스냅 밖에 있는 푸터가 따라 나옵니다. */
+        releaseOnEdges: true,
       }}
       keyboard={{ enabled: true, onlyInViewport: true }}
       /* 기본은 꺼진 상태입니다 — 좁은 화면이 기본값이라야 모바일에서

@@ -20,16 +20,9 @@ import "@/app/style.css";
 
 export default function Shell({
   hdr,
-  ownFooter,
   children,
 }: {
   hdr: "overlay" | "solid";
-  /**
-   * 홈은 푸터를 마지막 칸 안에 직접 넣습니다.
-   * 스냅 스크롤에서 CTA 와 푸터가 한 화면에 같이 보여야 하는데,
-   * 여기서 <main> 밖에 그리면 둘이 다른 칸으로 갈라집니다.
-   */
-  ownFooter?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -45,7 +38,7 @@ export default function Shell({
 
         <main id="main">{children}</main>
 
-        {!ownFooter && <SiteFooter />}
+        <SiteFooter />
       </body>
     </html>
   );
