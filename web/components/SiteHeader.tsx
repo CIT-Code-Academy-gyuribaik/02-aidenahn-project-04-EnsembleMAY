@@ -16,16 +16,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Item = { href: string; label: string; cta?: boolean };
+type Item = { href: string; label: string };
 
-/* Contact 만 성격이 다릅니다 — 나머지 넷은 "어디를 볼까"고 이것만
-   "연락해 주세요"입니다. 그래서 네모 단추로 나옵니다(.nav__cta). */
+/* 한때 Contact 만 네모 단추였습니다. 글자 링크 넷 옆에 테두리 하나만
+   서 있으니 상단 바가 한 줄로 안 읽혀서, 다섯을 같은 글자 링크로
+   되돌렸습니다. */
 const NAV: Item[] = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About" },
   { href: "/concert/", label: "Concert" },
   { href: "/gallery/", label: "Gallery" },
-  { href: "/contact/", label: "Contact", cta: true },
+  { href: "/contact/", label: "Contact" },
 ];
 
 export default function SiteHeader() {
@@ -126,14 +127,13 @@ function DesktopNav({ isHere }: { isHere: (href: string) => boolean }) {
   const [hover, setHover] = useState<string | null>(null);
 
   /* 선을 어디에 둘지. hover 중이면 그 항목, 아니면 현재 페이지.
-     둘 다 없으면(홈에는 자기를 가리키는 항목이 있지만 CTA 는 제외)
-     선을 감춥니다. */
+     둘 다 없으면 선을 감춥니다. */
   useEffect(() => {
     const nav = navRef.current;
     const ind = indRef.current;
     if (!nav || !ind) return;
 
-    const target = hover ?? NAV.find((i) => !i.cta && isHere(i.href))?.href ?? null;
+    const target = hover ?? NAV.find((i) => isHere(i.href))?.href ?? null;
     const el = target ? nav.querySelector<HTMLElement>(`[data-href="${target}"]`) : null;
 
     if (el && el.offsetWidth) {
@@ -152,11 +152,9 @@ function DesktopNav({ isHere }: { isHere: (href: string) => boolean }) {
           key={it.href}
           href={it.href}
           data-href={it.href}
-          className={it.cta ? "nav__cta" : undefined}
           aria-current={isHere(it.href) ? "page" : undefined}
-          /* 네모 단추 위에서는 선이 따라오지 않습니다 */
-          onMouseEnter={() => setHover(it.cta ? null : it.href)}
-          onFocus={() => setHover(it.cta ? null : it.href)}
+          onMouseEnter={() => setHover(it.href)}
+          onFocus={() => setHover(it.href)}
           onBlur={() => setHover(null)}
         >
           {it.label}

@@ -38,7 +38,10 @@ const BANNERS = [
     flip: false,
   },
   {
-    href: "/about/history/",
+    /* About 의 [주요 연혁] 갈래가 Concert 와 같은 내용이라 없어졌습니다.
+       "지금까지 이런 무대에 섰습니다" 를 보여 주는 자리가 Concert 이므로
+       그쪽으로 보냅니다. */
+    href: "/concert/",
     title: "Our History",
     kicker: "음악을 통한 나눔과 봉사를 실천합니다.",
     body: [

@@ -48,18 +48,29 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
   );
   const boxRef = useRef<HTMLDivElement>(null);
 
+  /* 저절로 트는 것이 실제로 켜졌는지. auto 를 넘겨받아도 동작 줄이기
+     설정이거나 IntersectionObserver 가 없으면 꺼집니다. 그때는 평범한
+     썸네일 + 재생 단추로 돌아가야 합니다 — 누를 것이 없으면 영영 못
+     봅니다. 처음 값을 auto 로 두는 이유는 서버가 그린 것과 브라우저가
+     처음 그리는 것을 같게 하려는 것입니다. */
+  const [autoOn, setAutoOn] = useState(auto);
+
   /* 화면에 들어왔는지 지켜봅니다. 0.6 은 "칸이 거의 자리를 잡았을 때"
      입니다 — 넘어가는 도중에 잠깐 걸치는 것으로는 시작하지 않습니다. */
   useEffect(() => {
     if (!auto || kind === "ig" || kind === "none") return;
     const el = boxRef.current;
-    if (!el || !("IntersectionObserver" in window)) return;
-    if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    const ok = !!el && "IntersectionObserver" in window &&
+      !window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+    if (!ok) {
+      setAutoOn(false);
+      return;
+    }
 
     const io = new IntersectionObserver(([e]) => setPlaying(e.isIntersecting), {
       threshold: 0.6,
     });
-    io.observe(el);
+    io.observe(el!);
     return () => io.disconnect();
   }, [auto, kind]);
 
@@ -100,6 +111,14 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
         <div className="vid__f">
           <video src={video.mp4} controls autoPlay playsInline preload="metadata" />
         </div>
+      ) : autoOn ? (
+        /* 저절로 틀 자리는 검은 판 하나로 둡니다.
+           예전에는 여기에 그라데이션 바탕 → 유튜브 썸네일 → 검은 화면 →
+           영상이 차례로 들어와서, 칸에 들어서자마자 세 번을 깜빡였습니다.
+           어차피 곧바로 영상으로 바뀔 자리라 썸네일을 받을 이유가 없고,
+           유튜브 플레이어도 검은 바탕에서 시작하므로 색을 맞춰 두면
+           바뀌는 순간이 눈에 띄지 않습니다. */
+        <div className="vid__f vid__f--plain" />
       ) : (
         <button
           className="vid__f"
