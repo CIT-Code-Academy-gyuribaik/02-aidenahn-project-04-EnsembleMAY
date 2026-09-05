@@ -110,7 +110,6 @@ export default function AboutStoryPage() {
               접히면 좌우라는 것 자체가 없습니다. */}
           <div className={"st__i" + (i % 2 ? " st__i--flip" : "")}>
             <div className="st__ph">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={asset(b.photo)} alt={b.alt} loading="lazy" />
             </div>
             <div className="st__t">

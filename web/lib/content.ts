@@ -170,6 +170,20 @@ export function photosOf(showId: string): Photo[] {
   return GALLERY.filter((p) => p.show === showId);
 }
 
+/* 정기 연주회는 현장 사진 대신 포스터를 얼굴로 겁니다.
+   값은 posters.json 의 몇 번째인지입니다.
+
+   ★ 이 표가 두 군데에 복사돼 있었습니다 — 홈의 공연 넉 장(HomeConcerts)과
+     공연 연혁의 표(PastShows). 양쪽 주석에 "한쪽만 바꾸면 같은 공연이 두
+     얼굴을 갖게 된다" 고 적혀 있던 그 위험입니다. 짝은 여기 한 곳입니다. */
+const POSTER_OF: Record<string, number> = { concert2: 0, concert1: 1 };
+
+/** 이 공연의 얼굴로 걸 포스터. 없으면 undefined — 그때는 그날 사진을 씁니다. */
+export function posterOf(showId: string | undefined): Poster | undefined {
+  const at = showId ? POSTER_OF[showId] : undefined;
+  return at === undefined ? undefined : POSTERS[at];
+}
+
 /**
  * 이 사진이 언제 것인가.
  * ★ 파일 이름이 먼저입니다. 이름 규칙이 YYYYMMDD-행사-번호.webp 라서

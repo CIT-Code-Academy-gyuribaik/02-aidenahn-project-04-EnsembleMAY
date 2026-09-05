@@ -4,7 +4,7 @@ import HomeBanners from "@/components/HomeBanners";
 import HomeConcerts from "@/components/HomeConcerts";
 import CharityCta from "@/components/CharityCta";
 import VideoCard from "@/components/VideoCard";
-import { Reveal } from "@/components/Reveal";
+import { Reveal, RevealStage } from "@/components/Reveal";
 import { asset, HOME_VIDEO } from "@/lib/content";
 
 /* ==========================================================================
@@ -117,12 +117,15 @@ export default function HomePage() {
             여백 밖으로 나가야 합니다. */}
         <section className="csec">
           <div className="csec__bg" aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={asset("assets/img/gallery/20250614-concert1-09.webp")} alt="" />
           </div>
-          <div className="csec__in">
+          {/* .csec__in 상자가 곧 무대입니다 — 이 칸이 화면에 들어온 순간을
+              안쪽 일곱 조각이 함께 보고 차례로 올라옵니다. 조각마다 따로
+              지켜보면 아래쪽 [공연 더보기] 가 켜지지 않습니다: 까닭은
+              components/Reveal.tsx 의 RevealStage 주석에. */}
+          <RevealStage className="csec__in">
             <HomeConcerts />
-          </div>
+          </RevealStage>
         </section>
 
         {/* 4 — 배너 목록. 어두운 지면 위에 밝은 카드 두 장이 뜹니다. */}

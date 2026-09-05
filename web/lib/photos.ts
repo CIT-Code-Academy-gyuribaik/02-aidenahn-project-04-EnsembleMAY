@@ -8,7 +8,7 @@
    ========================================================================== */
 
 import type { LbItem } from "@/components/Lightbox";
-import { GALLERY, SHOWS, photosOf, showById, type Photo, type Poster } from "@/lib/content";
+import { photosOf, showById, type Photo } from "@/lib/content";
 
 /** 비율을 적지 않은 사진의 기본값. 가로로 조금 긴 쪽으로 둡니다. */
 const DEFAULT_RATIO = "3/2";
@@ -38,16 +38,6 @@ export function toLbItems(list: readonly Photo[]): LbItem[] {
   return list.map(toLbItem);
 }
 
-/** 포스터는 자기 설명줄을 갖고 있습니다 */
-export function postersToLbItems(list: readonly Poster[]): LbItem[] {
-  return list.map((p) => ({
-    src: p.src,
-    ratio: p.ratio,
-    title: p.title,
-    caption: p.caption,
-  }));
-}
-
 /**
  * 공연별 사진을 한 줄로 이어 붙이고, 공연마다 시작 자리를 알려 줍니다.
  *
@@ -70,11 +60,3 @@ export function showAlbum(shows: readonly { id: string }[]) {
 
   return { items, startOf };
 }
-
-/** 최근 공연이 앞으로. 날짜가 "2026.06.21" 꼴이라 글자 비교로 충분합니다. */
-export function showsByDate() {
-  return [...SHOWS].sort((a, b) => b.date.localeCompare(a.date));
-}
-
-/** 홈에서 쓰는 대표 사진 — 목록 맨 앞 */
-export const FIRST_PHOTO = GALLERY[0];

@@ -17,15 +17,10 @@
 
 import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
-import { POSTERS, SHOWS, photosOf } from "@/lib/content";
+import { SHOWS, photosOf, posterOf } from "@/lib/content";
 import { showAlbum } from "@/lib/photos";
 
 const { items: showPix, startOf } = showAlbum(SHOWS);
-
-/** 정기 연주회는 현장 사진 대신 포스터를 겁니다.
-    값은 posters.json 의 몇 번째인지입니다 — 홈의 공연 넉 장(HomeConcerts)과
-    같은 짝을 씁니다. 한쪽만 바꾸면 같은 공연이 두 얼굴을 갖게 됩니다. */
-const POSTER_OF: Record<string, number> = { concert2: 0, concert1: 1 };
 
 export function PastShows() {
   const lb = useLightbox();
@@ -47,15 +42,15 @@ export function PastShows() {
         {SHOWS.map((s) => {
           const pics = photosOf(s.id);
           const start = startOf.get(s.id);
-          const poster = POSTER_OF[s.id] !== undefined ? POSTERS[POSTER_OF[s.id]] : undefined;
-          const face = poster ?? pics[0];
+          /* 정기 연주회는 포스터가 얼굴입니다 — 짝은 lib/content.ts 의
+             posterOf 한 곳에 있습니다. 홈의 공연 넉 장도 같은 것을 봅니다. */
+          const face = posterOf(s.id) ?? pics[0];
 
           const inner = (
             <>
               <span className="hist__ph">
                 {face ? (
                   <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={face.src} alt={face.title} loading="lazy" />
                     <span className="hist__ov" />
                     {/* 여러 장이면 장수를 적습니다 — 눌러서 넘길 수 있다는 표시입니다. */}

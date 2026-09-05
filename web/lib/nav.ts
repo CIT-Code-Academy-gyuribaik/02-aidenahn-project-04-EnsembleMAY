@@ -18,7 +18,15 @@ export type SubTab = { href: string; label: string };
 /** 상단 바 한 칸 */
 export type NavItem = {
   href: string;
+  /** 상단 바에 걸리는 이름. 영문입니다 — About · Concert … */
   label: string;
+  /**
+   * 서브페이지 히어로의 한글 제목. 영문 제목(label) 아래에 앉습니다.
+   * 하위 띠의 이름(subLabel)과는 다릅니다 — 저쪽은 화면 낭독기용 짧은
+   * 이름이고("공연"), 이쪽은 화면에 보이는 제목입니다("공연 안내").
+   * Home 처럼 히어로가 따로 있는 자리에는 없습니다.
+   */
+  ko?: string;
   /** 하위 갈래. Home 처럼 없는 항목도 있습니다 — 없으면 펼칠 것도 없습니다. */
   sub?: readonly SubTab[];
   /** 하위 띠를 화면 낭독기가 무엇이라 부를지 — "앙상블 소개" 처럼 */
@@ -28,15 +36,14 @@ export type NavItem = {
 /* 갈래를 가진 넷. 각 layout.tsx 가 자기 것을 꺼내 씁니다.
 
    ★ 첫 갈래의 주소는 반드시 뿌리(=상단 항목 href)와 같아야 합니다.
-     SubTabs 가 그 첫 칸만 "정확히 같은지" 로 가리기 때문입니다 —
-     앞부분만 맞으면 된다고 두면 /concert/past/ 에서도 [공연 정보] 가
-     함께 켜집니다. */
+     아래 isCurrent 가 그 첫 칸만 "정확히 같은지" 로 가리기 때문입니다. */
 export const SECTIONS: Record<
   "about" | "concert" | "gallery" | "contact",
   Required<NavItem>
 > = {
   about: {
     href: "/about/",
+    ko: "앙상블 소개",
     label: "About",
     subLabel: "앙상블 소개",
     sub: [
@@ -46,6 +53,7 @@ export const SECTIONS: Record<
   },
   concert: {
     href: "/concert/",
+    ko: "공연 안내",
     label: "Concert",
     subLabel: "공연",
     sub: [
@@ -55,6 +63,7 @@ export const SECTIONS: Record<
   },
   gallery: {
     href: "/gallery/",
+    ko: "활동 사진",
     label: "Gallery",
     subLabel: "활동 사진",
     sub: [
@@ -64,6 +73,7 @@ export const SECTIONS: Record<
   },
   contact: {
     href: "/contact/",
+    ko: "문의하기",
     label: "Contact",
     subLabel: "문의",
     sub: [
@@ -82,4 +92,38 @@ export const NAV: readonly NavItem[] = [
   SECTIONS.concert,
   SECTIONS.gallery,
   SECTIONS.contact,
+];
+
+/* ==========================================================================
+   지금 보고 있는 자리인가
+
+   ★ 같은 규칙이 세 군데에 복사돼 있었습니다 — 상단 바(SiteHeader),
+     그 아래로 내려오는 갈래(SubNav), 서브페이지 하위 띠(SubTabs).
+     셋 다 옆에 같은 설명이 붙어 있었습니다. 규칙을 고칠 일이 생기면
+     세 군데를 함께 고쳐야 하고, 설명도 세 벌을 손대야 합니다.
+
+   ★ 규칙 자체
+     뿌리 주소(/ · /about/ · /concert/ …)는 모든 하위 주소의 앞부분입니다.
+     그래서 뿌리만 "정확히 같은지" 로 봅니다. 앞부분만 맞으면 된다고 두면
+     /concert/past/ 에서도 [공연 정보] 가 함께 켜집니다.
+     나머지 갈래는 앞부분만 맞으면 켭니다 — 그 아래로 더 들어가는 주소가
+     생겨도 자기 갈래가 켜진 채로 남습니다.
+
+   @param root 이 목록의 뿌리 주소. 상단 바는 "/", 하위 띠는 첫 갈래입니다.
+   ========================================================================== */
+export function isCurrent(pathname: string, href: string, root: string | undefined): boolean {
+  return href === root ? pathname === href : pathname.startsWith(href);
+}
+
+/* 푸터의 한 줄짜리 페이지 목록.
+   주소는 위 SECTIONS 에서 가져옵니다 — 주소를 옮길 일이 생겨도 한 곳만
+   고치면 됩니다. 이름은 상단 바(About · Concert …)와 달리 한글입니다:
+   바닥까지 내려온 사람에게는 영문 약칭보다 무엇이 있는 자리인지 그대로
+   적어 주는 편이 낫습니다. */
+export const FOOTER_NAV: readonly SubTab[] = [
+  { href: "/", label: "처음으로" },
+  { href: SECTIONS.about.href, label: "앙상블 소개" },
+  { href: SECTIONS.concert.href, label: "공연 안내" },
+  { href: SECTIONS.gallery.href, label: "활동 사진" },
+  { href: SECTIONS.contact.href, label: "문의" },
 ];

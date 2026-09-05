@@ -33,7 +33,6 @@ export default function ConcertPage() {
                   <span className="show__f">연 1회</span>
                 </p>
                 <div className="show__ph">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/assets/img/concert-regular.webp"
                     width={900}
@@ -60,7 +59,6 @@ export default function ConcertPage() {
                   <span className="show__f">수시</span>
                 </p>
                 <div className="show__ph">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/assets/img/concert-charity.webp"
                     width={900}

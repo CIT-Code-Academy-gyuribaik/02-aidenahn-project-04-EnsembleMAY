@@ -18,21 +18,14 @@
 
 import Link from "next/link";
 import { CONTACT } from "@/lib/content";
-
-const NAV = [
-  { href: "/", label: "처음으로" },
-  { href: "/about/", label: "앙상블 소개" },
-  { href: "/concert/", label: "공연 안내" },
-  { href: "/gallery/", label: "활동 사진" },
-  { href: "/contact/", label: "문의" },
-] as const;
+import { FOOTER_NAV } from "@/lib/nav";
 
 export default function SiteFooter() {
   return (
     <footer className="foot">
       <nav className="foot__nav" aria-label="푸터 메뉴">
         <div className="wrap">
-          {NAV.map((n) => (
+          {FOOTER_NAV.map((n) => (
             <Link key={n.href} href={n.href}>
               {n.label}
             </Link>

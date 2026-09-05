@@ -1,5 +1,5 @@
-import HeroPhoto, { type HeroShot } from "@/components/HeroPhoto";
-import SubTabs from "@/components/SubTabs";
+import type { HeroShot } from "@/components/HeroPhoto";
+import SubPageHead from "@/components/SubPageHead";
 import { SECTIONS } from "@/lib/nav";
 
 /* Gallery 두 갈래가 함께 쓰는 머리 부분입니다. About · Concert 와 같은 구조.
@@ -74,20 +74,7 @@ const SHOTS: readonly HeroShot[] = [
 export default function GalleryLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* 히어로 — 오른쪽 절반에 사진이 깔리고, 왼쪽에서 번진 어둠 위에
-          영문 제목과 한글 제목이 앉습니다. 짜임은 style.css 의
-          [사진을 깐 제목 블록] 에, 사진들은 위 SHOTS 에 있습니다. */}
-      <div className="phead phead--hero">
-        <HeroPhoto shots={SHOTS} />
-        <div className="wrap">
-          <h1 className="phead__ttl">
-            <span className="phead__en">Gallery</span>
-            <span className="phead__ko">활동 사진</span>
-          </h1>
-        </div>
-      </div>
-
-      <SubTabs label={SEC.subLabel} tabs={SEC.sub} />
+      <SubPageHead section={SEC} shots={SHOTS} />
 
       <section className="sec sec--first">
         <div className="wrap">{children}</div>

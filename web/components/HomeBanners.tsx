@@ -94,7 +94,6 @@ export default function HomeBanners() {
             </div>
 
             <div className="pbn__ph">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={b.src} alt={b.alt} loading="lazy" />
             </div>
           </div>

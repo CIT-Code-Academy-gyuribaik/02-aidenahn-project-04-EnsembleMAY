@@ -897,20 +897,20 @@ body.menu-open{overflow:hidden}
 
 /* ③ 제목 — 영문이 크고 한글이 그 아래 작게 붙습니다.
 
-   영문은 배너 제목과 같은 Abril Fatface(--display)입니다. 라틴 한 단어짜리
-   큰 제목이 배너와 이 자리뿐이라, 둘이 같은 글꼴이면 한 사람이 쓴 글씨로
-   읽힙니다. 한 벌(400)뿐이라 굵기는 지정하지 않습니다.
+   영문은 배너 제목과 같은 Cormorant Garamond(--display)입니다. 라틴 큰
+   제목이 홈의 [Concert]·배너와 이 자리뿐이라, 셋이 같은 글꼴이면 한
+   사람이 쓴 글씨로 읽힙니다. 굵기는 600 — 까닭은 components/Shell.tsx 에.
 
    한글은 고딕(--gothic → 프리텐다드)입니다. 명조와 저울질했는데 —
      · 14px 짜리 한 줄입니다. 명조는 이 크기에서 가로획이 얇아 흐려집니다
        (같은 이유로 본문 명조도 500 으로 올려 쓰고 있습니다).
-     · Abril 이 이미 굵은 세리프라, 아래에 또 세리프를 두면 두 줄이
-       한 덩어리로 뭉칩니다. 고딕이 받쳐야 영문이 제목으로 도드라집니다.
+     · 위가 이미 세리프라, 아래에 또 세리프를 두면 두 줄이 한 덩어리로
+       뭉칩니다. 고딕이 받쳐야 영문이 제목으로 도드라집니다.
    명조로 바꾸려면 --gothic 을 --myeongjo 로 바꾸고 굵기를 600 으로
    내리면 됩니다(700 명조는 이 크기에서 뭉갭니다). */
 .phead__ttl{margin:0}
 .phead__en{display:block;
-  font-family:var(--display),var(--myeongjo);font-weight:400;
+  font-family:var(--display),var(--myeongjo);font-weight:600;
   font-size:clamp(32px,3.4vw,50px);line-height:1.1;letter-spacing:0;
   color:#fff}
 .phead__ko{display:block;margin-top:13px;
@@ -1550,8 +1550,15 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .csec{position:relative;overflow:hidden;
   display:grid;place-items:center;
   min-height:100dvh;
-  /* 카드 폭(981)·전체 높이(814)·화면 폭 중 가장 빡빡한 것에 맞춥니다 */
-  --u:min(1.25px, (100vw - 48px) / 981, 100dvh / 814)}
+  /* 카드 폭(981)·전체 높이(783)·화면 폭 중 가장 빡빡한 것에 맞춥니다.
+
+     ★ 높이 몫이 곧 이 칸의 배율입니다. 작을수록 --u 가 커지고 카드가
+       커집니다. 814 → 783 으로 내리면서 카드가 4% 커졌습니다.
+     ★ 내려도 낮은 창에서 안 잘리는 것은 아래 두 값을 함께 줄였기
+       때문입니다 — 내려 앉히는 값을 3 으로, 멘트 위 간격을 26 으로.
+       960×585(스냅이 켜지는 가장 낮은 창)에서 아래 여백 9px 이 남습니다.
+       이 셋은 한 묶음이라, 하나만 고치면 잘리거나 헐거워집니다. */
+  --u:min(1.25px, (100vw - 48px) / 981, 100dvh / 783)}
 .csec__bg{position:absolute;inset:0}
 .csec__bg img{width:100%;height:100%;object-fit:cover;display:block;
   /* 사진을 어둡게 깔아야 글이 읽힙니다. filter 로 낮추면 사진만
@@ -1563,35 +1570,69 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
    맞추면 계산상으로는 가운데가 맞지만, 보는 사람 눈에는 "바 아래 남은
    자리"의 가운데가 가운데입니다 — 그래서 위로 붙어 보입니다.
    덮인 만큼의 절반을 내리면 남은 자리의 한가운데에 앉습니다.
-   (같은 이유로 다른 칸들은 snap.css 의 --top 이 여백을 더 줍니다.) */
-.csec__in{position:relative;top:calc(var(--hdr) / 2);
+   (같은 이유로 다른 칸들은 snap.css 의 --top 이 여백을 더 줍니다.)
+
+   ★ 거기서 12 를 더 내립니다.
+     계산상 한가운데에 앉히고 나니 칸이 위쪽에 붙어 보였습니다 — 위는
+     상단 바 아래의 빈 나무벽이고 아래는 카드가 꽉 차 있어서, 같은
+     여백이라도 위쪽이 더 비어 보입니다. 한 뼘 내려 앉히면 눈에 가운데로
+     읽힙니다.
+     ★ 이 값은 제목만이 아니라 포스터도 함께 내립니다. 14 → 12 → 3 으로
+       줄여 온 것은 포스터가 내려앉아 보인다는 지적 때문입니다 — 키우면
+       칸이 통째로 가라앉고, 낮은 창에서는 [공연 더보기] 가 잘립니다.
+     자리만 옮기는 값이라(position:relative) 칸의 높이는 그대로입니다. */
+.csec__in{position:relative;top:calc(var(--hdr) / 2 + var(--u) * 3);
   width:calc(var(--u) * 981);max-width:100%}
 
-/* 배너 제목과 같은 Abril Fatface 입니다 — 라틴 한 단어짜리 큰 제목이
-   이 자리와 배너 둘뿐이라, 둘이 같은 글꼴이면 한 사람이 쓴 글씨로
-   읽힙니다. 한 벌(400)뿐이라 굵기는 지정하지 않습니다.
+/* 배너·서브페이지 히어로와 같은 Cormorant Garamond 입니다 — 라틴 큰
+   제목이 이 셋뿐이라, 같은 글꼴이면 한 사람이 쓴 글씨로 읽힙니다.
    글꼴은 components/Shell.tsx 가 next/font 로 받아 --display 에 담습니다. */
+/* 48 → 54 → 61 → 47. 키우는 쪽으로 가다가 되돌아왔습니다.
+   [Concert] 는 한 낱말이 화면 한가운데 홀로 놓이는 자리라, 같은 크기라도
+   글줄 속의 제목보다 훨씬 커 보입니다. 배경 사진이 이미 충분히 강해서
+   글자가 주인공일 필요가 없습니다 — 크기를 낮추고 그만큼 생긴 여백이
+   분위기를 만듭니다.
+   굵기도 함께 낮췄습니다(600). 글꼴을 Abril Fatface 에서 Cormorant
+   Garamond 로 바꾼 것이 이 때문입니다 — 까닭은 components/Shell.tsx 에.
+   자간을 조금 조입니다(-0.012em). Garamond 계열은 본문용으로 사이가
+   넉넉해서, 큰 제목에서는 낱자가 흩어져 보입니다.
+   ※ 이 값을 바꾸면 아래 .csub 의 간격도 다시 잡아야 합니다. */
 .chd{margin:0;text-align:center;
-  font-family:var(--display),var(--myeongjo);font-weight:400;
-  font-size:calc(var(--u) * 48);line-height:1.15;
-  letter-spacing:0;color:#fff}
+  font-family:var(--display),var(--myeongjo);font-weight:600;
+  font-size:calc(var(--u) * 47);line-height:1.15;
+  letter-spacing:-0.012em;color:#fff}
 
 /* 제목 밑 한 줄. 라틴 한 단어짜리 제목만으로는 이 칸이 무슨 자리인지는
    알려 줘도 어떤 앙상블인지는 말해 주지 않습니다.
    ★ 색은 날짜·장소와 같은 #C4C4C4 입니다. 제목과 같은 흰색으로 두면
      두 줄이 한 덩어리로 읽혀서 제목이 두 줄짜리가 됩니다 — 한 단 낮춰야
      제목 아래 딸린 말로 읽힙니다. 가림막 위에서 10:1 이라 그대로 읽힙니다.
-   ★ 14 만 띄웁니다. 제목과 카드 사이(64)의 절반도 안 되는 거리라
-     카드 쪽이 아니라 제목 쪽에 붙은 줄로 보입니다. */
-.csub{margin:calc(var(--u) * 30) 0 0;text-align:center;
-  font-family:var(--gothic);font-weight:300;
-  font-size:max(15px, var(--u) * 19);line-height:1.6;
+   ★ 2 : 35 — 멘트를 제목 쪽에 바짝 붙입니다.
+     ────────────────────────────────────────────────────────────────
+     한때 정확히 가운데(26 : 38)에 두었습니다. 가운데에 있으면 멘트가
+     제목에도 카드에도 속하지 않는 떠 있는 줄이 됩니다. 제목과 한 덩어리로
+     묶고, 카드까지는 넉넉히 비우는 편이 읽는 차례와 맞습니다 —
+     [무엇에 관한 칸인가] 를 두 줄로 말한 다음, 쉬고, 목록.
+
+     ★ 2 가 유난히 작은 것은 줄상자가 이미 벌려 놓기 때문입니다.
+       제목 아래에 line-height 1.15 의 남는 자리가 13px, 멘트 위에
+       line-height 1.6 의 남는 자리가 6px 있습니다. 여백을 0 으로 두어도
+       눈에는 19px 이 떠 있습니다. 여기에 2 를 더해 21px 로 맞췄습니다.
+       그래서 이 숫자를 두 배로 키워도 눈에는 거의 안 바뀝니다 — 크게
+       벌리려면 line-height 를 건드려야 합니다.
+     아래 .cgrid 의 35 는 멘트 밑 5px(줄상자 남는 자리)을 더해 눈에
+     46px 로 보입니다. 21 : 46 이 [제목에 붙은 줄]로 읽히는 비율입니다. */
+.csub{margin:calc(var(--u) * 2) 0 0;text-align:center;
+  font-family:var(--gothic);font-weight:400;
+  font-size:max(15px, var(--u) * 14);line-height:1.6;
   letter-spacing:0;color:#C4C4C4}
 /* 이 줄에서 실제로 알리고 싶은 것은 [어디 소속인가] 하나입니다.
    나머지("앙상블 메이는 … 입니다")는 문장을 이어 주는 말이라 뒤로
    물립니다 — 얇은 회색 위에서 이 토막만 흰색 · 제 굵기로 서면
    눈이 먼저 여기에 닿습니다. */
-.csub__k{color:#fff;font-weight:450}
+/* 300 → 400 으로 올린 본문 위에서 강조가 서려면 이쪽도 함께 올라가야
+   합니다(450 → 600). 두 단 차이가 나야 [문장]과 [알리려는 말]이 갈립니다. */
+.csub__k{color:#fff;font-weight:600}
 
 /* 넉 장 아래, 오른쪽 끝에 붙습니다 — 카드의 오른쪽 선과 맞습니다.
    시안에는 제목 옆(카드 위)에 있었지만, 넉 장을 다 보고 난 뒤가
@@ -1610,15 +1651,21 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
    시안에서 제목 아래로 비어 있던 만큼(40)을 옮겨 줬는데 그래도 좁았습니다.
    제목이 48 짜리 큰 글자라, 그만한 글자 밑에는 그 정도 여백이 있어야
    글자와 카드가 서로 다른 덩어리로 읽힙니다. */
+/* 위 .csub 의 2 와 짝입니다 — 멘트는 제목에 붙이고, 카드까지는 넉넉히
+   비웁니다. 눈에 보이는 값은 46px 입니다(멘트 줄상자의 남는 자리 5px 포함).
+   까닭은 .csub 주석에. */
 .cgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:calc(var(--u) * 15);margin-top:calc(var(--u) * 64)}
-/* 포스터 넉 장은 다른 목록(사진첩·곡 목록)보다 천천히 올라옵니다.
-   한 화면에 넉 장뿐이라 서두를 이유가 없고, 스냅으로 딱 멈춘 뒤에
+  gap:calc(var(--u) * 15);margin-top:calc(var(--u) * 35)}
+/* 이 칸은 다른 목록(사진첩·곡 목록)보다 천천히 올라옵니다.
+   한 화면에 일곱 개뿐이라 서두를 이유가 없고, 스냅으로 딱 멈춘 뒤에
    드러나는 자리라 느린 편이 무대 사진과 어울립니다.
+   ★ 격자 안(카드 넉 장)만이 아니라 칸 전체에 겁니다 — 제목 · 부제 ·
+     [공연 더보기] 도 같은 줄기로 흐르기 때문입니다. 그 셋만 기본값
+     0.58s 로 두면 카드보다 먼저 끝나서 한 줄기로 안 읽힙니다.
    ★ [data-reveal="item"] 전체를 건드리면 사진첩 수십 장이 같이 늘어져서
-     굼떠 보입니다 — 이 격자 안에서만 늘립니다. 사이 간격은
-     components/HomeConcerts.tsx 의 RevealSeq step 이 정합니다. */
-.cgrid > [data-reveal="item"]{transition-duration:1.05s}
+     굼떠 보입니다 — 이 칸 안에서만 늘립니다. 흐르는 차례와 사이 간격은
+     components/HomeConcerts.tsx 한 곳에 모아 두었습니다. */
+.csec__in [data-reveal]{transition-duration:1.05s}
 
 /* 카드는 보여 주기만 합니다 — 누르는 곳은 [공연 더보기] 하나입니다.
    그래서 손을 얹어도 아무 반응이 없습니다. 반응하면 누를 수 있는 줄
@@ -1627,17 +1674,23 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .ccd__ph{display:block;aspect-ratio:3/4;overflow:hidden;background:#000}
 .ccd__ph img{width:100%;height:100%;object-fit:cover;display:block}
 
+/* 13.5 → 11.2, 굵기 450 → 400. 날짜와 장소는 카드에서 [곁들이는 정보]
+   입니다. 존재감이 이름 줄과 비슷해지면 카드마다 읽을 것이 세 줄로
+   늘어나 넉 장이 한눈에 안 들어옵니다. */
 .ccd__d,.ccd__v{display:block;
-  font-family:var(--gothic);font-weight:450;
-  font-size:max(12px, var(--u) * 13.5);line-height:1.63;
+  font-family:var(--gothic);font-weight:400;
+  font-size:max(12px, var(--u) * 11.2);line-height:1.63;
   letter-spacing:0;color:#C4C4C4}
 .ccd__d{margin-top:calc(var(--u) * 16)}
 /* 장소가 빈 공연이 있습니다. 줄을 지우지 않고 자리만 남겨야 넉 장의
    이름 줄이 같은 높이에 섭니다. */
 .ccd__v{min-height:calc(1em * 1.63)}
+/* 17 → 15.6, 굵기 700 → 600. 700 은 이 크기에서 획이 뭉쳐 무거워집니다.
+   위 날짜·장소를 400 으로 내려 둔 덕에, 600 만으로도 이름 줄이 카드의
+   주인공으로 섭니다. */
 .ccd__t{display:block;margin-top:calc(var(--u) * 3.6);
-  font-family:var(--gothic);font-weight:700;
-  font-size:max(15px, var(--u) * 17);line-height:1.4;
+  font-family:var(--gothic);font-weight:600;
+  font-size:max(15px, var(--u) * 15.6);line-height:1.4;
   letter-spacing:0;color:#fff;text-wrap:balance}
 
 @media (max-width:900px){
@@ -1657,16 +1710,21 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   /* 여기서는 칸이 화면 높이에 매이지 않고 글 흐름을 따라가므로,
      상단 바를 피하려고 내릴 이유가 없습니다 — 내리면 아래만 빕니다. */
   .csec__in{top:0;width:100%}
+  /* 넓은 화면과 같은 규칙 — 멘트는 제목에 붙이고 카드까지는 넉넉히
+     비웁니다. 까닭은 넓은 화면 .csub 주석에. */
   .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:34px}
 
-  .chd{font-size:clamp(28px,7vw,46px)}
+  /* 넓은 화면의 48 → 54 와 같은 비율로 올립니다. */
+  /* 넓은 화면이 61 → 47 로 내려온 것과 같은 비율입니다. 굵기(600)와
+     자간은 위 .chd 에서 그대로 물려받습니다. */
+  .chd{font-size:clamp(27px,6.9vw,45px)}
   /* 좁은 화면에서는 한 줄이 두 줄로 접힙니다. 낱말 사이에서 끊기도록
      balance 를 걸어 둡니다 — 그냥 두면 "봉사단체입니다" 만 아래로 떨어집니다. */
-  .csub{margin-top:20px;font-size:clamp(15px,4.1vw,19px);text-wrap:balance}
+  .csub{margin-top:6px;font-size:clamp(14px,3.2vw,16px);text-wrap:balance}
   .cmore{margin-top:22px;font-size:14px}
   .ccd__d{margin-top:12px}
-  .ccd__d,.ccd__v{font-size:clamp(12px,3.2vw,14px)}
-  .ccd__t{margin-top:3px;font-size:clamp(15px,4.2vw,19px)}
+  .ccd__d,.ccd__v{font-size:clamp(12px,2.9vw,13px)}
+  .ccd__t{margin-top:3px;font-size:clamp(15px,4vw,18px)}
 
   /* 세로로 긴 화면에서는 사진이 가로로 잘립니다. 무대 한가운데(지휘자와
      피아노)가 남도록 두면 무엇을 찍은 사진인지는 그대로 읽힙니다. */
@@ -1750,13 +1808,13 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   padding-left:calc(var(--u) * var(--phw))}
 
 .pbn__t{display:block}
-/* Abril Fatface — 획 굵기 차이가 큰 디스플레이 세리프입니다. 한 벌만
-   있고(400) 라틴만 있어서, 영문 제목 두 줄에만 씁니다. 뒤에 명조를
-   받쳐 두는 것은 글꼴이 아직 안 왔을 때를 위한 것입니다.
+/* Cormorant Garamond — 획 대비가 차분한 디스플레이 세리프입니다.
+   라틴만 받아 두어서 영문 제목에만 씁니다. 뒤에 명조를 받쳐 두는 것은
+   글꼴이 아직 안 왔을 때를 위한 것입니다.
    글꼴 자체는 components/Shell.tsx 가 next/font 로 받아 --display 에
    담습니다.                                                          */
 .pbn__h{display:block;
-  font-family:var(--display),var(--myeongjo);font-weight:400;
+  font-family:var(--display),var(--myeongjo);font-weight:600;
   font-size:max(30px, var(--u) * 26.6);line-height:1.1;
   letter-spacing:0;color:#660020}
 /* 둘째 장 제목은 먹색입니다 — 버건디를 두 장 연속 쓰면 무거워집니다 */

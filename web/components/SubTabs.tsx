@@ -22,7 +22,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { SubTab } from "@/lib/nav";
+import { isCurrent, type SubTab } from "@/lib/nav";
 
 /* 갈래 목록 자체는 lib/nav.ts 에 있습니다 — 상단 바도 같은 것을 봅니다.
    여기서는 그리기만 합니다. */
@@ -38,27 +38,24 @@ export default function SubTabs({
 }) {
   const pathname = usePathname();
 
-  /* 첫 갈래는 뿌리 주소 자체입니다(/about/ · /concert/). 뿌리는 모든 하위
-     주소의 앞부분이라, 그것만 "정확히 같은지" 봐야 합니다. 앞부분만 맞으면
-     된다고 두면 /concert/past/ 에서도 [공연 정보] 가 함께 켜집니다. */
+  /* 첫 갈래가 이 목록의 뿌리 주소입니다(/about/ · /concert/).
+     어느 칸을 켤지 가리는 규칙은 lib/nav.ts 의 isCurrent 한 곳에 있습니다 —
+     상단 바와 갈래도 같은 것을 봅니다. */
   const root = tabs[0]?.href;
 
   return (
     <nav className="abt" aria-label={label}>
       <div className="abt__in">
-        {tabs.map((t) => {
-          const here = t.href === root ? pathname === t.href : pathname.startsWith(t.href);
-          return (
-            <Link
-              key={t.href}
-              href={t.href}
-              className="abt__b"
-              aria-current={here ? "page" : undefined}
-            >
-              {t.label}
-            </Link>
-          );
-        })}
+        {tabs.map((t) => (
+          <Link
+            key={t.href}
+            href={t.href}
+            className="abt__b"
+            aria-current={isCurrent(pathname, t.href, root) ? "page" : undefined}
+          >
+            {t.label}
+          </Link>
+        ))}
       </div>
     </nav>
   );

@@ -104,8 +104,6 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
   /* 유튜브는 안 적어도 자기 썸네일이 있습니다. 직접 올린 mp4 는
      videos.json 에 thumb 을 적어 둔 경우에만 보입니다. */
   const thumb = video.thumb ?? (kind === "yt" && video.id ? ytThumb(video.id) : undefined);
-  /* eslint-disable-next-line @next/next/no-img-element -- 유튜브 도메인
-     이미지라 next/image 최적화 대상이 아닙니다. */
   const thumbImg = thumb && <img className="vid__th" src={thumb} alt="" />;
 
   return (

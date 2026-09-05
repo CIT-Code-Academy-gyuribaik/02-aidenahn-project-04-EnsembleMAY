@@ -141,7 +141,6 @@ export function Lightbox({
       <figure className="lb__fig">
         <div>
           {g.src ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
             <img src={g.src} alt={g.title} />
           ) : (
             <div

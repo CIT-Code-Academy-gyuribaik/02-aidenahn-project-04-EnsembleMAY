@@ -171,7 +171,6 @@ export default function GalleryPhotos() {
               {/* 첫 두 줄(8장)은 열자마자 보이는 자리라 lazy 를 걸지
                   않습니다 — 화면 안에 있는 사진에 lazy 를 걸면 오히려
                   한 박자 늦게 뜹니다. 나머지는 스크롤을 따라옵니다. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.src}
                 alt={p.title}

@@ -1,5 +1,5 @@
-import HeroPhoto, { type HeroShot } from "@/components/HeroPhoto";
-import SubTabs from "@/components/SubTabs";
+import type { HeroShot } from "@/components/HeroPhoto";
+import SubPageHead from "@/components/SubPageHead";
 import { SECTIONS } from "@/lib/nav";
 
 /* [주요 연혁] 이 여기 있었습니다. 그 갈래는 shows.json 을 그대로 세로로
@@ -99,27 +99,13 @@ const SHOTS: readonly HeroShot[] = [
 /* About 두 갈래가 함께 쓰는 머리 부분입니다.
    히어로와 하위 메뉴 바는 어느 탭에 있든 같은 자리에 그대로 있고,
    아래 내용만 갈립니다. Next 의 layout 이 딱 이 일을 합니다 —
-   탭을 옮겨도 이 부분은 다시 그리지 않습니다. */
+   탭을 옮겨도 이 부분은 다시 그리지 않습니다.
+   머리 자체의 짜임은 넷이 나눠 씁니다: components/SubPageHead.tsx */
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* 히어로 — 오른쪽 절반에 사진이 깔리고, 왼쪽에서 번진 어둠 위에
-          영문 제목과 한글 제목이 앉습니다. 짜임은 style.css 의
-          [사진을 깐 제목 블록] 에, 사진들은 위 SHOTS 에 있습니다. */}
-      <div className="phead phead--hero">
-        <HeroPhoto shots={SHOTS} />
-        <div className="wrap">
-          <h1 className="phead__ttl">
-            <span className="phead__en">About</span>
-            <span className="phead__ko">앙상블 소개</span>
-          </h1>
-        </div>
-      </div>
-
-      {/* 띠는 .wrap 밖에 둡니다 — 화면 폭을 다 써야 히어로 아래 경계가
-          제대로 지어집니다. 안쪽 항목만 본문 폭에 맞춥니다. */}
-      <SubTabs label={SEC.subLabel} tabs={SEC.sub} />
+      <SubPageHead section={SEC} shots={SHOTS} />
 
       <section className="sec sec--first">
         <div className="wrap">{children}</div>

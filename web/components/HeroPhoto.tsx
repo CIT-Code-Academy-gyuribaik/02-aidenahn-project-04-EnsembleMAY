@@ -16,9 +16,11 @@
      두고, 붙자마자 한 장을 골라 겁니다. 사진 자리가 원래 어두운 바탕
      위에 7초 줌아웃으로 들어오는 자리라 그 한 박자가 튀지 않습니다.
 
-   ★ 사진이 한 장뿐이면 이 컴포넌트를 쓰지 않습니다.
-     About·Gallery 처럼 한 장으로 정해진 자리는 layout.tsx 가 <img> 를
-     그대로 그립니다 — 서버가 미리 그려 두는 편이 첫 화면이 빠릅니다.
+   ★ 사진이 한 장뿐이면 고르지 않습니다(Contact 가 그렇습니다).
+     처음부터 그 한 장으로 시작하므로 서버가 구운 HTML 에 사진이 이미
+     들어 있습니다 — 첫 화면이 그만큼 빠릅니다. 예전에는 이 경우 이
+     컴포넌트를 쓰지 않고 layout.tsx 가 <img> 를 따로 그렸는데, 그러면
+     같은 마크업이 두 벌이 됩니다.
    ========================================================================== */
 
 import { useEffect, useState } from "react";
@@ -54,11 +56,14 @@ export type HeroShot = {
 };
 
 export default function HeroPhoto({ shots }: { shots: readonly HeroShot[] }) {
-  const [at, setAt] = useState<number | null>(null);
+  /* 한 장뿐인 자리는 고를 것이 없습니다 — 서버에서 바로 그 장으로 정합니다. */
+  const one = shots.length === 1;
+  const [at, setAt] = useState<number | null>(one ? 0 : null);
 
   useEffect(() => {
+    if (one) return;
     setAt(Math.floor(Math.random() * shots.length));
-  }, [shots.length]);
+  }, [one, shots.length]);
 
   /* 아직 고르기 전 — 사진 칸만 비워 둡니다. 칸을 아예 안 그리면 뒤에서
      블록 높이가 한 번 바뀝니다. */
@@ -75,7 +80,6 @@ export default function HeroPhoto({ shots }: { shots: readonly HeroShot[] }) {
       }
       style={{ ["--ph-pos" as string]: shot.pos }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={shot.src}
         width={shot.width}

@@ -1,5 +1,5 @@
-import HeroPhoto, { type HeroShot } from "@/components/HeroPhoto";
-import SubTabs from "@/components/SubTabs";
+import type { HeroShot } from "@/components/HeroPhoto";
+import SubPageHead from "@/components/SubPageHead";
 import { SECTIONS } from "@/lib/nav";
 
 /* Concert 두 갈래가 함께 쓰는 머리 부분입니다.
@@ -73,28 +73,7 @@ const SHOTS: readonly HeroShot[] = [
 export default function ConcertLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* 히어로 — 오른쪽 절반에 사진이 깔리고, 왼쪽에서 번진 어둠 위에
-          영문 제목과 한글 제목이 앉습니다. 짜임은 style.css 의
-          [사진을 깐 제목 블록] 에 있습니다.
-
-          사진 여러 장(위 SHOTS) 중 들어올 때마다 한 장이 걸립니다 —
-          고르는 방법과 그 이유는 components/HeroPhoto.tsx 에 적었습니다.
-          About·Gallery 도 같은 방식이고, Contact 만 한 장으로 정해져 있어
-          그대로 둡니다. */}
-      <div className="phead phead--hero">
-        <HeroPhoto shots={SHOTS} />
-        <div className="wrap">
-          <h1 className="phead__ttl">
-            <span className="phead__en">Concert</span>
-            <span className="phead__ko">공연 안내</span>
-          </h1>
-        </div>
-      </div>
-
-      {/* 띠는 .wrap 밖에 둡니다 — 화면 폭을 다 써야 히어로 아래 경계가
-          제대로 지어집니다. About 과 같은 컴포넌트라 높이와 글자 크기가
-          저절로 같습니다. */}
-      <SubTabs label={SEC.subLabel} tabs={SEC.sub} />
+      <SubPageHead section={SEC} shots={SHOTS} />
 
       {/* About 과 달리 여기서 .wrap 으로 감싸지 않습니다 — 공연 쪽 내용은
           지면 색이 바뀌는 통짜 섹션(틴트 · 어두운 판)이 이어지는 구성이라,

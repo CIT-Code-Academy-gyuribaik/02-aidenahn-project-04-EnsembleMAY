@@ -17,7 +17,6 @@ export default function MemberGrid() {
         <div className="mem__c" key={m.src || i}>
           {m.src ? (
             <span className="mem__ph">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={m.src} alt={m.name || "앙상블 메이 단원"} loading="lazy" />
             </span>
           ) : (

@@ -19,7 +19,9 @@
 
 import {
   Children,
+  createContext,
   isValidElement,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -32,12 +34,14 @@ import {
 const CAP = 480;
 const CAP_ALL = 760;
 
-/** 화면에 들어왔는지. 한 번 들어오면 되돌아와도 다시 재생하지 않습니다. */
-function useInView<T extends HTMLElement>() {
+/** 화면에 들어왔는지. 한 번 들어오면 되돌아와도 다시 재생하지 않습니다.
+    @param skip 바깥 무대(RevealStage)가 대신 봐 줄 때는 지켜보지 않습니다. */
+function useInView<T extends HTMLElement>(skip = false) {
   const ref = useRef<T>(null);
   const [seen, setSeen] = useState(false);
 
   useEffect(() => {
+    if (skip) return;
     const el = ref.current;
     if (!el) return;
     if (!("IntersectionObserver" in window)) {
@@ -69,9 +73,52 @@ function useInView<T extends HTMLElement>() {
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [skip]);
 
   return { ref, seen };
+}
+
+/* ── 무대 : 덩어리 하나가 들어온 순간을 안쪽이 함께 봅니다 ───────────────
+   홈의 공연 칸처럼 [한 화면이 곧 한 덩어리]인 자리에서 씁니다.
+
+   ★ 왜 필요한가
+     안쪽 조각들이 각자 화면을 지켜보면, 덩어리 아래쪽에 앉은 조각은
+     영영 켜지지 않습니다. 위 useInView 가 화면 아래 12% 를 일부러
+     빼 두기 때문입니다 — 긴 목록이 윗변만 보여도 켜지게 하려는 몫인데,
+     스냅 한 칸을 꽉 채운 덩어리에서는 그 12% 안에 [공연 더보기] 같은
+     조각이 들어앉습니다. 눈에는 뻔히 보이는데 opacity 0 으로 남습니다.
+     그래서 덩어리 하나만 지켜보고 안쪽은 그 소식을 나눠 받습니다.
+
+   ★ 덤으로, 안쪽이 한 줄기로 흐릅니다.
+     각자 지켜보면 조각마다 켜지는 순간이 조금씩 달라 차례가 흐트러집니다.
+     한 번에 켜 두면 지연(--d)만으로 순서가 정해집니다.
+
+   무대 밖에서 쓰는 Reveal 은 예전 그대로 자기가 지켜봅니다 — 아래
+   Stage 의 기본값이 null 이고, 그때는 제 관찰기를 켭니다. */
+const Stage = createContext<boolean | null>(null);
+
+export function RevealStage({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  /** 무대는 감싸는 상자를 하나 만듭니다. 이미 있는 상자에 씌우면
+      마크업이 늘지 않습니다 — 홈의 공연 칸은 .csec__in 이 그 상자입니다. */
+  className?: string;
+}) {
+  const { ref, seen } = useInView<HTMLDivElement>();
+  return (
+    <div ref={ref} className={className}>
+      <Stage.Provider value={seen}>{children}</Stage.Provider>
+    </div>
+  );
+}
+
+/** 지금 켜졌는가 — 무대 안이면 무대를 따르고, 밖이면 제가 지켜봅니다. */
+function useOn<T extends HTMLElement>() {
+  const stage = useContext(Stage);
+  const { ref, seen } = useInView<T>(stage !== null);
+  return { ref, on: stage ?? seen };
 }
 
 type RevealProps = {
@@ -84,12 +131,12 @@ type RevealProps = {
 };
 
 export function Reveal({ children, delay = 0, item, className }: RevealProps) {
-  const { ref, seen } = useInView<HTMLDivElement>();
+  const { ref, on } = useOn<HTMLDivElement>();
   return (
     <div
       ref={ref}
       data-reveal={item ? "item" : ""}
-      className={(className ?? "") + (seen ? " is-in" : "")}
+      className={(className ?? "") + (on ? " is-in" : "")}
       style={{ ["--d" as string]: `${Math.min(Math.round(delay), CAP_ALL)}ms` }}
     >
       {children}
@@ -137,7 +184,7 @@ export function RevealSeq({
   className?: string;
   style?: CSSProperties;
 }) {
-  const { ref, seen } = useInView<HTMLDivElement>();
+  const { ref, on } = useOn<HTMLDivElement>();
   const items = Children.toArray(children).filter(isValidElement);
 
   return (
@@ -146,7 +193,7 @@ export function RevealSeq({
         <div
           key={i}
           data-reveal="item"
-          className={seen ? "is-in" : undefined}
+          className={on ? "is-in" : undefined}
           style={{
             ["--d" as string]: `${Math.min(base + Math.min(i * step, CAP), CAP_ALL)}ms`,
           }}

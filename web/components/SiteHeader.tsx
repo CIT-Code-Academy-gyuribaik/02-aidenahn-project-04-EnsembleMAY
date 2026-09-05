@@ -25,7 +25,7 @@ import {
   useState,
   type RefObject,
 } from "react";
-import { NAV, type NavItem } from "@/lib/nav";
+import { isCurrent, NAV, type NavItem } from "@/lib/nav";
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -82,11 +82,9 @@ export default function SiteHeader() {
   useEffect(() => keep, [keep]);
 
   /* 지금 보고 있는 페이지인지. trailingSlash 를 켜 두어서 주소 끝에
-     슬래시가 붙습니다(/about/). 홈만 "/" 하나입니다. */
-  const isHere = useCallback(
-    (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href)),
-    [pathname]
-  );
+     슬래시가 붙습니다(/about/). 상단 바에서는 홈("/")이 뿌리입니다 —
+     규칙은 lib/nav.ts 의 isCurrent 한 곳에 있습니다. */
+  const isHere = useCallback((href: string) => isCurrent(pathname, href, "/"), [pathname]);
 
   /* ── 서랍이 열려 있는 동안 뒤 화면이 안 밀리게 ──
      style.css 의 body.menu-open{overflow:hidden} 을 그대로 씁니다. */
@@ -319,14 +317,9 @@ function SubNav({
              스크롤 등장에 쓰는 것과 같은 이름입니다. 금선이 다 그어지기
              전에 첫 줄이 뜨도록 90ms 부터 시작합니다. */
           style={{ ["--d" as string]: `${90 + i * 70}ms` }}
-          /* 뿌리 갈래는 모든 하위 주소의 앞부분이라 "정확히 같은지" 를
-             봐야 합니다 — 앞부분만 맞으면 된다고 두면 /concert/past/
-             에서도 [공연 정보] 가 함께 켜집니다. SubTabs 와 같은 규칙. */
-          aria-current={
-            (t.href === item.href ? pathname === t.href : pathname.startsWith(t.href))
-              ? "page"
-              : undefined
-          }
+          /* 이 갈래의 뿌리는 올려놓은 상단 항목의 주소입니다. 어느 칸을
+             켤지는 lib/nav.ts 의 isCurrent 가 정합니다 — SubTabs 와 같은 규칙. */
+          aria-current={isCurrent(pathname, t.href, item.href) ? "page" : undefined}
           onFocus={onKeep}
           onBlur={onShut}
           onClick={onDone}
