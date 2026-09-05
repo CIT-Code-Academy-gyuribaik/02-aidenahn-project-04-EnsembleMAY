@@ -22,7 +22,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { SubTab } from "@/lib/nav";
+import type { SubTab, NavLabel } from "@/lib/nav";
+import { useLang } from "@/lib/lang";
 
 /* 갈래 목록 자체는 lib/nav.ts 에 있습니다 — 상단 바도 같은 것을 봅니다.
    여기서는 그리기만 합니다. */
@@ -32,11 +33,11 @@ export default function SubTabs({
   label,
   tabs,
 }: {
-  /** 화면 낭독기가 이 띠를 무엇이라 부를지 — "앙상블 소개" 처럼 */
-  label: string;
+  label: NavLabel;
   tabs: readonly SubTab[];
 }) {
   const pathname = usePathname();
+  const { lang } = useLang();
 
   /* 첫 갈래는 뿌리 주소 자체입니다(/about/ · /concert/). 뿌리는 모든 하위
      주소의 앞부분이라, 그것만 "정확히 같은지" 봐야 합니다. 앞부분만 맞으면
@@ -44,7 +45,7 @@ export default function SubTabs({
   const root = tabs[0]?.href;
 
   return (
-    <nav className="abt" aria-label={label}>
+    <nav className="abt" aria-label={label[lang]}>
       <div className="abt__in">
         {tabs.map((t) => {
           const here = t.href === root ? pathname === t.href : pathname.startsWith(t.href);
@@ -55,7 +56,7 @@ export default function SubTabs({
               className="abt__b"
               aria-current={here ? "page" : undefined}
             >
-              {t.label}
+              {t.label[lang]}
             </Link>
           );
         })}

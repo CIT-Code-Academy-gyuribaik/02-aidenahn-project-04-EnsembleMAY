@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 import { Abril_Fatface, Great_Vibes } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { LangProvider } from "@/lib/lang";
 import "@/app/style.css";
 
 /* 배너 제목에 쓰는 디스플레이 세리프.
@@ -60,15 +61,17 @@ export default function Shell({
       <body data-hdr={hdr} className={`${abril.variable} ${script.variable}`}>
         {/* 키보드만 쓰는 분이 탭 한 번으로 본문까지 건너뛰는 길입니다.
             평소에는 화면 위로 숨어 있다가 초점이 닿으면 내려옵니다. */}
-        <a className="skip" href="#main">
-          본문으로 건너뛰기
-        </a>
+        <LangProvider>
+          <a className="skip" href="#main">
+            본문으로 건너뛰기
+          </a>
 
-        <SiteHeader />
+          <SiteHeader />
 
-        <main id="main">{children}</main>
+          <main id="main">{children}</main>
 
-        {!ownFooter && <SiteFooter />}
+          {!ownFooter && <SiteFooter />}
+        </LangProvider>
       </body>
     </html>
   );

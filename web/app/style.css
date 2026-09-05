@@ -436,6 +436,16 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
   border-bottom:1px solid var(--accent-gold);transition:border-color 200ms ease}
 .more:hover{border-color:var(--brand)}
 
+/* ── KOR / ENG 전환 단추 ── */
+.lang-btn{display:flex;align-items:center;gap:5px;
+  background:none;border:none;cursor:pointer;color:inherit;
+  font:400 13px/1 var(--myeongjo);letter-spacing:.06em;
+  padding:6px 2px;transition:opacity 180ms ease}
+.lang-btn:hover{opacity:.7}
+.lang-btn span[data-active="false"]{opacity:.38}
+.lang-btn span[data-active="true"]{font-weight:600;text-decoration:underline;text-underline-offset:3px}
+body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 260ms ease,opacity 260ms ease}
+
 /* ── 모바일 메뉴 ── */
 .burger{display:none;margin-inline-start:auto;width:26px;height:14px;
   flex-direction:column;justify-content:space-between}
@@ -479,6 +489,13 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
   right:calc(var(--pad) - 9px);
   width:44px;height:44px;font-size:26px;line-height:1;color:var(--ink-mid)}
 .menu__x:hover{color:var(--ink)}
+.menu__lang{display:flex;align-items:center;gap:6px;
+  background:none;border:none;cursor:pointer;color:var(--ink-mid);
+  font:400 13px/1 var(--myeongjo);letter-spacing:.06em;
+  padding:18px var(--pad);margin-top:auto;border-top:1px solid var(--line)}
+.menu__lang span[data-active="false"]{opacity:.38}
+.menu__lang span[data-active="true"]{font-weight:600;color:var(--ink);
+  text-decoration:underline;text-underline-offset:3px}
 body.menu-open{overflow:hidden}
 
 /* ══════════════════════════════════════════════════════════════

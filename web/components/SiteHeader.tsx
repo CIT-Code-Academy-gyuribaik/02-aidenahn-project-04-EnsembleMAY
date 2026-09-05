@@ -26,10 +26,12 @@ import {
   type RefObject,
 } from "react";
 import { NAV, type NavItem } from "@/lib/nav";
+import { useLang } from "@/lib/lang";
 
 export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { lang, toggle } = useLang();
 
   /* 내비와 갈래가 같은 <nav> 를 봅니다 — 갈래는 [올려놓은 항목이 화면
      어디에 있는지] 를 알아야 그 밑에 설 수 있습니다. */
@@ -127,7 +129,18 @@ export default function SiteHeader() {
             onShow={show}
             onShut={shut}
             onDone={done}
+            lang={lang}
           />
+
+          <button
+            className="lang-btn"
+            aria-label="언어 전환 / Switch language"
+            onClick={toggle}
+          >
+            <span data-active={lang === "kor"}>KOR</span>
+            <span aria-hidden="true">·</span>
+            <span data-active={lang === "eng"}>ENG</span>
+          </button>
 
           <button
             className="burger"
@@ -176,9 +189,14 @@ export default function SiteHeader() {
               aria-current={isHere(it.href) ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
-              {it.label}
+              {it.label[lang]}
             </Link>
           ))}
+          <button className="menu__lang" onClick={toggle}>
+            <span data-active={lang === "kor"}>KOR</span>
+            <span aria-hidden="true">·</span>
+            <span data-active={lang === "eng"}>ENG</span>
+          </button>
         </div>
       </div>
     </>
@@ -201,6 +219,7 @@ function DesktopNav({
   onShow,
   onShut,
   onDone,
+  lang,
 }: {
   isHere: (href: string) => boolean;
   hover: string | null;
@@ -208,6 +227,7 @@ function DesktopNav({
   onShow: (it: NavItem) => void;
   onShut: () => void;
   onDone: () => void;
+  lang: "kor" | "eng";
 }) {
   const indRef = useRef<HTMLSpanElement>(null);
 
@@ -228,7 +248,7 @@ function DesktopNav({
     } else {
       ind.style.opacity = "0";
     }
-  }, [hover, isHere, navRef]);
+  }, [hover, isHere, navRef, lang]);
 
   return (
     <nav className="nav is-ind" aria-label="주 메뉴" ref={navRef} onMouseLeave={onShut}>
@@ -243,7 +263,7 @@ function DesktopNav({
           onBlur={onShut}
           onClick={onDone}
         >
-          {it.label}
+          {it.label[lang]}
         </Link>
       ))}
       <span className="nav__ind" ref={indRef} />
@@ -288,6 +308,7 @@ function SubNav({
   onDone: () => void;
 }) {
   const boxRef = useRef<HTMLDivElement>(null);
+  const { lang } = useLang();
 
   useOnLayout(() => {
     const nav = navRef.current;
@@ -301,7 +322,7 @@ function SubNav({
     const x = el.getBoundingClientRect().left;
     const last = window.innerWidth - EDGE - box.offsetWidth;
     box.style.left = `${Math.max(EDGE, Math.min(x, last))}px`;
-  }, [item, open, navRef]);
+  }, [item, open, navRef, lang]);
 
   return (
     <div
@@ -331,7 +352,7 @@ function SubNav({
           onBlur={onShut}
           onClick={onDone}
         >
-          {t.label}
+          {t.label[lang]}
         </Link>
       ))}
     </div>
