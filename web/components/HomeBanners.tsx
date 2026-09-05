@@ -1,78 +1,64 @@
+"use client";
+
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
+import { useLang } from "@/lib/lang";
+import type { NavLabel } from "@/lib/nav";
 
-/* ==========================================================================
-   홈 — 배너 두 장
+type Banner = {
+  href: string;
+  title: string;
+  kicker: NavLabel;
+  body: { kor: readonly string[]; eng: readonly string[] };
+  src: string;
+  alt: NavLabel;
+  flip: boolean;
+};
 
-   가로로 긴 카드 두 장을 세로로 쌓습니다. 사진은 배경을 딴 누끼라서
-   카드 위쪽으로 삐져나오고, 아래로는 카드 바닥선에서 잘립니다 — 카드
-   안에 얌전히 담긴 사진보다 눈에 먼저 들어오고, 어두운 지면 위에서
-   밝은 카드와 사진이 한 덩어리로 떠 보입니다.
-
-   둘의 좌우를 뒤집어 놓습니다(.pbn--flip). 같은 배치가 두 번 이어지면
-   두 번째는 첫 번째의 반복으로 읽혀서 잘 안 봅니다.
-
-   크기·간격·색은 전부 style.css 의 .pbn 한 곳에 있습니다. 시안을
-   픽셀로 재서 옮긴 값이라 눈대중으로 고치면 어긋납니다 — 잰 값과
-   재는 방법이 그 자리에 적혀 있습니다.
-
-   ★ 사진 파일은 투명 여백을 잘라낸 상태여야 합니다.
-     위치를 사진 상자 기준으로 잡기 때문에, 파일 가장자리에 투명한
-     띠가 남아 있으면 그만큼 덜 솟습니다. 갈아 끼울 때는 알파 경계로
-     크롭해서 넣어 주세요.
-   ========================================================================== */
-
-const BANNERS = [
+const BANNERS: readonly Banner[] = [
   {
     href: "/about/",
     title: "About Ensemble MAY",
-    kicker: "앙상블 메이 소개",
-    /* ★ 줄 하나를 어디까지 쓸 수 있는가 — 글 칸의 85% 까지입니다.
-       ────────────────────────────────────────────────────────────
-       글자를 12.5 → 15px 로 키우면서 네 줄을 세 줄로 줄이고 각 줄도
-       짧게 고쳐 썼습니다. 글 칸은 사진 자리를 뺀 나머지인데, 화면이
-       낮을수록 좁아져서 1366×768 같은 흔한 노트북에서는 324px 까지
-       내려갑니다. 15px 로 25자쯤입니다.
-       칸을 꽉 채우면 안 되는 이유 — 이 자리 글꼴(--gothic)은 방문자
-       컴퓨터에 무엇이 깔려 있느냐에 따라 프리텐다드 · Poppins · 맑은
-       고딕 순으로 정해집니다. 글꼴마다 글자 폭이 달라서, 여기서 딱
-       맞는 줄이 다른 컴퓨터에서는 한 글자 넘쳐 두 줄로 접힙니다.
-       접힌 줄은 카드 아래로 밀려나 사진 위에 얹힙니다.
-       그래서 가장 긴 줄도 276px, 칸의 87% 에서 멈춥니다.
-       원래 넉 줄이었습니다. [각자의 학교와 악기, 경험은 달랐지만,] 과
-       [서로의 다름을 존중하는 법을 배워갑니다] 를 덜어 냈습니다 —
-       둘이 같은 말을 하고 있었고, 카드가 [누구인가] 만 말하고 자세한
-       이야기는 Read more 너머(About)로 보내는 편이 낫습니다. */
-    body: [
-      "‘앙상블 메이’는 인터내셔널 스쿨 학생들이 모여,",
-      "음악을 통해 교감하고 성장하는 앙상블입니다.",
-    ],
+    kicker: { kor: "앙상블 메이 소개", eng: "Meet Ensemble MAY" },
+    body: {
+      kor: [
+        "'앙상블 메이'는 인터내셔널 스쿨 학생들이 모여,",
+        "음악을 통해 교감하고 성장하는 앙상블입니다.",
+      ],
+      eng: [
+        "Ensemble MAY brings together students from international schools",
+        "who connect and grow through music.",
+      ],
+    },
     src: "/assets/img/banner/about.webp",
-    alt: "흰 셔츠를 입고 모여 선 앙상블 메이 단원들",
+    alt: { kor: "흰 셔츠를 입고 모여 선 앙상블 메이 단원들", eng: "Ensemble MAY members gathered in white shirts" },
     flip: false,
   },
   {
-    /* About 의 [주요 연혁] 갈래가 Concert 와 같은 내용이라 없어졌습니다.
-       "지금까지 이런 무대에 섰습니다" 를 보여 주는 자리가 Concert 이므로
-       그쪽으로 보냅니다. */
     href: "/concert/",
     title: "Our History",
-    kicker: "음악을 통한 나눔과 봉사를 실천합니다.",
-    /* 이 카드의 글 칸은 443px 입니다. 15px 에서 42자쯤 들어갑니다 —
-       예전 첫 줄(51자)은 12.5px 에서 443px 을 꽉 채우고 있어서, 글자를
-       키우면 가장 먼저 접히는 줄이었습니다. 세 줄 모두 짧게 고쳐 썼습니다. */
-    body: [
-      "앙상블 메이는 연주를 넘어 선한 영향력을 전합니다.",
-      "정기 연주회와 봉사활동으로 따뜻한 에너지를 나누며,",
-      "사랑과 희망을 전하는 것을 목표로 합니다.",
-    ],
+    kicker: { kor: "음악을 통한 나눔과 봉사를 실천합니다.", eng: "Sharing and service through music" },
+    body: {
+      kor: [
+        "앙상블 메이는 연주를 넘어 선한 영향력을 전합니다.",
+        "정기 연주회와 봉사활동으로 따뜻한 에너지를 나누며,",
+        "사랑과 희망을 전하는 것을 목표로 합니다.",
+      ],
+      eng: [
+        "Ensemble MAY goes beyond performance to spread goodwill.",
+        "Through concerts and volunteer activities, we share warmth,",
+        "with a mission to deliver love and hope.",
+      ],
+    },
     src: "/assets/img/banner/chello.webp",
-    alt: "첼로",
+    alt: { kor: "첼로", eng: "Cello" },
     flip: true,
   },
 ] as const;
 
 export default function HomeBanners() {
+  const { lang } = useLang();
+
   return (
     <div className="pbns">
       {BANNERS.map((b, i) => (
@@ -80,14 +66,12 @@ export default function HomeBanners() {
           <div className={"pbn" + (b.flip ? " pbn--flip" : "")}>
             <div className="pbn__t">
               <h2 className="pbn__h">{b.title}</h2>
-              <p className="pbn__k">{b.kicker}</p>
+              <p className="pbn__k">{b.kicker[lang]}</p>
               <p className="pbn__b">
-                {b.body.map((line) => (
+                {b.body[lang].map((line) => (
                   <span key={line}>{line}</span>
                 ))}
               </p>
-              {/* 누를 곳은 이 단추 하나입니다. 카드 전체를 링크로 두면
-                  글을 긁어 읽으려고 끌기만 해도 페이지가 넘어갑니다. */}
               <Link className="pbn__m" href={b.href}>
                 Read more
               </Link>
@@ -95,7 +79,7 @@ export default function HomeBanners() {
 
             <div className="pbn__ph">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={b.src} alt={b.alt} loading="lazy" />
+              <img src={b.src} alt={b.alt[lang]} loading="lazy" />
             </div>
           </div>
         </Reveal>

@@ -1012,6 +1012,7 @@ body.menu-open{overflow:hidden}
 /* 960px 짜리 덩어리를 1280px 짜리 wrap 안에 왼쪽으로 붙여 두면
    오른쪽만 320px 비어서 글이 한쪽으로 쏠립니다. 덩어리째 가운데로 놓습니다.
    글줄은 그대로 왼쪽 정렬입니다 — 가운데 정렬한 것은 상자이지 글이 아닙니다. */
+.pair--solo{grid-template-columns:1fr}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:52px;
   max-width:960px;margin-inline:auto}
 .pair__ko{font:400 16px/1.95 var(--myeongjo)}
