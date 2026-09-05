@@ -14,7 +14,7 @@
    ========================================================================== */
 
 import type { ReactNode } from "react";
-import { Abril_Fatface } from "next/font/google";
+import { Abril_Fatface, Great_Vibes } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "@/app/style.css";
@@ -29,6 +29,16 @@ const abril = Abril_Fatface({
   subsets: ["latin"],
   display: "swap",
   variable: "--display",
+});
+
+/* 홈 히어로의 이름(Ensemble MAY)에 쓰는 필기체.
+   여기 한 자리에만 씁니다 — 손으로 쓴 글씨는 한 곳에 있을 때 서명처럼
+   읽히고, 여기저기 쓰면 금방 장식으로 흘러 버립니다. */
+const script = Great_Vibes({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--script",
 });
 
 export default function Shell({
@@ -47,7 +57,7 @@ export default function Shell({
 }) {
   return (
     <html lang="ko">
-      <body data-hdr={hdr} className={abril.variable}>
+      <body data-hdr={hdr} className={`${abril.variable} ${script.variable}`}>
         {/* 키보드만 쓰는 분이 탭 한 번으로 본문까지 건너뛰는 길입니다.
             평소에는 화면 위로 숨어 있다가 초점이 닿으면 내려옵니다. */}
         <a className="skip" href="#main">

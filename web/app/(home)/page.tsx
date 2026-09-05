@@ -2,6 +2,7 @@ import SnapScroll from "@/components/SnapScroll";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import HomeBanners from "@/components/HomeBanners";
 import HomeConcerts from "@/components/HomeConcerts";
+import CharityCta from "@/components/CharityCta";
 import VideoCard from "@/components/VideoCard";
 import { Reveal } from "@/components/Reveal";
 import { asset, HOME_VIDEO } from "@/lib/content";
@@ -39,13 +40,35 @@ export default function HomePage() {
           <HeroSlideshow />
           <div className="hero__veil" />
           <div className="hero__body">
-            <p className="eyebrow">Ensemble MAY</p>
-            <h1 className="hero__lines">
-              음악을 사랑하는 아이들이
-              <br />
-              만들어 가는 현악 앙상블입니다.
-            </h1>
-            <p className="hero__en">We practice sharing and service through music.</p>
+            {/* 히어로에는 이름만 세웁니다. 앙상블을 소개하는 글은 바로 아래
+                칸에서 국문·영문 두 단으로 이어집니다 — 첫 화면에서 두 번
+                읽히면 둘 다 흐려집니다. 필기체는 여기 한 자리뿐입니다. */}
+            <h1 className="hero__lines hero__lines--script">Ensemble MAY</h1>
+            {/* 이름과 한 줄 소개 사이를 가르는 금선. 가운데에 로고 마크가 놓입니다.
+                aria-hidden 인 이유는 읽을 내용이 없어서입니다. 화면 낭독기가
+                "이미지" 라고만 말하고 지나가면 방해만 됩니다. */}
+            <div className="hero__orn" aria-hidden="true">
+              <span />
+            </div>
+            {/* 두 문장을 한 줄씩 앉힙니다 — 앞은 누구인가, 뒤는 무엇을 하는가.
+                한 문장만으로는 금선(720px) 아래가 너무 비어서 낱말 사이를
+                억지로 벌려 폭을 채우던 자리였습니다. 문장이 길어지니 그럴
+                필요가 없어졌습니다.
+                ★ 문장마다 <span> 으로 감싸는 이유 — 한 덩어리로 두면 어디서
+                  줄이 바뀔지 브라우저가 정합니다. 그런데 이 자리의 글꼴은
+                  방문자 컴퓨터에 무엇이 깔려 있느냐에 따라 달라져서(--gothic
+                  차례대로 프리텐다드 · Poppins · 맑은 고딕), 글자 폭이 제각각이라
+                  [문장 사이]가 아니라 문장 한복판에서 끊기기도 합니다.
+                  실제로 "…WHO LOVE / MUSIC" 처럼 끊겼습니다. 문장을 각각
+                  블록으로 두면 어느 글꼴에서도 문장 단위로 나뉩니다.
+                  <br> 대신 <span> 인 것은, 좁은 화면에서 각 문장이 다시
+                  제 안에서 접혀야 하기 때문입니다.
+                대문자는 style.css 가 입힙니다. 여기에 대문자로 적어 두면
+                복사해 갈 때도 대문자로 붙고, 화면 낭독기가 한 글자씩 읽습니다. */}
+            <p className="hero__en">
+              <span>A string ensemble created by children who love music</span>
+              <span>We practice sharing and service through music</span>
+            </p>
           </div>
         </section>
 
@@ -71,13 +94,15 @@ export default function HomePage() {
                       그만큼 위 영상을 크게 걸 수 있습니다. */}
                   <div className="pair">
                     <p className="pair__ko">
-                      1년에 한 번 정기 공연을 열고, 그 사이사이 자선 공연으로 무대에 섭니다. 잘 하는
-                      아이들만 모인 곳이 아니라, 함께 연습하며 자라는 자리입니다.
+                      &apos;앙상블 메이&apos;는 단원들이 각자의 꿈을 음악 안에서 발견하고 키워갈 수
+                      있도록 응원합니다. 무대 위의 작은 경험들이 모여 스스로에 대한 확신과 미래를
+                      향한 용기로 이어지기를 바라며, 오늘도 한 걸음씩 나아가고 있습니다.
                     </p>
                     <p className="pair__en">
-                      Ensemble MAY is a string ensemble created by children who love music. We hold
-                      one regular concert each year and perform at charity concerts through the
-                      seasons. We practice sharing and service through music.
+                      Ensemble M.A.Y. encourages each member to discover and nurture their own
+                      dreams through music. We hope that these small experiences on stage will
+                      grow into confidence in themselves and courage for the future, and so we
+                      take one step forward, every day.
                     </p>
                   </div>
                 </div>
@@ -107,6 +132,15 @@ export default function HomePage() {
           </div>
         </section>
       </SnapScroll>
+
+      {/* 5 — 자선 공연 신청 안내. 스냅 밖입니다.
+          <SnapScroll> 이 끝난 뒤라 스냅 칸이 아니라 평범한 지면으로
+          이어집니다 — 푸터와 같은 자리 취급입니다. 마지막 칸에서 아래로
+          굴리면 이 띠와 푸터가 차례로 올라옵니다.
+          문안과 마크업은 Concert 맨 아래와 같은 것을 씁니다
+          (components/CharityCta.tsx). 여기에는 #charity 를 달지 않습니다 —
+          같은 id 가 한 화면에 둘이면 안 되고, 그 주소는 Concert 쪽입니다. */}
+      <CharityCta />
     </>
   );
 }

@@ -57,8 +57,19 @@ export default function HomeConcerts() {
   return (
     <>
       <h2 className="chd">Concert</h2>
+      {/* 제목 밑 한 줄. 공연을 왜 여느냐에 대한 답이라 여기가 자리입니다 —
+          Contact·자선공연 페이지에도 같은 말이 있지만, 거기까지 들어가는
+          사람은 이미 알고 온 사람입니다. */}
+      <p className="csub">
+        앙상블 메이는 <span className="csub__k">강남구자원봉사센터의 공식 봉사단체</span>입니다.
+      </p>
 
-      <RevealSeq className="cgrid" step={70}>
+      {/* 70 → 150. 넉 장이 한꺼번에 뜨는 것에 가까웠는데, 한 장씩 놓이는
+          것이 보이도록 사이를 벌렸습니다. 한 장이 올라오는 시간 자체는
+          style.css 의 .cgrid > [data-reveal="item"] 이 정합니다.
+          (RevealSeq 가 지연을 480ms 에서 끊으므로 3 × 150 = 450 이 상한입니다 —
+           더 벌리면 넷째 장만 제자리에 걸려 리듬이 깨집니다.) */}
+      <RevealSeq className="cgrid" step={150}>
         {CARDS.map((c) => {
           const s = showById(c.show);
           const poster = c.poster !== undefined ? POSTERS[c.poster] : undefined;

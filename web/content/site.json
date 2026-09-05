@@ -1,21 +1,21 @@
 {
   "contact": {
-    "tel": "010-0000-0000",
+    "tel": "010-6589-4953",
     "email": "ensemblemay2025@gmail.com"
   },
   "hero": [
-    "assets/img/hero/hero-1.webp",
-    "assets/img/hero/hero-2.webp",
-    "assets/img/hero/hero-3.webp",
-    "assets/img/hero/hero-4.webp"
+    "assets/img/hero/hero-24.webp",
+    "assets/img/hero/hero-29.webp",
+    "assets/img/hero/hero-27.webp",
+    "assets/img/hero/hero-3.webp"
   ],
   "heroMs": {
-    "hold": 4000,
-    "fade": 1000
+    "hold": 5600,
+    "fade": 1500
   },
   "homeVideo": {
-    "id": "ghWBQgkz_Xo",
-    "title": "제2회 정기연주회 · 가면무도회 왈츠",
+    "id": "pQX72-Gqqjc",
+    "title": "제2회 정기연주회 · Por una cabeza",
     "meta": "2026.06.21 · 로데아트센터"
   }
 }

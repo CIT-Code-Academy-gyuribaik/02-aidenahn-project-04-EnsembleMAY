@@ -29,3 +29,6 @@ desktop.ini
 #   git 이 "쳐다보지 않을 뿐"입니다.
 assets/영상/
 assets/img/_원본/
+
+# 빌드 찌꺼기 : next 명령을 뿌리에서 잘못 돌리면 여기에도 생깁니다
+.next/

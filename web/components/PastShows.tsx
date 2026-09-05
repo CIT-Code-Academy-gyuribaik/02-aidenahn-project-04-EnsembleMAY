@@ -18,55 +18,75 @@
 import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
 import { POSTERS, SHOWS, photosOf } from "@/lib/content";
-import { postersToLbItems, showAlbum } from "@/lib/photos";
+import { showAlbum } from "@/lib/photos";
 
 const { items: showPix, startOf } = showAlbum(SHOWS);
-const posterItems = postersToLbItems(POSTERS);
+
+/** 정기 연주회는 현장 사진 대신 포스터를 겁니다.
+    값은 posters.json 의 몇 번째인지입니다 — 홈의 공연 넉 장(HomeConcerts)과
+    같은 짝을 씁니다. 한쪽만 바꾸면 같은 공연이 두 얼굴을 갖게 됩니다. */
+const POSTER_OF: Record<string, number> = { concert2: 0, concert1: 1 };
 
 export function PastShows() {
   const lb = useLightbox();
 
   return (
     <>
-      <RevealSeq className="bento" step={70}>
+      {/* 한 줄에 [사진 | 공연 정보] 로 일곱 줄입니다.
+
+          ★ 벤토(크기가 제각각인 상자들)에서 이 표로 바꿨습니다. 벤토는
+            넓은 칸과 좁은 칸이 섞여 있어 사진 크기가 공연의 무게처럼
+            읽혔습니다 — 연혁은 무엇이 더 큰 공연인지가 아니라 언제 무엇을
+            했는지를 보는 자리입니다. 칸을 모두 같게 두면 눈이 날짜를
+            따라 아래로만 내려갑니다.
+
+          ★ 사진 비율 3/4 는 홈의 공연 넉 장(.ccd__ph)과 포스터(.poster__ph)가
+            쓰는 값입니다. 정기 연주회 자리에 포스터가 그대로 들어가야 해서
+            포스터 비율을 기준으로 잡았습니다. */}
+      <RevealSeq className="hist" step={70}>
         {SHOWS.map((s) => {
           const pics = photosOf(s.id);
           const start = startOf.get(s.id);
-          const cls = "bento__c" + (s.wide ? " bento__c--w" : "");
-
-          const face =
-            pics.length && start !== undefined ? (
-              <span className="bento__ph">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={pics[0].src} alt={pics[0].title} loading="lazy" />
-                <span className="bento__ov" />
-                {/* 여러 장이면 장수를 적습니다 — 눌러서 넘길 수 있다는 표시입니다. */}
-                {pics.length > 1 && <span className="bento__n">{pics.length}장</span>}
-              </span>
-            ) : (
-              /* 사진이 아직 없으면 로고 마크를 얹은 버건디 판으로 둡니다.
-                 빈 회색 상자를 두면 "빠진 칸"으로 보이고, 칸을 아예 빼면
-                 연혁에 구멍이 납니다. */
-              <span className="bento__ph bento__ph--empty" aria-hidden="true" />
-            );
+          const poster = POSTER_OF[s.id] !== undefined ? POSTERS[POSTER_OF[s.id]] : undefined;
+          const face = poster ?? pics[0];
 
           const inner = (
             <>
-              {face}
-              <span className="bento__d">{s.date}</span>
-              <span className="bento__t">
-                {s.title}
-                {s.note && <em>{s.note}</em>}
+              <span className="hist__ph">
+                {face ? (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={face.src} alt={face.title} loading="lazy" />
+                    <span className="hist__ov" />
+                    {/* 여러 장이면 장수를 적습니다 — 눌러서 넘길 수 있다는 표시입니다. */}
+                    {pics.length > 1 && <span className="hist__n">{pics.length}장</span>}
+                  </>
+                ) : (
+                  /* 사진도 포스터도 없으면 로고 마크를 얹은 버건디 판으로 둡니다.
+                     빈 회색 상자를 두면 "빠진 칸"으로 보이고, 줄을 아예 빼면
+                     연혁에 구멍이 납니다. */
+                  <span className="hist__ph--empty" aria-hidden="true" />
+                )}
               </span>
-              {s.venue && <span className="bento__v">{s.venue}</span>}
+
+              <span className="hist__b">
+                <span className="hist__d">{s.date}</span>
+                <span className="hist__t">
+                  {s.title}
+                  {s.note && <em>{s.note}</em>}
+                </span>
+                {s.venue && <span className="hist__v">{s.venue}</span>}
+              </span>
             </>
           );
 
-          /* 사진이 있으면 눌러서 크게 볼 수 있으니 <a>, 없으면 <div> 입니다. */
+          /* 사진이 있으면 눌러서 크게 볼 수 있으니 <a>, 없으면 <div> 입니다.
+             포스터를 건 줄도 눌렀을 때 열리는 것은 그날의 사진첩입니다 —
+             포스터는 그 공연을 가리키는 얼굴일 뿐입니다. */
           return pics.length && start !== undefined ? (
             <a
               key={s.id}
-              className={cls}
+              className="hist__r"
               href="#"
               onClick={(e) => {
                 e.preventDefault();
@@ -76,61 +96,12 @@ export function PastShows() {
               {inner}
             </a>
           ) : (
-            <div key={s.id} className={cls}>
+            <div key={s.id} className="hist__r">
               {inner}
             </div>
           );
         })}
       </RevealSeq>
-
-      <Lightbox {...lb.props} />
-    </>
-  );
-}
-
-export function Posters() {
-  const lb = useLightbox();
-
-  return (
-    <>
-      <div className="posters">
-        {POSTERS.map((p, i) => (
-          <a
-            key={p.src || p.title}
-            className="poster"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              lb.open(posterItems, i);
-            }}
-          >
-            {p.src ? (
-              <span className="poster__ph">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.src} alt={`${p.title} 포스터`} loading="lazy" />
-                <span className="poster__ov">
-                  <span>크게 보기</span>
-                </span>
-              </span>
-            ) : (
-              /* 파일이 아직 없을 때. 어디에 무엇을 넣어야 하는지 화면에 적어둡니다. */
-              <span className="poster__ph poster__ph--empty">
-                <span className="poster__hint">
-                  <span>
-                    포스터 이미지를 넣어주세요
-                    <br />
-                    <b>public/assets/img/poster/</b> 에 파일을 두고
-                    <br />
-                    <b>web/content/posters.json</b> 에 경로를 적습니다
-                  </span>
-                </span>
-              </span>
-            )}
-            <span className="poster__t">{p.title}</span>
-            <span className="poster__m">{p.caption}</span>
-          </a>
-        ))}
-      </div>
 
       <Lightbox {...lb.props} />
     </>

@@ -4,8 +4,15 @@
    영상 한 편
 
    ★ 누르기 전에는 아무것도 부르지 않습니다.
-     썸네일 한 장만 놓고, 누른 뒤에야 유튜브 iframe 이나 <video> 를 넣습니다.
-     첫 화면에서 유튜브를 미리 불러오면 그것만으로 수백 KB 를 씁니다.
+     검은 판과 재생 단추만 놓고, 누른 뒤에야 유튜브 iframe 이나 <video> 를
+     넣습니다. 첫 화면에서 유튜브를 미리 불러오면 그것만으로 수백 KB 를 씁니다.
+
+   ★ 미리보기 그림(썸네일)을 겁니다 — 유튜브는 자기 썸네일(i.ytimg.com),
+     직접 올린 영상은 content/videos.json 의 thumb 을 씁니다.
+     한때는 검은 판만 두었습니다(영상마다 밝기·색이 달라 여러 편이 늘어선
+     자리가 얼룩덜룩해 보인다는 이유로). 눌러서 보기 전에 어떤 영상인지
+     아예 안 보이는 쪽이 더 어색하다는 판단으로 되돌렸습니다 — 재생 단추는
+     썸네일 위에 그대로 얹힙니다.
 
    ★ auto — 화면에 들어오면 알아서 트는 자리
      홈의 둘째 칸처럼 "그 칸 자체가 영상"인 곳에 씁니다. 누르는 수고를
@@ -16,11 +23,6 @@
          받아 오고 그리는 것을 막습니다.
        · 동작 줄이기(prefers-reduced-motion)를 켠 분에게는 자동으로 틀지
          않습니다. 저절로 움직이기 시작하는 것은 부담이 됩니다.
-
-   유튜브 썸네일은 maxresdefault(1280×720)를 먼저 부릅니다.
-   hqdefault 는 480×360 이라 홈의 큰 영상 자리(폭 1000px 이상)에서
-   두 배 넘게 늘어나 뭉갭니다. 게다가 4:3 이라 위아래에 검은 띠가 있습니다.
-   maxresdefault 는 HD 로 올린 영상에만 있어서, 없으면 hqdefault 로 내려갑니다.
    ========================================================================== */
 
 import { useEffect, useRef, useState } from "react";
@@ -33,18 +35,20 @@ function kindOf(v: Video) {
   return "none" as const;
 }
 
+/** 유튜브 기본 썸네일. 어느 영상이든 있는 크기(480×360)라 깨질 일이 없습니다
+    — maxresdefault 는 없는 영상이 있어 대신 씁니다. */
+function ytThumb(id: string) {
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+}
+
 export default function VideoCard({ video, auto = false }: { video: Video; auto?: boolean }) {
   const [playing, setPlaying] = useState(false);
   const kind = kindOf(video);
-  const [thumb, setThumb] = useState(
-    video.thumb ?? (video.id ? `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg` : "")
-  );
   const boxRef = useRef<HTMLDivElement>(null);
 
   /* 저절로 트는 것이 실제로 켜졌는지. auto 를 넘겨받아도 동작 줄이기
-     설정이거나 IntersectionObserver 가 없으면 꺼집니다. 그때는 평범한
-     썸네일 + 재생 단추로 돌아가야 합니다 — 누를 것이 없으면 영영 못
-     봅니다. 처음 값을 auto 로 두는 이유는 서버가 그린 것과 브라우저가
+     설정이거나 IntersectionObserver 가 없으면 꺼집니다. 그때는 검은 판 +
+     재생 단추로 돌아가야 합니다 — 누를 것이 없으면 영영 못 봅니다. 처음 값을 auto 로 두는 이유는 서버가 그린 것과 브라우저가
      처음 그리는 것을 같게 하려는 것입니다. */
   const [autoOn, setAutoOn] = useState(auto);
 
@@ -97,6 +101,13 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
     `https://www.youtube.com/embed/${encodeURIComponent(video.id ?? "")}` +
     `?autoplay=1&rel=0&playsinline=1${autoOn ? "&mute=1" : ""}`;
 
+  /* 유튜브는 안 적어도 자기 썸네일이 있습니다. 직접 올린 mp4 는
+     videos.json 에 thumb 을 적어 둔 경우에만 보입니다. */
+  const thumb = video.thumb ?? (kind === "yt" && video.id ? ytThumb(video.id) : undefined);
+  /* eslint-disable-next-line @next/next/no-img-element -- 유튜브 도메인
+     이미지라 next/image 최적화 대상이 아닙니다. */
+  const thumbImg = thumb && <img className="vid__th" src={thumb} alt="" />;
+
   return (
     <div ref={boxRef}>
       {playing && kind === "yt" ? (
@@ -113,38 +124,17 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
           <video src={video.mp4} controls autoPlay playsInline preload="metadata" />
         </div>
       ) : autoOn ? (
-        /* 저절로 틀 자리는 검은 판 하나로 둡니다.
-           예전에는 여기에 그라데이션 바탕 → 유튜브 썸네일 → 검은 화면 →
-           영상이 차례로 들어와서, 칸에 들어서자마자 세 번을 깜빡였습니다.
-           어차피 곧바로 영상으로 바뀔 자리라 썸네일을 받을 이유가 없고,
-           유튜브 플레이어도 검은 바탕에서 시작하므로 색을 맞춰 두면
-           바뀌는 순간이 눈에 띄지 않습니다. */
-        <div className="vid__f vid__f--plain" />
+        /* 저절로 틀 자리 — 누를 것이 없으니 단추는 없지만, 트이기 전까지
+           잠깐이라도 검게 비어 있지 않도록 썸네일은 그대로 둡니다. */
+        <div className="vid__f">{thumbImg}</div>
       ) : (
         <button
           className="vid__f"
-          data-kind={kind === "none" ? "" : kind}
           aria-label={`${video.title} 재생`}
           disabled={kind === "none"}
           onClick={() => setPlaying(true)}
         >
-          {thumb && (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={thumb}
-              alt=""
-              loading="lazy"
-              onError={() => {
-                /* maxresdefault 가 없는 영상이면 hqdefault 로 내려갑니다.
-                   한 번만 바꿉니다 — 그것마저 실패하면 자리 표시만 남습니다. */
-                if (video.id && thumb.includes("maxresdefault")) {
-                  setThumb(`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`);
-                } else {
-                  setThumb("");
-                }
-              }}
-            />
-          )}
+          {thumbImg}
           <span className="vid__play" />
         </button>
       )}

@@ -44,6 +44,20 @@ function useInView<T extends HTMLElement>() {
       setSeen(true);
       return;
     }
+    /* ★ threshold(넓이 비율)가 아니라 rootMargin 으로만 시점을 잡습니다.
+       ────────────────────────────────────────────────────────────────
+       예전에는 threshold 0.12 였습니다 — [이 덩어리의 12% 가 화면에 들어오면]
+       이라는 뜻입니다. 덩어리가 화면보다 작을 때는 맞는 말인데, 화면보다
+       한참 클 때는 성립하지 않습니다.
+         공연 연혁(/concert/past/)의 표가 2674px 입니다. 900px 짜리 화면에
+         제목 아래로 첫 줄이 보이는 상태에서도 들어온 넓이는 316px, 비율로
+         0.118 이라 0.12 에 닿지 못합니다. 그래서 첫 화면에서는 아무것도
+         나타나지 않고, 스크롤을 조금 내려야 그제서야 일곱 줄이 한꺼번에
+         올라왔습니다. 긴 목록일수록 더 많이 내려야 합니다.
+       threshold 0 은 [한 픽셀이라도 걸치면] 입니다. 여기에 아래쪽 여백을
+       -12% 로 두어, 덩어리의 윗변이 화면 바닥에서 화면 높이의 12% 만큼
+       올라온 뒤에 켜지게 합니다. 짧은 덩어리에는 예전과 거의 같게 동작하고,
+       긴 목록은 윗변이 보이는 순간 바로 켜집니다. */
     const io = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -51,7 +65,7 @@ function useInView<T extends HTMLElement>() {
           io.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0, rootMargin: "0px 0px -12% 0px" }
     );
     io.observe(el);
     return () => io.disconnect();

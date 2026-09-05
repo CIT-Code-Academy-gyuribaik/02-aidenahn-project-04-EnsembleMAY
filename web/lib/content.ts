@@ -19,6 +19,7 @@ import postersJson from "@/content/posters.json";
 import videosJson from "@/content/videos.json";
 import repertoireJson from "@/content/repertoire.json";
 import siteJson from "@/content/site.json";
+import sponsorsJson from "@/content/sponsors.json";
 
 /* ── 생김새 ────────────────────────────────────────────────────────────── */
 
@@ -117,6 +118,22 @@ function fixSrc<T extends { src: string }>(items: readonly T[]): T[] {
   return items.map((it) => ({ ...it, src: asset(it.src) }));
 }
 
+/** 후원해 주시는 곳.
+ *  ★ 기업·기관과 개인을 따로 둡니다. 한 줄에 섞으면 회사 이름 사이에
+ *    사람 이름이 끼어 양쪽 다 묻힙니다.
+ *  ★ 순서는 가나다순입니다. 금액순·시기순은 후원사가 늘 때마다 서열
+ *    문제가 생기지만, 가나다순은 자리만 끼워 넣으면 끝입니다.
+ *    (주) 는 정렬에서 뺐습니다 — 그것까지 세면 ㅈ 자리에 다 모입니다.
+ *  ★ 로고가 아니라 글자로 겁니다. 열여덟 곳의 로고를 해상도와 배경까지
+ *    맞춰 모으는 일은 명단이 늘 때마다 되풀이됩니다. 글자는 한 줄 추가로
+ *    끝나고, 이 규모에서는 오히려 더 정연해 보입니다. */
+export type Sponsors = {
+  /** 기업·기관. 공식 상호 그대로 적습니다. */
+  orgs: string[];
+  /** 개인. 이름만 적습니다 — "님" 은 화면에서 붙입니다. */
+  people: string[];
+};
+
 /* ── 내보내기 ──────────────────────────────────────────────────────────── */
 
 export const MEMBERS: Member[] = fixSrc(membersJson as Member[]);
@@ -133,6 +150,7 @@ export const VIDEOS: Video[] = (videosJson as Video[]).map((v) => ({
 export const REPERTOIRE: Piece[] = repertoireJson as Piece[];
 
 export const CONTACT: Contact = siteJson.contact;
+export const SPONSORS: Sponsors = sponsorsJson;
 export const HERO: string[] = siteJson.hero.map(asset);
 export const HERO_MS: HeroMs = siteJson.heroMs;
 export const HOME_VIDEO: Video = siteJson.homeVideo;

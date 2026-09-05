@@ -12,7 +12,7 @@ import { MEMBERS } from "@/lib/content";
 
 export default function MemberGrid() {
   return (
-    <RevealSeq className="mem mem--4" step={60}>
+    <RevealSeq className="mem mem--3" step={60}>
       {MEMBERS.map((m, i) => (
         <div className="mem__c" key={m.src || i}>
           {m.src ? (

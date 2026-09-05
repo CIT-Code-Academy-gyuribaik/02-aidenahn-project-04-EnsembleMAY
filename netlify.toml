@@ -1,0 +1,39 @@
+# ==========================================================================
+# 앙상블 메이 — Netlify 배포 설정
+#
+# 이 저장소는 뿌리(E:\ensemblemay)에 index.html 이 없습니다.
+# 사이트 소스는 web/ 안에 있고, 빌드하면 web/out/ 에 진짜 HTML 이
+# 떨어집니다. 그래서 뿌리 폴더를 통째로 올리면 Netlify 가 첫 화면을
+# 못 찾아 "Page not found" 만 보여 줍니다.
+#
+# 방법 1 — GitHub 연결 (권장, 자동 배포)
+#   Netlify 에서 이 저장소를 연결하면 아래 설정을 그대로 읽어 갑니다.
+#   push 할 때마다 알아서 빌드하고 배포합니다. 손댈 것이 없습니다.
+#
+# 방법 2 — 폴더 끌어다 놓기 (Netlify Drop)
+#   반드시  E:\ensemblemay\web\out  폴더를 끌어다 놓으세요.
+#   그 안에 index.html 이 바로 들어 있습니다. 뿌리 폴더가 아닙니다.
+#   먼저 web 폴더에서  npm run build  를 돌려 최신 상태로 만드세요.
+# ==========================================================================
+
+[build]
+  # 빌드를 web/ 안에서 돌립니다 (package.json 이 거기 있습니다).
+  base    = "web"
+  command = "npm run build"
+  # publish 는 base 기준입니다 → 실제로는 web/out
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# _next/static 안의 파일은 이름에 해시가 붙습니다. 내용이 바뀌면
+# 파일 이름부터 바뀌므로, 1년 캐시해도 옛날 화면이 남지 않습니다.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

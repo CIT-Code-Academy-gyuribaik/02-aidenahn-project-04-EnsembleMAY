@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/Reveal";
+import { asset } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -13,19 +14,30 @@ export const metadata: Metadata = pageMeta({
 /* ==========================================================================
    앙상블메이 스토리
 
-   세 대목을 세워 놓습니다. 국문 선언문을 크게 앞세우고, 그것을 풀어쓴
-   국·영문을 아래 두 단으로 둡니다.
+   세 대목을 [사진 | 글] 한 쌍으로 세우고, 사진의 좌우를 번갈아 놓습니다.
+   글 칸 안에서는 국문 선언문 → 국문 본문 → 영문 선언문 → 영문 본문 이
+   세로로 흐릅니다.
 
-   선언문을 크게 두는 이유 — 세 대목이 이어지면 글이 깁니다. 빠르게
-   훑는 사람은 선언문 세 줄만 읽고도 무엇을 말하는지 알 수 있어야 하고,
-   본문은 궁금한 사람이 읽습니다.
-   900px 아래에서는 두 단이 한 단으로 접히고 국문이 먼저 옵니다.
+   ★ 사진을 넣은 이유 — 예전에는 글만 세 덩어리가 이어졌습니다. 세 대목이
+     모두 [선언문 + 국문 + 영문] 이라는 같은 모양이어서, 스크롤하면 같은
+     화면이 세 번 반복되는 것처럼 보였습니다. 사진이 좌우로 번갈아 들어가면
+     대목이 바뀐 것이 한눈에 보입니다.
+   ★ 사진은 각 대목이 말하는 장면으로 골랐습니다 — 아래 photo 주석 참고.
+   900px 아래에서는 한 단으로 접히고 사진이 글 위로 갑니다(좌우 번갈이 없음).
    ========================================================================== */
 
 const BLOCKS = [
   {
+    /* [서로 다른 길을 걸어온 청소년들이 하나로] — 다른 학교에서 온 넷이
+       악기를 들고 나란히 서서 웃는 컷입니다. 무대 사진보다 이 문장에
+       가깝습니다. 문장이 말하는 것이 연주가 아니라 만남이라서요. */
+    photo: "assets/img/gallery/20260510-sfs-01.webp",
+    alt: "악기를 들고 나란히 서서 웃는 앙상블 메이 단원들",
     ko: {
-      lead: "음악이 서로 다른 길을 걸어온 청소년들을 하나로 이어주었습니다.",
+      /* 줄바꿈을 글 안에 직접 넣습니다(\n). style.css 의 .st__ko 가
+         white-space:pre-line 으로 이 줄바꿈만 살립니다 — 브라우저에 맡기면
+         [걸어온 / 청소년들을] 에서 끊깁니다. */
+      lead: "음악이 서로 다른 길을 걸어온 청소년들을\n하나로 이어주었습니다.",
       body:
         "‘앙상블 메이’는 여러 인터내셔널 스쿨에 재학 중인 학생들이 모여, 음악을 통해 교감하고 " +
         "성장하는 앙상블입니다. 각자의 학교와 악기, 경험은 달랐지만, 함께 연주하며 서로의 다름을 " +
@@ -41,6 +53,11 @@ const BLOCKS = [
     },
   },
   {
+    /* [나눔과 봉사] — 도서관 자선 공연에서 연주하는 장면입니다. 무대가
+       아닌 곳에서 관객과 같은 높이로 연주하는 사진이라, 봉사라는 말을
+       설명 없이 보여 줍니다. */
+    photo: "assets/img/gallery/20251213-library-16.webp",
+    alt: "국립어린이청소년도서관 [음악이 흐르는 도서관] 에서 관객 앞에 서서 연주하는 앙상블 메이 단원들",
     ko: {
       lead: "음악을 통한 나눔과 봉사를 실천합니다.",
       body:
@@ -57,6 +74,12 @@ const BLOCKS = [
     },
   },
   {
+    /* [더 넓은 세상] — 창단 공연(제1회 정기연주회, 거암아트홀)이 끝나고
+       무대에 나란히 선 단체 사진입니다. 앞의 두 장이 연주하는 장면이라,
+       마지막은 연주가 끝난 뒤 열세 명이 정면을 보고 선 컷으로 닫습니다 —
+       셋을 나란히 보면 만남 → 나눔 → 무대로 넓어집니다. */
+    photo: "assets/img/gallery/20250614-concert1-12.webp",
+    alt: "제1회 정기연주회를 마치고 무대에 나란히 선 앙상블 메이 단원들",
     ko: {
       lead: "음악과 함께 더 넓은 세상을 향해 나아갑니다.",
       body:
@@ -81,15 +104,20 @@ export default function AboutStoryPage() {
 
       {BLOCKS.map((b, i) => (
         <Reveal key={b.ko.lead} delay={i * 90}>
-          <div className="st__i">
-            <p className="st__n">{String(i + 1).padStart(2, "0")}</p>
-            <p className="st__ko">{b.ko.lead}</p>
-            <div className="st__b">
+          {/* 홀수 번째 대목은 사진을 오른쪽으로 보냅니다(--flip).
+              좌우를 번갈아 놓으면 세 대목이 같은 화면의 반복으로 보이지
+              않습니다. 좁은 화면에서는 이 갈림이 없어집니다 — 한 단으로
+              접히면 좌우라는 것 자체가 없습니다. */}
+          <div className={"st__i" + (i % 2 ? " st__i--flip" : "")}>
+            <div className="st__ph">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={asset(b.photo)} alt={b.alt} loading="lazy" />
+            </div>
+            <div className="st__t">
+              <p className="st__ko">{b.ko.lead}</p>
               <p className="pair__ko">{b.ko.body}</p>
-              <div>
-                <p className="st__en">{b.en.lead}</p>
-                <p className="pair__en">{b.en.body}</p>
-              </div>
+              <p className="st__en">{b.en.lead}</p>
+              <p className="pair__en">{b.en.body}</p>
             </div>
           </div>
         </Reveal>

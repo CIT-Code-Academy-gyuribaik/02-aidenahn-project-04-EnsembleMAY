@@ -19,7 +19,15 @@
      시간 기준을 씁니다. 관성 꼬리는 막으면서 연속 휠은 막지 않습니다.
    ========================================================================== */
 
-import { Children, isValidElement, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Children,
+  isValidElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Keyboard, Mousewheel } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperClass } from "swiper/types";
@@ -48,6 +56,11 @@ const BREAK_H = 580;
 
 /** 이보다 약한 휠은 무시합니다 — 손가락이 스친 정도로 넘어가지 않게. */
 const THRESHOLD_DELTA = 6;
+
+/** 이보다 좁으면 스냅을 끕니다. style.css 가 상단 내비를 감추고 햄버거로
+    바꾸는 경계와 같은 자리라, "메뉴는 모바일인데 스크롤은 데스크톱"인
+    구간이 없습니다. snap.css 의 @media (max-width:900px) 와 짝입니다. */
+const BREAK_W = 901;
 
 export default function SnapScroll({ children }: { children: ReactNode }) {
   const slides = Children.toArray(children).filter(isValidElement);
@@ -88,6 +101,99 @@ export default function SnapScroll({ children }: { children: ReactNode }) {
   }, []);
 
   const off = calm || short;
+
+  /* ── 마지막 칸이 아니면 페이지를 잠급니다 ──────────────────────────────
+     푸터는 스냅 밖, 이 컨테이너 바로 뒤에 놓입니다. 컨테이너가 화면
+     높이(100dvh)라 문서는 언제나 "푸터 높이만큼" 더 깁니다 — 지금 몇 번째
+     칸을 보고 있든 상관없이 그렇습니다. 1440×900 에서 재어 보면 문서가
+     1285px, 화면이 900px 이라 385px 이 늘 남아 있습니다.
+
+     ★ 그래서 휠이 아닌 길로 페이지가 밀리면 푸터가 아무 칸 밑에나
+       따라붙습니다. 실제로 밀리는 길이 넷 있었습니다.
+         · 스크롤바를 잡아 끌 때          · 터치 화면에서 쓸어내릴 때
+         · 새로고침 뒤 스크롤 복원        · 탭으로 푸터 링크에 초점이 갈 때
+       한 번 밀리고 나면 아래 [푸터로 넘겨주기] 의 조건(scrollY > 0)이
+       계속 참이라 휠이 전부 페이지로 넘어갑니다. "스냅이 안 걸리고 그냥
+       스크롤된다" 던 증상의 정체가 이것입니다 — 스냅이 죽은 것이 아니라,
+       한 번 밀린 페이지가 스스로 0 으로 돌아오지 못한 것입니다.
+
+     막는 방법은 간단합니다. 마지막 칸이 아닐 때는 문서를 아예 스크롤할
+     수 없게 두고, 마지막 칸에 닿으면 풀어 줍니다. 푸터가 올라오는 자리는
+     원래 설계대로 마지막 칸 하나뿐이 됩니다.
+
+     style.css 의 html{scrollbar-gutter:stable} 이 짝입니다 — 잠글 때
+     스크롤바가 사라지면서 내용이 옆으로 튀는 것을 막습니다. */
+  /** 스냅이 지금 실제로 걸려 있는가.
+
+      ★ Swiper 의 sw.enabled 를 보면 안 됩니다. 창 크기가 바뀌는 순간에는
+        Swiper 가 아직 breakpoints 를 반영하기 전이라 한 박자 어긋납니다.
+        실제로 창을 900px 로 좁혔을 때 스냅은 꺼졌는데 잠금만 남아,
+        지면이 통째로 굳었습니다. 켜는 조건을 그대로 다시 봅니다. */
+  const snapOn = useCallback(() => !off && window.innerWidth >= BREAK_W, [off]);
+
+  const syncLock = useCallback(() => {
+    const sw = swiperRef.current;
+    const atLast = !!sw && sw.activeIndex >= sw.slides.length - 1;
+    const lock = !!sw && snapOn() && !atLast;
+    /* 마지막 칸에서 푸터를 보다가 위 칸으로 올라온 참이면 페이지가 아직
+       내려가 있습니다. 그대로 잠그면 푸터가 걸린 채 굳으므로 먼저 올립니다. */
+    if (lock && window.scrollY > 0) window.scrollTo(0, 0);
+    document.documentElement.style.overflow = lock ? "hidden" : "";
+  }, [snapOn]);
+
+  useEffect(() => {
+    syncLock();
+    /* 창 크기가 바뀌면 Swiper 가 breakpoints 로 켜지고 꺼집니다.
+       꺼진 뒤에도 잠금이 남아 있으면 평범한 스크롤까지 막힙니다. */
+    window.addEventListener("resize", syncLock);
+    return () => {
+      window.removeEventListener("resize", syncLock);
+      document.documentElement.style.overflow = "";
+    };
+  }, [off, syncLock]);
+
+  /* 잠갔는데도 페이지가 밀렸다면 사람이 아니라 브라우저가 민 것입니다 —
+     overflow:hidden 은 손을 막지, focus() 나 새로고침 뒤 스크롤 복원까지
+     막지는 않습니다. 마지막 칸이 아닌데 밀려 있으면 맨 위로 되돌립니다. */
+  useEffect(() => {
+    const onScroll = () => {
+      const sw = swiperRef.current;
+      if (!sw || !snapOn() || window.scrollY === 0) return;
+      if (sw.activeIndex >= sw.slides.length - 1) return;
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [snapOn]);
+
+  /* 탭으로 푸터 링크에 초점이 갔을 때만은 되돌리면 안 됩니다 — 초점이
+     화면 밖에 남으면 키보드로만 다니는 분이 지금 어디에 있는지 잃습니다.
+     그래서 푸터가 제 칸(마지막 칸) 밑에 오도록 옮겨 놓고 보여 줍니다.
+
+     ★ 이 판단을 scroll 쪽에 두었더니 마지막 칸에서 못 빠져나왔습니다.
+       한 번 푸터에 초점이 닿으면 그 뒤로도 계속 "초점이 푸터에 있는"
+       상태라, 휠로 위 칸에 올라가려 할 때마다 도로 끌려 내려왔습니다.
+       초점이 옮겨 온 그 순간에 한 번만 반응해야 합니다.
+
+     브라우저가 초점을 따라 지면을 먼저 밀어 버리는 경우가 있어(그러면
+     위 onScroll 이 0 으로 되돌립니다) 잠금을 푼 뒤 다시 한 번 불러
+     세웁니다. */
+  useEffect(() => {
+    const onFocusIn = (e: FocusEvent) => {
+      const sw = swiperRef.current;
+      const el = e.target as HTMLElement | null;
+      /* 스냅 칸 뒤에 놓인 것들 — 자선 공연 띠와 푸터입니다.
+         한때 footer 만 봤는데, 그 위에 띠가 하나 더 생기면서 탭으로 그리
+         옮겨 간 분이 화면 밖에 남았습니다. 이 뒤로 무언가 더 붙으면
+         여기에도 한 줄 더해야 합니다. */
+      if (!sw || !snapOn() || !el?.closest?.("footer, .cta")) return;
+      const last = sw.slides.length - 1;
+      if (sw.activeIndex < last) sw.slideTo(last, 0);
+      el.scrollIntoView({ block: "nearest" });
+    };
+    window.addEventListener("focusin", onFocusIn);
+    return () => window.removeEventListener("focusin", onFocusIn);
+  }, [snapOn]);
 
   /* 칸이 넘어갈 때 상단 바를 흰 바탕으로 바꾸던 코드가 여기 있었습니다.
      홈의 네 칸이 모두 어두워지면서 — 히어로 사진, 어두운 영상 칸, 무대
@@ -170,10 +276,14 @@ export default function SnapScroll({ children }: { children: ReactNode }) {
          style.css 가 상단 내비를 감추고 햄버거로 바꾸는 경계와 같은
          자리라, "메뉴는 모바일인데 스크롤은 데스크톱"인 구간이 없습니다. */
       enabled={false}
-      breakpoints={{ 901: { enabled: !off } }}
+      breakpoints={{ [BREAK_W]: { enabled: !off } }}
       onSwiper={(sw: SwiperClass) => {
         swiperRef.current = sw;
+        syncLock();
       }}
+      /* 칸이 바뀔 때마다 잠금을 다시 맞춥니다 — 마지막 칸에 닿으면 풀고,
+         떠나면 겁니다. slideChange 는 전환이 시작될 때 옵니다. */
+      onSlideChange={syncLock}
       onSlideChangeTransitionEnd={() => {
         arrivedAt.current = performance.now();
       }}
