@@ -3,12 +3,16 @@
     "src": "assets/img/poster/2026-second-concert.webp",
     "ratio": "3/4",
     "title": "제2회 정기연주회",
-    "caption": "When Melodies Meet · 2026. 6. 21. 로데아트센터"
+    "caption": "When Melodies Meet · 2026. 6. 21. 로데아트센터",
+    "titleEn": "2nd Annual Concert",
+    "captionEn": "When Melodies Meet · June 21, 2026 · Rode Art Center"
   },
   {
     "src": "assets/img/poster/2025-first-concert.webp",
     "ratio": "4/5",
     "title": "창단 연주회",
-    "caption": "2025. 6. 14. 거암아트홀"
+    "caption": "2025. 6. 14. 거암아트홀",
+    "titleEn": "Inaugural Concert",
+    "captionEn": "June 14, 2025 · Geoam Art Hall"
   }
 ]

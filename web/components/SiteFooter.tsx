@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CONTACT } from "@/lib/content";
 import { useLang } from "@/lib/lang";
+import { T } from "@/lib/i18n";
 
 const NAV = [
   { href: "/", label: { kor: "처음으로", eng: "Home" } },
@@ -16,7 +17,7 @@ export default function SiteFooter() {
   const { lang } = useLang();
   return (
     <footer className="foot">
-      <nav className="foot__nav" aria-label={lang === "kor" ? "푸터 메뉴" : "Footer menu"}>
+      <nav className="foot__nav" aria-label={T.common.footerMenu[lang]}>
         <div className="wrap">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href}>
@@ -42,7 +43,7 @@ export default function SiteFooter() {
             </span>
           </p>
           <p className="foot__c">
-            Copyright © 2026 <b>앙상블메이</b>{" "}
+            Copyright © 2026 <b>{T.common.siteName[lang]}</b>{" "}
             <a href="https://www.ensemblemay.com">www.ensemblemay.com</a> All Rights Reserved.
           </p>
         </div>

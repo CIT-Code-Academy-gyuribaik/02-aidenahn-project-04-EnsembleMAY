@@ -3,54 +3,63 @@
     "src": "assets/img/members/member-01.webp",
     "ratio": "853/1280",
     "name": "김해든 Hayden Kim",
-    "part": "Violin"
+    "part": "Violin",
+    "nameEn": "Hayden Kim"
   },
   {
     "src": "assets/img/members/member-02.webp",
     "ratio": "853/1280",
     "name": "노단비 Danbi Roh",
-    "part": "Violin"
+    "part": "Violin",
+    "nameEn": "Danbi Roh"
   },
   {
     "src": "assets/img/members/member-05.webp",
     "ratio": "853/1280",
     "name": "이차연 Stella Chayon Lee",
-    "part": "Violin"
+    "part": "Violin",
+    "nameEn": "Stella Chayon Lee"
   },
   {
     "src": "assets/img/members/member-09.webp",
     "ratio": "476/636",
     "name": "김미송 Emma Kim",
-    "part": "Violin"
+    "part": "Violin",
+    "nameEn": "Emma Kim"
   },
   {
     "src": "assets/img/members/member-07.webp",
     "ratio": "854/1280",
     "name": "이하영 Hayoung Eli Lee",
-    "part": "Viola"
+    "part": "Viola",
+    "nameEn": "Hayoung Eli Lee"
   },
   {
     "src": "assets/img/members/member-04.webp",
     "ratio": "853/1280",
     "name": "안강민 Aiden Ahn",
-    "part": "Cello"
+    "part": "Cello",
+    "nameEn": "Aiden Ahn"
   },
   {
     "src": "assets/img/members/member-06.webp",
     "ratio": "853/1280",
     "name": "김해본 Haven Kim",
-    "part": "Cello"
+    "part": "Cello",
+    "nameEn": "Haven Kim"
   },
   {
     "src": "assets/img/members/member-08.webp",
     "ratio": "855/1280",
     "name": "최이진 Egene Choi",
-    "part": "Cello"
+    "part": "Cello",
+    "nameEn": "Egene Choi"
   },
   {
     "src": "assets/img/members/member-03.webp",
     "ratio": "854/1280",
     "name": "임재이 Alyssa Lim",
-    "part": "Piano"
+    "part": "Piano",
+    "nameEn": "Alyssa Lim"
   }
 ]
