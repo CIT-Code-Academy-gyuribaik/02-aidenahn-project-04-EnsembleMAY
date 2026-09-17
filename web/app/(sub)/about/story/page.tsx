@@ -11,16 +11,11 @@ export const metadata: Metadata = pageMeta({
   path: "/about/story/",
 });
 
-/* 앙상블메이 스토리 세 대목을 [사진 | 글] 한 쌍으로 세우고, 사진의 좌우를 번갈아 놓습니다.
-   ★ 사진을 넣은 이유 — 예전에는 글만 세 덩어리가 이어졌습니다. */
-
 const BLOCKS = [
   {
-    /* [서로 다른 길을 걸어온 청소년들이 하나로] — 다른 학교에서 온 넷이 악기를 들고 나란히 서서 웃는 컷입니다. */
     photo: "assets/img/gallery/20260510-sfs-01.webp",
     alt: "악기를 들고 나란히 서서 웃는 앙상블 메이 단원들",
     ko: {
-      /* 줄바꿈을 글 안에 직접 넣습니다(\n). */
       lead: "음악이 서로 다른 길을 걸어온 청소년들을\n하나로 이어주었습니다.",
       body:
         "‘앙상블 메이’는 여러 인터내셔널 스쿨에 재학 중인 학생들이 모여, 음악을 통해 교감하고 " +
@@ -37,7 +32,6 @@ const BLOCKS = [
     },
   },
   {
-    /* [나눔과 봉사] — 도서관 자선 공연에서 연주하는 장면입니다. */
     photo: "assets/img/gallery/20251213-library-16.webp",
     alt: "국립어린이청소년도서관 [음악이 흐르는 도서관] 에서 관객 앞에 서서 연주하는 앙상블 메이 단원들",
     ko: {
@@ -56,7 +50,6 @@ const BLOCKS = [
     },
   },
   {
-    /* [더 넓은 세상] — 창단 공연(제1회 정기연주회, 거암아트홀)이 끝나고 무대에 나란히 선 단체 사진입니다. */
     photo: "assets/img/gallery/20250614-concert1-12.webp",
     alt: "제1회 정기연주회를 마치고 무대에 나란히 선 앙상블 메이 단원들",
     ko: {
@@ -83,7 +76,7 @@ export default function AboutStoryPage() {
 
       {BLOCKS.map((b, i) => (
         <Reveal key={b.ko.lead} delay={i * 90}>
-          {/* 홀수 번째 대목은 사진을 오른쪽으로 보냅니다(--flip). */}
+
           <div className={"st__i" + (i % 2 ? " st__i--flip" : "")}>
             <div className="st__ph">
               {/* eslint-disable-next-line @next/next/no-img-element */}

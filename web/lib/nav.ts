@@ -1,19 +1,13 @@
-/* 내비게이션 한 벌 — 상단 바와 하위 메뉴가 같은 목록을 봅니다
-   ★ 왜 여기로 모았나 갈래 목록은 원래 각 서브페이지의 layout.tsx 안에 TABS 로 따로 적혀 있었습니다. */
-
-/* 언어 쌍 */
 export type NavLabel = { kor: string; eng: string };
 
-/* 하위 갈래 한 칸 */
 export type SubTab = { href: string; label: NavLabel };
 
-/* 상단 바 한 칸 */
 export type NavItem = {
   href: string;
   label: NavLabel;
-  /* 하위 갈래. Home 처럼 없는 항목도 있습니다 — 없으면 펼칠 것도 없습니다. */
+
   sub?: readonly SubTab[];
-  /* 하위 띠를 화면 낭독기가 무엇이라 부를지 */
+
   subLabel?: NavLabel;
 };
 

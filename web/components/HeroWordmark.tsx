@@ -1,16 +1,5 @@
 "use client";
 
-/* 히어로의 이름 — 손글씨 원본(ensemble MAY-hero-typo.svg)을 그대로 옮긴 것
-   ★ 글꼴이 아니라 그림입니다. 예전에는 Great Vibes 라는 필기체로 "Ensemble MAY" 라고 적었습니다. 지금은 직접 그린 손글씨를 씁니다
-     — 글꼴에는 없는 획의 흐름과 이음이 들어 있어서, 같은 이름이라도 남의 글씨가 아니라 우리 글씨가 됩니다.
-   ★ 색을 파일 안에 박아 두지 않았습니다(fill="currentColor"). 원본은 흰색(#fff)으로 그려져 있지만, 그대로 두면 색이 이 파일 한
-     곳에 숨어 버립니다. currentColor 로 두면 style.css 의 .hero__lines 가 가진 글자색(--ivory)을 그대로 따라옵니다
-     — 예전 필기체가 쓰던 바로 그 색이고, 색을 바꿀 일이 생기면 다른 글자들과 같은 자리에서 함께 바꿉니다.
-   ★ 파일(<img>)이 아니라 코드 안에 직접 그립니다. currentColor 는 <img> 로 불러온 SVG 안까지 닿지 않습니다. 게다가 이 이름은
-     첫 화면에서 가장 먼저 보이는 것이라, 따로 받아 오게 두면 사진이 떠 있는 동안 이름 자리만 잠시 비어 있게 됩니다.
-   ★ 읽을거리는 옆의 <span className="sr"> 이 맡습니다(page.tsx). 그림에는 aria-hidden 을 걸어 화면 낭독기가 두 번
-     읽지 않게 합니다. */
-
 export default function HeroWordmark() {
   return (
     <svg

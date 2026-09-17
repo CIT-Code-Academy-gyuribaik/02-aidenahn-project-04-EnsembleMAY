@@ -1,7 +1,5 @@
 "use client";
 
-/* 상단 바 + 모바일 서랍 + 갈래 예전 main.js 가 클래스를 붙였다 뗐다 하던 것을 React 상태로 옮겼습니다. */
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -21,17 +19,14 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { lang, toggle } = useLang();
 
-  /* 내비와 갈래가 같은 <nav> 를 봅니다 — 갈래는 [올려놓은 항목이 화면 어디에 있는지] 를 알아야 그 밑에 설 수 있습니다. */
   const navRef = useRef<HTMLElement>(null);
 
-  /* 밑줄이 가 있는(=마우스나 초점이 올라가 있는) 항목 */
   const [hover, setHover] = useState<string | null>(null);
-  /* 내려 놓은 갈래. */
+
   const [item, setItem] = useState<NavItem | null>(null);
   const [sub, setSub] = useState(false);
   const shutT = useRef<number | undefined>(undefined);
 
-  /* 닫으려던 것을 무릅니다. */
   const keep = useCallback(() => window.clearTimeout(shutT.current), []);
 
   const show = useCallback(
@@ -42,14 +37,12 @@ export default function SiteHeader() {
         setItem(it);
         setSub(true);
       } else {
-        /* Home 처럼 갈래가 없는 항목 위에서는 내려 둘 것이 없습니다. */
         setSub(false);
       }
     },
     [keep]
   );
 
-  /* 항목은 바 한가운데에, 갈래는 바 아래에 있어서 그 사이에 빈 자리가 있습니다. */
   const shut = useCallback(() => {
     keep();
     shutT.current = window.setTimeout(() => {
@@ -58,7 +51,6 @@ export default function SiteHeader() {
     }, 180);
   }, [keep]);
 
-  /* 갈래를 고르면 할 일은 끝났습니다. */
   const done = useCallback(() => {
     keep();
     setSub(false);
@@ -66,19 +58,16 @@ export default function SiteHeader() {
 
   useEffect(() => keep, [keep]);
 
-  /* 지금 보고 있는 페이지인지. */
   const isHere = useCallback(
     (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href)),
     [pathname]
   );
 
-  /* ── 서랍이 열려 있는 동안 뒤 화면이 안 밀리게 ── style.css 의 body.menu-open{overflow:hidden} 을 그대로 씁니다. */
   useEffect(() => {
     document.body.classList.toggle("menu-open", open);
     return () => document.body.classList.remove("menu-open");
   }, [open]);
 
-  /* 페이지를 옮기면 서랍은 닫습니다. */
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
@@ -147,7 +136,6 @@ export default function SiteHeader() {
         onDone={done}
       />
 
-      {/* 모바일 서랍 : 오른쪽에서 밀려 들어옵니다. */}
       <div
         className={"menu" + (open ? " is-open" : "")}
         id="menu"
@@ -166,7 +154,7 @@ export default function SiteHeader() {
               aria-current={isHere(it.href) ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
-              {/* 좁은 화면의 서랍도 같은 상단 메뉴라 영문으로 둡니다 */}
+
               {it.label.eng}
             </Link>
           ))}
@@ -181,8 +169,6 @@ export default function SiteHeader() {
   );
 }
 
-/* ── 상단 내비 : 밑줄이 마우스를 따라갑니다 현재 페이지 아래 있던 선 하나가 올려놓은 항목으로 미끄러져 가고, 벗어나면 제자리로 돌아옵니다.
-   ★ 좁은 화면(≤900px)에는 이 내비가 없습니다. */
 function DesktopNav({
   isHere,
   hover,
@@ -202,7 +188,6 @@ function DesktopNav({
 }) {
   const indRef = useRef<HTMLSpanElement>(null);
 
-  /* 선을 어디에 둘지. */
   useEffect(() => {
     const nav = navRef.current;
     const ind = indRef.current;
@@ -233,7 +218,7 @@ function DesktopNav({
           onBlur={onShut}
           onClick={onDone}
         >
-          {/* ★ 상단 바의 다섯 낱말은 KOR 에서도 영문입니다. */}
+
           {it.label.eng}
         </Link>
       ))}
@@ -242,12 +227,9 @@ function DesktopNav({
   );
 }
 
-/* 자리 계산은 화면에 그려지기 전에 끝나야 합니다 — 그리고 나서 옮기면 갈래가 엉뚱한 자리에서 한 프레임 번쩍입니다. */
 const useOnLayout = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-/* ── 갈래 : 올려놓은 항목 바로 밑에 매달립니다
-   ★ 왼끝을 항목의 왼끝에 맞춥니다. */
-const EDGE = 14; // 화면 가장자리에 남겨 두는 여백
+const EDGE = 14;
 
 function SubNav({
   item,
@@ -277,7 +259,6 @@ function SubNav({
     const el = nav.querySelector<HTMLElement>(`[data-href="${item.href}"]`);
     if (!el) return;
 
-    /* position:fixed 라 자리는 화면 좌표 그대로입니다. */
     const x = el.getBoundingClientRect().left;
     const last = window.innerWidth - EDGE - box.offsetWidth;
     box.style.left = `${Math.max(EDGE, Math.min(x, last))}px`;
@@ -295,10 +276,9 @@ function SubNav({
           key={t.href}
           href={t.href}
           className="subnav__b"
-          /* 한 줄씩 차례로 옵니다. */
+
           style={{ ["--d" as string]: `${90 + i * 70}ms` }}
-          /* 뿌리 갈래는 모든 하위 주소의 앞부분이라 "정확히 같은지" 를 봐야 합니다 — 앞부분만 맞으면 된다고 두면 /concert/past/ 에서도 [공연
-             정보] 가 함께 켜집니다. */
+
           aria-current={
             (t.href === item.href ? pathname === t.href : pathname.startsWith(t.href))
               ? "page"

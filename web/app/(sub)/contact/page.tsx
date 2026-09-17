@@ -12,7 +12,6 @@ export const metadata: Metadata = pageMeta({
   path: "/contact/",
 });
 
-/* Contact 의 기본 탭. */
 export default function ContactEnrollPage() {
   return (
     <ContactCard

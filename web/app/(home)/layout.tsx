@@ -3,8 +3,6 @@ import Shell from "@/components/Shell";
 import { baseMetadata, SITE_URL } from "@/lib/seo";
 import "./snap.css";
 
-/* 홈의 뿌리 레이아웃. */
-
 export const metadata: Metadata = {
   ...baseMetadata,
   alternates: { canonical: SITE_URL + "/" },

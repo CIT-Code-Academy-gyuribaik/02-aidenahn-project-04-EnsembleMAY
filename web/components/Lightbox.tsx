@@ -1,17 +1,15 @@
 "use client";
 
-/* 사진 크게 보기 예전 main.js 의 라이트박스를 옮겼습니다. */
-
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLang } from "@/lib/lang";
 import { T } from "@/lib/i18n";
 
 export type LbItem = {
   src?: string;
-  /* "3/2" 처럼. 사진이 아직 없을 때 자리 크기를 잡는 데 씁니다. */
+
   ratio?: string;
   title: string;
-  /* 아래에 붙는 설명줄. 공연 이름·날짜 등. */
+
   caption?: string;
 };
 
@@ -30,7 +28,7 @@ export function useLightbox() {
 
   const close = useCallback(() => {
     setItems([]);
-    /* 눌렀던 자리로 초점을 돌려 줍니다 — 키보드로 넘겨 보던 분이 닫은 뒤 목록 맨 위로 튕기지 않게. */
+
     opener.current?.focus({ preventScroll: true });
   }, []);
 
@@ -83,11 +81,9 @@ export function Lightbox({
 
   const g = items[at];
 
-  /* 사진이 아직 없는 항목(포스터 자리 등)은 비율을 지키는 빈 판으로 둡니다. */
   const [rw, rh] = String(g.ratio ?? "4/3").split("/");
   const f = (parseFloat(rw) || 4) / (parseFloat(rh) || 3);
 
-  /* 몇 번째 장인지는 남깁니다 — 제목이 아니라 길 안내입니다. */
   const nth = many ? `${at + 1} / ${items.length}` : "";
   const cap = [showCap ? g.caption : "", nth].filter(Boolean).join(" · ");
 

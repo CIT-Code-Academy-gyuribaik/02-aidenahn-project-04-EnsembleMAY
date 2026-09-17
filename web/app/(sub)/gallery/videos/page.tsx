@@ -11,7 +11,6 @@ export const metadata: Metadata = pageMeta({
   path: "/gallery/videos/",
 });
 
-/* 영상은 목록을 늘어놓기만 하면 되므로 서버 컴포넌트입니다. */
 export default function GalleryVideosPage() {
   return (
     <>

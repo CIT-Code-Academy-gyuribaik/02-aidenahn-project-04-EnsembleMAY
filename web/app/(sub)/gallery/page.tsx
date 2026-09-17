@@ -10,7 +10,6 @@ export const metadata: Metadata = pageMeta({
   path: "/gallery/",
 });
 
-/* Gallery 의 기본 탭. */
 export default function GalleryPage() {
   return <GalleryPhotos />;
 }
