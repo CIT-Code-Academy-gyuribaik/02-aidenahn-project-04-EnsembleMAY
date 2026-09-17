@@ -118,9 +118,9 @@ export default function SiteHeader() {
             aria-label="언어 전환 / Switch language"
             onClick={toggle}
           >
-            <span data-active={lang === "kor"}>KOR</span>
-            <span aria-hidden="true">·</span>
-            <span data-active={lang === "eng"}>ENG</span>
+            <span data-active={lang === "kor"}>KR</span>
+            <span aria-hidden="true">|</span>
+            <span data-active={lang === "eng"}>EN</span>
           </button>
 
           <button
@@ -171,9 +171,9 @@ export default function SiteHeader() {
             </Link>
           ))}
           <button className="menu__lang" onClick={toggle}>
-            <span data-active={lang === "kor"}>KOR</span>
-            <span aria-hidden="true">·</span>
-            <span data-active={lang === "eng"}>ENG</span>
+            <span data-active={lang === "kor"}>KR</span>
+            <span aria-hidden="true">|</span>
+            <span data-active={lang === "eng"}>EN</span>
           </button>
         </div>
       </div>

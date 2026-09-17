@@ -262,7 +262,7 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
   border-bottom:1px solid var(--accent-gold);transition:border-color 200ms ease}
 .more:hover{border-color:var(--brand)}
 
-/* ── KOR / ENG 전환 단추 ── */
+/* ── KR / EN 전환 단추 ── */
 .lang-btn{display:flex;align-items:center;gap:5px;
   background:none;border:none;cursor:pointer;color:inherit;
   font:400 13px/1 var(--myeongjo);letter-spacing:.06em;
@@ -270,6 +270,8 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
 .lang-btn:hover{opacity:.7}
 .lang-btn span[data-active="false"]{opacity:.38}
 .lang-btn span[data-active="true"]{font-weight:600;text-decoration:underline;text-underline-offset:3px}
+/* 가운데 막대는 낱말보다 옅게 — 가르기만 하고 읽히지는 않습니다. */
+.lang-btn span:not([data-active]){opacity:.3}
 body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 260ms ease,opacity 260ms ease}
 
 /* ── 모바일 메뉴 ── */
@@ -309,6 +311,7 @@ body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 
 .menu__lang span[data-active="false"]{opacity:.38}
 .menu__lang span[data-active="true"]{font-weight:600;color:var(--ink);
   text-decoration:underline;text-underline-offset:3px}
+.menu__lang span:not([data-active]){opacity:.3}
 body.menu-open{overflow:hidden}
 
 /* ══════════════════════════════════════════════════════════════ 히어로 (홈) — 750px 고정. */
