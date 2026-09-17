@@ -42,12 +42,26 @@
   --myeongjo:"AritaBuri","Noto Serif KR","Nanum Myeongjo",Batang,serif;
   --gothic:"MapoFlowerIsland","Pretendard Variable","Pretendard","Poppins",
            "Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  /* 상단 바의 [KR | EN] 한 곳만 부릅니다 — 아래 @font-face 참고. */
+  --pretendard:"Pretendard Std Variable",var(--gothic);
 }
 
 /* @font-face{ font-family:"AritaBuri"; src:url("../fonts/AritaBuriSemiBold.woff2")
    format("woff2"); font-weight:400; font-display:swap; } @font-face{
    font-family:"MapoFlowerIsland"; src:url("../fonts/MapoFlowerIsland.woff2")
    format("woff2"); font-weight:400; font-display:swap; } */
+
+/* ── 상단 바의 [KR | EN] 에만 쓰는 프리텐다드 ──
+   라틴 글자만 든 조각(U+0000–00FF)이라 55KB 입니다. 단추에 든 글자가 K·R·E·N 과
+   막대뿐이라 한글 조각은 받을 까닭이 없습니다.
+   ★ 이름을 "Pretendard Std Variable" 로 둔 것은 --gothic 이 부르는 이름
+     ("Pretendard Variable"·"Pretendard")과 겹치지 않게 하려는 것입니다 — 겹치면
+     본문 고딕까지 이 조각으로 끌려가 라틴만 프리텐다드, 한글은 맑은 고딕이 됩니다.
+   SIL OFL 1.1 · github.com/orioncactus/pretendard */
+@font-face{font-family:"Pretendard Std Variable";
+  src:url("/assets/fonts/PretendardVariable-latin.woff2") format("woff2-variations");
+  font-weight:45 920;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF}
 
 /* ── reset ── */
 *,*::before,*::after{box-sizing:border-box}
@@ -265,7 +279,7 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
 /* ── KR / EN 전환 단추 ── */
 .lang-btn{display:flex;align-items:center;gap:5px;
   background:none;border:none;cursor:pointer;color:inherit;
-  font:400 13px/1 var(--myeongjo);letter-spacing:.06em;
+  font:400 13px/1 var(--pretendard);letter-spacing:.06em;
   padding:6px 2px;transition:opacity 180ms ease}
 .lang-btn:hover{opacity:.7}
 .lang-btn span[data-active="false"]{opacity:.38}
@@ -306,7 +320,7 @@ body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 
 .menu__x:hover{color:var(--ink)}
 .menu__lang{display:flex;align-items:center;gap:6px;
   background:none;border:none;cursor:pointer;color:var(--ink-mid);
-  font:400 13px/1 var(--myeongjo);letter-spacing:.06em;
+  font:400 13px/1 var(--pretendard);letter-spacing:.06em;
   padding:18px var(--pad);margin-top:auto;border-top:1px solid var(--line)}
 .menu__lang span[data-active="false"]{opacity:.38}
 .menu__lang span[data-active="true"]{font-weight:600;color:var(--ink);
