@@ -4,9 +4,9 @@
    스냅 자체는 Swiper 가 합니다(components/SnapScroll.tsx).
    이 파일은 "한 칸이 한 화면"이 된 뒤에 필요한 크기·여백만 잡습니다.
 
-   .snap 은 Swiper 컨테이너에 붙는 이름입니다. 항상 붙어 있고,
-   스냅이 꺼지는 상황(좁은 화면 · 동작 줄이기)에서는 아래에서 틀을
-   풀어 평범한 문서 흐름으로 되돌립니다.
+   .snap 은 Swiper 컨테이너에 붙는 이름입니다. 스냅을 걸지 않는 화면에서는
+   SnapScroll 이 Swiper 를 만들지 않아 이 이름도 없습니다 — 아래 규칙은
+   저절로 비켜섭니다.
    ========================================================================== */
 
 /* ── Swiper 가 잡는 틀 ───────────────────────────────────────────────────
@@ -28,14 +28,14 @@
   transition-timing-function: cubic-bezier(0.5, 0.02, 0.2, 1);
 }
 
-/* ── 스냅이 꺼졌을 때 ────────────────────────────────────────────────────
-   좁은 화면(900px 이하)과 동작 줄이기 설정에서는 Swiper 를 끕니다.
-   그런데 Swiper 의 CSS 는 꺼져도 남아서 컨테이너를 한 화면 높이로
-   잘라 두고 칸들을 세로로 이어 붙인 채 transform 으로 밀어 둡니다.
-   평범한 문서 흐름으로 되돌리려면 그 셋을 직접 풀어 줘야 합니다.
+/* ── 좁은 화면의 첫 한 그림 ──────────────────────────────────────────────
+   좁은 화면에서는 SnapScroll 이 Swiper 를 아예 만들지 않습니다. 다만 그
+   판단은 화면에 붙은 뒤에야 내려지고, 서버가 보낸 첫 HTML 에는 Swiper 가
+   들어 있습니다. 그 한 그림 동안만 컨테이너가 한 화면 높이로 잘리고 칸들이
+   transform 으로 밀려 있는데, 여기서 그 틀을 풀어 둡니다.
 
-   !important 를 쓰는 이유 — Swiper 가 wrapper 의 transform 을 인라인
-   스타일로 박아 둡니다. 인라인보다 세려면 이 방법뿐입니다.            */
+   !important 를 쓰는 이유 — Swiper 가 wrapper 의 transform 과 칸의
+   height 를 인라인 스타일로 박아 둡니다. 인라인보다 세려면 이 방법뿐입니다. */
 @media (max-width: 900px) {
   .snap,
   .snap .swiper-wrapper,
@@ -47,15 +47,6 @@
     transform: none !important;
   }
 }
-.snap--off,
-.snap--off .swiper-wrapper,
-.snap--off .swiper-slide {
-  height: auto !important;
-}
-.snap--off .swiper-wrapper {
-  display: block !important;
-  transform: none !important;
-}
 
 /* ══════════════════════════════════════════════════════════════════════════
    여기부터는 스냅이 켜져 있을 때만 — 901px 이상이고 동작 줄이기가 아닐 때.
@@ -64,7 +55,7 @@
 @media (min-width: 901px) {
   /* ── 히어로 ────────────────────────────────────────────────────────────
      style.css 는 히어로를 750px 로 고정합니다. 여기서는 칸을 채웁니다. */
-  .snap:not(.snap--off) .hero {
+  .snap .hero {
     height: 100%;
   }
 
@@ -81,7 +72,7 @@
 
      --room 은 "이 칸에서 내용이 실제로 쓸 수 있는 높이"입니다.
      아래 사진·영상 크기 계산이 전부 이 값에서 나옵니다. */
-  .snap:not(.snap--off) .sec {
+  .snap .sec {
     --top: calc(var(--hdr) + 30px);
     --bot: 80px;
     --room: calc(100vh - var(--top) - var(--bot));
@@ -94,7 +85,7 @@
   /* 내용이 화면보다 길어질 때 center 는 넘치는 만큼을 위아래로 똑같이
      밀어냅니다. safe 는 그럴 때에만 위 맞춤으로 물러섭니다.
      이 키워드를 모르는 브라우저는 이 줄을 버리고 위의 center 를 씁니다. */
-  .snap:not(.snap--off) .sec {
+  .snap .sec {
     align-content: safe center;
   }
 
@@ -122,13 +113,13 @@
 
      같은 값을 영상과 글 상자에 함께 겁니다 — 두 단의 바깥 끝이 영상의
      좌우 끝과 맞아떨어져야 한 덩어리로 보입니다. */
-  .snap:not(.snap--off) .feat {
+  .snap .feat {
     --txt: 94px;
     --gap: 40px;
     --w: calc((var(--room) - var(--txt) - var(--gap)) * 16 / 9);
   }
-  .snap:not(.snap--off) .feat__v,
-  .snap:not(.snap--off) .feat__t {
+  .snap .feat__v,
+  .snap .feat__t {
     max-width: var(--w);
     margin-inline: auto;
   }
@@ -136,7 +127,7 @@
   /* 활동 사진은 계산으로 못 잡습니다 — 사진마다 비율이 제각각이고
      어느 사진이 어느 단으로 떨어지는지는 브라우저가 정합니다.
      줄어들 때 가운데로 오도록 자리만 잡아 둡니다. */
-  .snap:not(.snap--off) .mas {
+  .snap .mas {
     margin-inline: auto;
   }
 
