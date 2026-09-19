@@ -26,8 +26,8 @@ const BANNERS: readonly Banner[] = [
         "음악을 통해 교감하고 성장하는 앙상블입니다.",
       ],
       eng: [
-        "Ensemble MAY brings together students from international schools",
-        "who connect and grow through music.",
+        "Students from international schools,",
+        "connecting and growing through music.",
       ],
     },
     src: "/assets/img/banner/about.webp",
@@ -45,13 +45,16 @@ const BANNERS: readonly Banner[] = [
         "사랑과 희망을 전하는 것을 목표로 합니다.",
       ],
       eng: [
-        "Ensemble MAY goes beyond performance to spread goodwill.",
-        "Through concerts and volunteer activities, we share warmth,",
-        "with a mission to deliver love and hope.",
+        "We play for more than applause.",
+        "Concerts and volunteer work let us share",
+        "a little warmth, and a lot of hope.",
       ],
     },
     src: "/assets/img/banner/chello.webp",
-    alt: { kor: "첼로", eng: "Cello" },
+    alt: {
+      kor: "무대 위에서 첼로를 연주하는 앙상블 메이 단원",
+      eng: "An Ensemble MAY member playing the cello on stage",
+    },
     flip: true,
   },
 ] as const;

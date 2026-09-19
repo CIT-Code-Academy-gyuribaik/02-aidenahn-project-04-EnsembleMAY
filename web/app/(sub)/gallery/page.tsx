@@ -10,8 +10,6 @@ export const metadata: Metadata = pageMeta({
   path: "/gallery/",
 });
 
-/* Gallery 의 기본 탭. 주소가 /gallery/ 자체입니다.
-   제목은 히어로(layout)가 답니다 — 두 갈래가 같은 머리를 씁니다. */
 export default function GalleryPage() {
   return <GalleryPhotos />;
 }

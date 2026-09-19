@@ -5,42 +5,53 @@
     "title": "제2회 정기연주회",
     "venue": "로데아트센터",
     "note": "When Melodies Meet",
-    "wide": true
+    "wide": true,
+    "titleEn": "2nd Annual Concert",
+    "venueEn": "Rode Art Center"
   },
   {
     "id": "mekorea",
     "date": "2026.05.25",
     "title": "미앤코리아 공연",
     "venue": "미앤코리아",
-    "note": ""
+    "note": "",
+    "titleEn": "Me & Korea Concert",
+    "venueEn": "Me & Korea"
   },
   {
     "id": "sfs",
     "date": "2026.05.10",
     "title": "SFS 국제학교 공연",
     "venue": "",
-    "note": ""
+    "note": "",
+    "titleEn": "SFS International School Concert"
   },
   {
     "id": "yearend24",
     "date": "2025.12.24",
     "title": "가족 연말 파티 공연",
     "venue": "",
-    "note": "단원 가족 초대"
+    "note": "단원 가족 초대",
+    "titleEn": "Family Year-End Party",
+    "noteEn": "For members' families"
   },
   {
     "id": "library2512",
     "date": "2025.12.13",
     "title": "음악이 흐르는 도서관",
     "venue": "국립어린이청소년도서관",
-    "note": ""
+    "note": "",
+    "titleEn": "Music in the Library",
+    "venueEn": "National Library for Children and Young Adults"
   },
   {
     "id": "library2509",
     "date": "2025.09.13",
     "title": "음악이 흐르는 도서관",
     "venue": "국립어린이청소년도서관",
-    "note": ""
+    "note": "",
+    "titleEn": "Music in the Library",
+    "venueEn": "National Library for Children and Young Adults"
   },
   {
     "id": "concert1",
@@ -48,6 +59,9 @@
     "title": "제1회 정기연주회",
     "venue": "거암아트홀",
     "note": "창단 공연",
-    "wide": true
+    "wide": true,
+    "titleEn": "1st Annual Concert",
+    "venueEn": "Geoam Art Hall",
+    "noteEn": "Our first concert"
   }
 ]
