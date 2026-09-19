@@ -148,3 +148,40 @@
   /* 푸터는 스냅 밖입니다. 네 번째 칸에서 아래로 굴리면 스냅이 손을
      놓고 평범하게 올라옵니다 — 손을 놓는 시점은 SnapScroll 이 정합니다. */
 }
+
+/* ── 섹션 닷 내비 ───────────────────────────────────────────────────────────
+   스냅이 켜져 있을 때만 보입니다. 좁은 화면에서는 스냅이 꺼지므로 함께 숨깁니다. */
+.snap-dots {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (max-width: 900px) {
+  .snap-dots { display: none; }
+}
+.snap-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 220ms ease, background 220ms ease;
+}
+.snap-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+.snap-dot--on {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.5);
+}
+.snap-dot:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 3px;
+}

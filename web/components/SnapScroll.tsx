@@ -33,16 +33,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 
-/** 칸이 넘어가는 데 걸리는 시간.
-    700 에서 1100 으로 늦췄습니다 — 한 칸이 화면 전체라 이동 거리가
-    크고, 빠르면 화면이 통째로 튀는 것처럼 보입니다. 곡선은 snap.css
-    의 .swiper-wrapper 에 있습니다(가속·감속을 양쪽에 둔 이징). */
-const SPEED = 1100;
+/** 칸이 넘어가는 데 걸리는 시간. */
+const SPEED = 700;
 
 /** 한 번 넘긴 뒤 이 시간 안에 들어온 휠은 무시합니다.
-    트랙패드 관성 꼬리를 막는 값입니다. 전환 시간보다 조금 짧게 두면
-    전환이 끝나자마자 다음 휠을 받아 연속 스크롤이 답답하지 않습니다. */
-const THRESHOLD_TIME = 900;
+    트랙패드 관성 꼬리를 막는 값입니다. */
+const THRESHOLD_TIME = 600;
 
 /** 칸에 도착한 뒤 이만큼은 휠을 받지 않습니다. 트랙패드 관성 꼬리가
     도착하자마자 페이지를 끌어내리는 것을 막습니다. */
@@ -65,9 +61,8 @@ const BREAK_W = 901;
 export default function SnapScroll({ children }: { children: ReactNode }) {
   const slides = Children.toArray(children).filter(isValidElement);
   const swiperRef = useRef<SwiperClass | null>(null);
-  /** 마지막으로 칸에 도착한 시각. 갓 도착했을 때 관성 꼬리가 페이지를
-      끌어내리지 않게 하는 데 씁니다. */
   const arrivedAt = useRef(0);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   /* 스냅을 끄는 두 가지 경우.
 
@@ -252,45 +247,52 @@ export default function SnapScroll({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <Swiper
-      className={"snap" + (off ? " snap--off" : "")}
-      modules={[Mousewheel, Keyboard]}
-      direction="vertical"
-      slidesPerView={1}
-      speed={SPEED}
-      /* 손가락으로 쓸어 넘기기. 좁은 화면에서는 아래 breakpoints 로
-         Swiper 자체가 꺼지므로 평범한 스크롤이 됩니다. */
-      mousewheel={{
-        forceToAxis: true,
-        thresholdDelta: THRESHOLD_DELTA,
-        thresholdTime: THRESHOLD_TIME,
-        /* Swiper 의 자동 넘김은 끕니다. 언제 손을 놓을지는 위
-           [마지막 칸에서 푸터로 넘겨주기] 에서 직접 정합니다.
-           releaseOnEdges 를 켜면 페이지가 이미 밀려 있어도 휠을 계속
-           가로채서, 푸터가 떠 있는 채로 칸만 바뀝니다. */
-        releaseOnEdges: false,
-      }}
-      keyboard={{ enabled: true, onlyInViewport: true }}
-      /* 기본은 꺼진 상태입니다 — 좁은 화면이 기본값이라야 모바일에서
-         평범한 스크롤로 시작합니다. 901px 이상에서만 켭니다.
-         style.css 가 상단 내비를 감추고 햄버거로 바꾸는 경계와 같은
-         자리라, "메뉴는 모바일인데 스크롤은 데스크톱"인 구간이 없습니다. */
-      enabled={false}
-      breakpoints={{ [BREAK_W]: { enabled: !off } }}
-      onSwiper={(sw: SwiperClass) => {
-        swiperRef.current = sw;
-        syncLock();
-      }}
-      /* 칸이 바뀔 때마다 잠금을 다시 맞춥니다 — 마지막 칸에 닿으면 풀고,
-         떠나면 겁니다. slideChange 는 전환이 시작될 때 옵니다. */
-      onSlideChange={syncLock}
-      onSlideChangeTransitionEnd={() => {
-        arrivedAt.current = performance.now();
-      }}
-    >
-      {slides.map((slide, i) => (
-        <SwiperSlide key={i}>{slide}</SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      <Swiper
+        className={"snap" + (off ? " snap--off" : "")}
+        modules={[Mousewheel, Keyboard]}
+        direction="vertical"
+        slidesPerView={1}
+        speed={SPEED}
+        mousewheel={{
+          forceToAxis: true,
+          thresholdDelta: THRESHOLD_DELTA,
+          thresholdTime: THRESHOLD_TIME,
+          releaseOnEdges: false,
+        }}
+        keyboard={{ enabled: true, onlyInViewport: true }}
+        enabled={false}
+        breakpoints={{ [BREAK_W]: { enabled: !off } }}
+        onSwiper={(sw: SwiperClass) => {
+          swiperRef.current = sw;
+          syncLock();
+        }}
+        onSlideChange={(sw) => {
+          syncLock();
+          setActiveIdx(sw.activeIndex);
+        }}
+        onSlideChangeTransitionEnd={() => {
+          arrivedAt.current = performance.now();
+        }}
+      >
+        {slides.map((slide, i) => (
+          <SwiperSlide key={i}>{slide}</SwiperSlide>
+        ))}
+      </Swiper>
+
+      {!off && slides.length > 1 && (
+        <nav className="snap-dots" aria-label="섹션 이동 / Jump to section">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              className={"snap-dot" + (i === activeIdx ? " snap-dot--on" : "")}
+              aria-label={`섹션 ${i + 1}`}
+              aria-current={i === activeIdx ? "true" : undefined}
+              onClick={() => swiperRef.current?.slideTo(i)}
+            />
+          ))}
+        </nav>
+      )}
+    </>
   );
 }
