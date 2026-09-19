@@ -19,7 +19,7 @@ export default function HomePage() {
           <div className="hero__body">
 
             <h1 className="hero__lines hero__lines--wm">
-              <span className="sr">Ensemble MAY</span>
+              <span className="sr">Ensemble M.A.Y.</span>
               <HeroWordmark />
             </h1>
 

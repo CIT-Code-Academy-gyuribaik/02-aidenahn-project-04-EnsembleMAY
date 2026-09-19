@@ -24,8 +24,8 @@ type Banner = {
 const BANNERS: readonly Banner[] = [
   {
     href: "/about/",
-    title: "About Ensemble MAY",
-    kicker: { kor: "앙상블 메이 소개", eng: "Meet Ensemble MAY" },
+    title: "About Ensemble M.A.Y.",
+    kicker: { kor: "앙상블 메이 소개", eng: "Meet Ensemble M.A.Y." },
     body: {
       kor: [
         "'앙상블 메이'는 인터내셔널 스쿨 학생들이 모여,",
@@ -37,7 +37,7 @@ const BANNERS: readonly Banner[] = [
       ],
     },
     src: "/assets/img/banner/about.webp",
-    alt: { kor: "흰 셔츠를 입고 모여 선 앙상블 메이 단원들", eng: "Ensemble MAY members gathered in white shirts" },
+    alt: { kor: "흰 셔츠를 입고 모여 선 앙상블 메이 단원들", eng: "Ensemble M.A.Y. members gathered in white shirts" },
     w: 501,
     h: 435,
     flip: false,
@@ -61,7 +61,7 @@ const BANNERS: readonly Banner[] = [
     src: "/assets/img/banner/chello.webp",
     alt: {
       kor: "무대 위에서 첼로를 연주하는 앙상블 메이 단원",
-      eng: "An Ensemble MAY member playing the cello on stage",
+      eng: "An Ensemble M.A.Y. member playing the cello on stage",
     },
     w: 387,
     h: 574,
