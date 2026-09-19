@@ -4,11 +4,31 @@
     "email": "ensemblemay2025@gmail.com"
   },
   "hero": [
-    "assets/img/hero/hero-24.webp",
-    "assets/img/hero/hero-29.webp",
-    "assets/img/hero/hero-30.webp",
-    "assets/img/hero/hero-27.webp",
-    "assets/img/hero/hero-3.webp"
+    {
+      "src": "assets/img/hero/hero-24.webp",
+      "w": 1920,
+      "h": 2879
+    },
+    {
+      "src": "assets/img/hero/hero-29.webp",
+      "w": 1920,
+      "h": 914
+    },
+    {
+      "src": "assets/img/hero/hero-30.webp",
+      "w": 2400,
+      "h": 1515
+    },
+    {
+      "src": "assets/img/hero/hero-27.webp",
+      "w": 1920,
+      "h": 1281
+    },
+    {
+      "src": "assets/img/hero/hero-3.webp",
+      "w": 1918,
+      "h": 1079
+    }
   ],
   "heroMs": {
     "hold": 5600,

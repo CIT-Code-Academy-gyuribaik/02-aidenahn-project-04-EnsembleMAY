@@ -5,6 +5,7 @@ import { Lightbox, useLightbox } from "@/components/Lightbox";
 import { RevealSeq } from "@/components/Reveal";
 import { POSTERS, SHOWS, photosOf } from "@/lib/content";
 import { showAlbum } from "@/lib/photos";
+import { srcSetOf, widthOf } from "@/lib/img";
 import { useLang } from "@/lib/lang";
 import { pickText } from "@/lib/i18n";
 
@@ -34,8 +35,11 @@ export function PastShows() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={face.src}
+                      srcSet={srcSetOf(face.src, widthOf(face.ratio))}
+                      sizes="(max-width:520px) 112px, (max-width:900px) 158px, 240px"
                       alt={pickText(lang, face.title, face.titleEn)}
                       loading="lazy"
+                      decoding="async"
                     />
                     <span className="hist__ov" />
 
@@ -59,17 +63,15 @@ export function PastShows() {
           );
 
           return pics.length && start !== undefined ? (
-            <a
+            /* 사진첩을 펴는 단추입니다 — 주소가 바뀌지 않으므로 링크가 아닙니다. */
+            <button
               key={s.id}
+              type="button"
               className="hist__r"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                lb.open(showPix, start);
-              }}
+              onClick={() => lb.open(showPix, start)}
             >
               {inner}
-            </a>
+            </button>
           ) : (
             <div key={s.id} className="hist__r">
               {inner}

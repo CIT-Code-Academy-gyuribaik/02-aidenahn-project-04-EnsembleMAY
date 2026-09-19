@@ -22,8 +22,20 @@
   --max:1280px;
   --pad:24px;
   --hdr:95px;
+  /* 상단 바가 실제로 먹는 높이 — 노치까지 더한 값. 자리를 비켜 줄 때는 이것을 씁니다. */
+  --hdr-h:calc(var(--hdr) + var(--sat));
   --gx:7px;
   --gy:15px;
+
+  /* 노치·홈 인디케이터가 먹는 자리. viewport-fit=cover 를 켠 화면에서만 0 이 아닙니다
+     (app/(home)/layout.tsx · app/(sub)/layout.tsx 의 viewport). */
+  --sal:env(safe-area-inset-left,0px);
+  --sar:env(safe-area-inset-right,0px);
+  --sat:env(safe-area-inset-top,0px);
+  --sab:env(safe-area-inset-bottom,0px);
+
+  /* 손가락으로 누르는 것들의 최소 크기 — iOS HIG 44pt, Material 48dp 의 아래쪽. */
+  --tap:44px;
 
   --mark:url("data:image/png;base64,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");
 
@@ -44,8 +56,12 @@
 
 *,*::before,*::after{box-sizing:border-box}
 
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr) + 22px);
-  scrollbar-gutter:stable}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr-h) + 22px);
+  scrollbar-gutter:stable;
+
+  /* 아이폰을 가로로 눕히면 사파리가 본문 글자만 제멋대로 키웁니다 — 막습니다. */
+  -webkit-text-size-adjust:100%;
+          text-size-adjust:100%}
 
 ::-webkit-scrollbar{width:12px;height:12px}
 ::-webkit-scrollbar-track{
@@ -66,32 +82,57 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr) + 22px);
 body{margin:0;background:var(--paper);color:var(--ink);
 
   font:450 14px/1.75 var(--gothic);
-  overflow-x:hidden}
+  overflow-x:hidden;
+
+  /* 안드로이드 크롬이 누를 때 칠하는 파란 사각형을 지웁니다 — 눌림은 아래에서 따로 그립니다. */
+  -webkit-tap-highlight-color:transparent;
+
+  /* 한글은 낱말 사이에서만 줄을 바꿉니다 — 좁은 화면에서 "단원을" 이 "단 / 원을" 로
+     쪼개지던 자리. 영문은 원래대로 빈칸에서 끊깁니다. */
+  word-break:keep-all;
+  /* 메일 주소처럼 끊을 데가 없는 긴 글자는 그래도 넘치지 않게 합니다. */
+  overflow-wrap:break-word}
 img{max-width:100%;display:block;height:auto}
 a{color:inherit}
+
+/* 두 번 두드려 확대하려고 브라우저가 기다리는 300ms 를 없앱니다. */
+a,button,summary,[role="option"],[role="button"]{touch-action:manipulation}
 h1,h2,h3,h4,p,ul,ol{margin:0}
 ul{padding:0;list-style:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 :focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+
+/* 어두운 칸 위에서는 진한 밤색 테두리가 보이지 않습니다 — 밝은 쪽으로 바꿉니다. */
+.sec--dark :focus-visible,
+.csec :focus-visible,
+.cta :focus-visible,
+.foot :focus-visible,
+.hero :focus-visible{outline-color:var(--accent-gold)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
   white-space:nowrap}
-.skip{position:absolute;top:-60px;left:12px;z-index:999;background:var(--brand);
-  color:#fff;padding:10px 16px;font-size:13px;
+.skip{position:absolute;top:-60px;left:calc(12px + var(--sal));z-index:999;
+  background:var(--brand);
+  color:#fff;padding:13px 18px;font-size:13px;
   text-decoration:none;transition:top 160ms ease}
 .skip:focus{top:12px}
 
-.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--pad)}
+.wrap{max-width:var(--max);margin:0 auto;
+  padding-inline:calc(var(--pad) + var(--sal)) calc(var(--pad) + var(--sar))}
 
-.hdr{position:fixed;inset:0 0 auto;z-index:300;height:var(--hdr);
+.hdr{position:fixed;inset:0 0 auto;z-index:300;
+  height:var(--hdr-h);padding-top:var(--sat);
   border:0;box-shadow:none;
   transition:background 300ms ease,border-color 300ms ease}
 
 .hdr::before{content:"";position:absolute;inset:0;
   transition:opacity 300ms ease;pointer-events:none}
 .hdr__bar{position:relative;max-width:var(--max);height:100%;margin:0 auto;
-  padding-inline:var(--pad);display:flex;align-items:center;gap:28px}
+  padding-inline:calc(var(--pad) + var(--sal)) calc(var(--pad) + var(--sar));
+  display:flex;align-items:center;gap:28px}
 
 .hdr__logo{display:flex;align-items:center;gap:16px;
+  /* 상표 높이(34~52px)만으로는 누르는 자리가 모자랍니다. */
+  min-height:var(--tap);
   text-decoration:none;white-space:nowrap;
   transition:opacity 180ms ease}
 .hdr__logo:hover{opacity:.7}
@@ -123,7 +164,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
              width     280ms cubic-bezier(.22,.61,.36,1),
              opacity   180ms ease}
 
-.subnav{position:fixed;top:var(--hdr);left:0;z-index:290;
+.subnav{position:fixed;top:var(--hdr-h);left:0;z-index:290;
   display:flex;flex-direction:column;padding:16px 64px 16px 20px;
   opacity:0;visibility:hidden;
   transition:opacity 160ms ease,visibility 0s linear 160ms}
@@ -198,6 +239,15 @@ body[data-hdr="overlay"] .nav__ind{
 body[data-hdr="solid"] .hdr{background:var(--paper);
   border-bottom:1px solid var(--line)}
 
+/* 홈에서 첫 화면을 지나면 바에 바탕을 깝니다 — 밝은 카드가 바 밑으로 지나갈 때
+   흰 글씨가 묻히는 것을 막습니다. 스냅이 도는 넓은 화면에서는 scrollY 가 0 이라
+   이 갈래로 들어오지 않습니다(components/SiteHeader.tsx). */
+@media (max-width:900px){
+  body[data-hdr="overlay"].is-scrolled .hdr{
+    background:color-mix(in srgb,var(--ground) 84%,transparent);
+    border-bottom-color:rgba(255,255,255,.12)}
+}
+
 .btn{display:inline-block;border:0;
   padding:.92em 1.7em;font:500 14px/1 var(--gothic);letter-spacing:1px;
   color:#fff;background:color-mix(in srgb,var(--brand) 85%,transparent);
@@ -216,10 +266,12 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
   border-bottom:1px solid var(--accent-gold);transition:border-color 200ms ease}
 .more:hover{border-color:var(--brand)}
 
-.lang-btn{display:flex;align-items:center;gap:5px;
+.lang-btn{display:flex;align-items:center;justify-content:center;gap:5px;
   background:none;border:none;cursor:pointer;color:inherit;
   font:400 13px/1 var(--pretendard);letter-spacing:.06em;
-  padding:6px 2px;transition:opacity 180ms ease}
+  /* 손가락이 닿는 넓이는 44px 로 두되, 글자 자리는 그대로 보이게 음수 여백으로 되돌립니다. */
+  min-height:var(--tap);padding:6px 10px;margin-inline:-10px;
+  transition:opacity 180ms ease}
 .lang-btn:hover{opacity:.7}
 .lang-btn span[data-active="false"]{opacity:.38}
 .lang-btn span[data-active="true"]{font-weight:600;text-decoration:underline;text-underline-offset:3px}
@@ -227,9 +279,13 @@ body[data-hdr="solid"] .hdr{background:var(--paper);
 .lang-btn span:not([data-active]){opacity:.3}
 body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 260ms ease,opacity 260ms ease}
 
-.burger{display:none;margin-inline-start:auto;width:26px;height:14px;
+/* 줄 두 개는 26×14 로 보이지만, 누르는 자리는 44×44 입니다 — 안쪽 여백으로 키우고
+   바깥쪽 음수 여백으로 화면 가장자리까지의 간격을 원래대로 돌려 놓습니다. */
+.burger{display:none;margin-inline-start:auto;margin-inline-end:-9px;
+  width:var(--tap);height:var(--tap);padding:15px 9px;
   flex-direction:column;justify-content:space-between}
-.burger span{display:block;width:100%;height:1px;background:var(--ink)}
+.burger span{display:block;width:100%;height:1px;background:var(--ink);
+  transition:transform 260ms cubic-bezier(.22,.61,.36,1),opacity 180ms ease}
 
 .menu{position:fixed;inset:0;z-index:310;
   background:color-mix(in srgb,var(--ground) 46%,transparent);
@@ -238,21 +294,49 @@ body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 
 .menu.is-open{opacity:1;visibility:visible}
 
 .menu__panel{position:absolute;inset-block:0;right:0;
-  width:min(72vw,320px);background:var(--paper);
-  padding-top:var(--hdr);
+  width:min(86vw,340px);background:var(--paper);
+  padding-top:var(--hdr-h);
+  padding-inline-end:var(--sar);padding-bottom:var(--sab);
   display:flex;flex-direction:column;overflow-y:auto;
+
+  /* 서랍 끝까지 내린 뒤의 손짓이 뒤 페이지로 새지 않게 합니다. */
+  overscroll-behavior:contain;
+  box-shadow:-20px 0 48px rgba(42,20,24,.18);
   transform:translateX(100%);
   transition:transform 360ms cubic-bezier(.22,.61,.36,1)}
 .menu.is-open .menu__panel{transform:none}
 
-.menu a{font:500 17px/1.4 var(--myeongjo);text-decoration:none;
-  padding:19px var(--pad);border-bottom:1px solid var(--line)}
-.menu a:first-of-type{border-top:1px solid var(--line)}
-.menu a[aria-current="page"]{color:var(--brand)}
+.menu__nav{display:flex;flex-direction:column;
+  border-top:1px solid var(--line)}
+.menu__grp + .menu__grp{border-top:1px solid var(--line)}
+
+.menu__a{display:block;padding:17px var(--pad);
+  font:500 17px/1.4 var(--myeongjo);letter-spacing:.01em;
+  text-decoration:none;
+  transition:background 140ms ease,color 140ms ease}
+.menu__a[aria-current="page"]{color:var(--brand)}
+
+.menu__sub{display:flex;flex-direction:column;padding-bottom:10px}
+
+.menu__b{position:relative;display:block;
+  padding:11px var(--pad) 11px calc(var(--pad) + 16px);
+  font:450 14.5px/1.5 var(--gothic);color:var(--ink-mid);
+  text-decoration:none;
+  transition:background 140ms ease,color 140ms ease}
+.menu__b::before{content:"";position:absolute;inset-inline-start:var(--pad);
+  top:50%;translate:0 -50%;
+  width:6px;height:1px;background:var(--ink-dot);
+  transition:width 180ms ease,background 180ms ease}
+.menu__b[aria-current="page"]{color:var(--brand)}
+.menu__b[aria-current="page"]::before{width:10px;background:var(--accent-gold)}
+
+.menu__a:active,.menu__b:active{
+  background:color-mix(in srgb,var(--brand) 6%,transparent)}
+
 .menu .btn{margin:18px var(--pad) 0}
 
-.menu__x{position:absolute;top:calc((var(--hdr) - 44px) / 2);
-  right:calc(var(--pad) - 9px);
+.menu__x{position:absolute;top:calc(var(--sat) + (var(--hdr) - 44px) / 2);
+  right:calc(var(--pad) - 9px + var(--sar));
   width:44px;height:44px;font-size:26px;line-height:1;color:var(--ink-mid)}
 .menu__x:hover{color:var(--ink)}
 .menu__lang{display:flex;align-items:center;gap:6px;
@@ -263,10 +347,13 @@ body[data-hdr="overlay"] .lang-btn{color:rgba(255,255,255,.93);transition:color 
 .menu__lang span[data-active="true"]{font-weight:600;color:var(--ink);
   text-decoration:underline;text-underline-offset:3px}
 .menu__lang span:not([data-active]){opacity:.3}
-body.menu-open{overflow:hidden}
+body.menu-open{overflow:hidden;overscroll-behavior:none}
 
 .hero{height:750px;position:relative;overflow:hidden;
-  display:grid;place-items:center;text-align:center}
+  display:grid;place-items:center;text-align:center;
+
+  /* 위아래 스크롤은 브라우저에게, 좌우로 쓸어 넘기는 손짓은 우리에게(lib/swipe.ts). */
+  touch-action:pan-y}
 .hero__bg{position:absolute;inset:0;z-index:0;
   background-size:cover;background-position:50% 45%}
 .hero__bg:not(.is-slides){animation:kenburns 20s linear both}
@@ -281,12 +368,16 @@ body.menu-open{overflow:hidden}
 
 .hero__bg.is-slides{background-image:var(--hero-grad)}
 
-.hero__s{position:absolute;inset:0;
-  background-size:cover;background-position:50% 45%;
+.hero__s{position:absolute;inset:0;overflow:hidden;
   opacity:0;transform:scale(1);
   transition:opacity var(--hero-fade,900ms) ease-in-out,
              transform 0s;
   will-change:opacity,transform}
+
+/* 배경 그림이 아니라 <img> 입니다 — srcset 으로 화면 폭에 맞는 판을 받기 위해서.
+   자리 잡는 방식은 예전 background-size:cover / position:50% 45% 와 같습니다. */
+.hero__s img{width:100%;height:100%;display:block;
+  object-fit:cover;object-position:50% 45%}
 .hero__s.is-on{opacity:1}
 .hero__s.is-out{opacity:0}
 
@@ -331,7 +422,8 @@ body.menu-open{overflow:hidden}
     rgba(0,0,0,.52) 70%,rgba(0,0,0,.46) 100%)}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.16)}}
 
-.hero__body{position:relative;z-index:2;padding-inline:24px;
+.hero__body{position:relative;z-index:2;
+  padding-inline:calc(24px + var(--sal)) calc(24px + var(--sar));
   width:min(1080px,100%)}
 .eyebrow{font:600 12px/1 var(--gothic);letter-spacing:.22em;text-transform:uppercase;
   color:var(--brand);margin-bottom:15px}
@@ -342,7 +434,8 @@ body.menu-open{overflow:hidden}
 
 .hero__lines.hero__lines--wm{margin-top:0;line-height:0}
 
-.hero__wm{display:block;width:clamp(283px,42.4vw,617px);height:auto;
+/* 아래쪽 283px 이 320px 짜리 화면에서는 좌우 여백을 먹고 넘쳤습니다 — 글상자 폭으로 한 번 더 잡습니다. */
+.hero__wm{display:block;width:min(100%,clamp(283px,42.4vw,617px));height:auto;
   margin-inline:auto;
 
   color:inherit;
@@ -376,7 +469,7 @@ body.menu-open{overflow:hidden}
 .hero .btn--ghost{color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)}
 .hero .btn--ghost:hover{background:#fff;color:var(--brand)}
 
-.phead{padding-top:calc(var(--hdr) + 82px);padding-bottom:58px;
+.phead{padding-top:calc(var(--hdr-h) + 82px);padding-bottom:58px;
   border-bottom:1px solid var(--line)}
 .phead h1{font:600 26px/1.45 var(--myeongjo);letter-spacing:.01em;
   text-wrap:balance}
@@ -385,7 +478,7 @@ body.menu-open{overflow:hidden}
 
 .phead.phead--hero{--ph:max(16.3vw,180px);--veil:var(--ground);
   position:relative;overflow:hidden;isolation:isolate;
-  margin-top:var(--hdr);padding-block:0;border-bottom:0;
+  margin-top:var(--hdr-h);padding-block:0;border-bottom:0;
   min-height:max(260px,calc(var(--ph) + 26px));
   display:flex;align-items:center;
 
@@ -565,10 +658,14 @@ body.menu-open{overflow:hidden}
 .sec--dark .poster__hint{color:var(--on-ground-dim)}
 .sec--dark .poster__hint b{color:#fff}
 
+/* 사진첩이 있는 줄은 <button>, 없는 줄은 <div> 입니다 — 단추의 기본 꾸밈을 지우고
+   둘을 같은 모양으로 맞춥니다(components/PastShows.tsx). */
 .hist__r{display:grid;grid-template-columns:240px minmax(0,1fr);
-  gap:0 44px;align-items:center;
-  padding-block:30px;border-top:1px solid var(--line);
+  gap:0 44px;align-items:center;width:100%;
+  padding:30px 0;border:0;border-top:1px solid var(--line);
+  background:none;font:inherit;text-align:start;
   text-decoration:none;color:inherit}
+button.hist__r{cursor:pointer}
 .hist > *:last-child .hist__r,
 .hist__r:last-child{border-bottom:1px solid var(--line)}
 
@@ -578,11 +675,11 @@ body.menu-open{overflow:hidden}
   box-shadow:inset 0 0 0 1px var(--line-strong)}
 .hist__ph img{display:block;width:100%;height:100%;object-fit:cover;
   transition:transform 600ms cubic-bezier(.22,.61,.36,1)}
-a.hist__r:hover .hist__ph img{transform:scale(1.02)}
+button.hist__r:hover .hist__ph img{transform:scale(1.02)}
 .hist__ov{position:absolute;inset:0;background:rgba(0,0,0,0);
   transition:background 300ms ease}
-a.hist__r:hover .hist__ov,
-a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
+button.hist__r:hover .hist__ov,
+button.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 
 .hist__ph--empty{position:absolute;inset:0;
   background:linear-gradient(150deg,#4a2a30,#2a1418);
@@ -637,11 +734,14 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .tabbar{display:flex;align-items:flex-end;flex-wrap:wrap;gap:0 24px;
   margin-bottom:28px;border-bottom:1px solid var(--line)}
 
-.sortbar{display:flex;margin-inline-start:auto;padding-bottom:16px}
+.sortbar{display:flex;margin-inline-start:auto;padding-bottom:8px}
 .sortbar[hidden]{display:none}
 
 .sel{position:relative}
-.sel__b{display:flex;align-items:center;gap:9px;
+/* 글자는 15px 한 줄이지만, 누르는 자리는 44px 입니다 — 오른쪽 끝선이 밀리지 않게
+   안쪽 여백만큼 바깥으로 되돌립니다. */
+.sel__b{display:flex;align-items:center;justify-content:flex-end;gap:9px;
+  min-height:var(--tap);padding-inline:8px;margin-inline-end:-8px;
   font:500 15px/1 var(--myeongjo);color:var(--ink-mid);
   cursor:pointer;transition:color 180ms ease}
 .sel__b:hover,.sel.is-open .sel__b{color:var(--ink)}
@@ -652,12 +752,13 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   transition:transform 220ms cubic-bezier(.22,.61,.36,1)}
 .sel.is-open .sel__b::after{transform:translateY(1px) rotate(-135deg)}
 
-.sel__list{position:absolute;top:calc(100% + 12px);right:0;z-index:20;
-  min-width:118px;padding:5px 0;
+.sel__list{position:absolute;top:calc(100% + 4px);right:0;z-index:20;
+  min-width:132px;padding:5px 0;
   background:var(--paper);border:1px solid var(--line-strong);
   box-shadow:0 6px 22px rgba(42,20,24,.09)}
 .sel__list[hidden]{display:none}
-.sel__o{position:relative;padding:10px 16px 10px 22px;white-space:nowrap;
+.sel__o{position:relative;display:flex;align-items:center;min-height:var(--tap);
+  padding:10px 16px 10px 22px;white-space:nowrap;
   font:450 13.5px/1.5 var(--gothic);color:var(--ink-mid);cursor:pointer;
   transition:color 150ms ease,background 150ms ease}
 .sel__o:hover,.sel__o:focus-visible{
@@ -673,7 +774,10 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .mas{--mas-gap:3.5px;
   display:grid;grid-template-columns:repeat(4,1fr);gap:var(--mas-gap)}
 
-.mas__i{position:relative;overflow:hidden;display:block;text-decoration:none}
+/* 격자 칸은 <button> 입니다 — 단추의 기본 테두리·여백을 지웁니다. */
+.mas__i{position:relative;overflow:hidden;display:block;width:100%;
+  padding:0;border:0;background:none;cursor:pointer;
+  text-decoration:none}
 
 .mas__ph{width:100%;display:block;aspect-ratio:4/3;
   background:linear-gradient(150deg,color-mix(in srgb,var(--brand) 18%,transparent),color-mix(in srgb,var(--brand) 34%,transparent))}
@@ -683,25 +787,68 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   transition:background 300ms ease}
 .mas__i:hover .mas__ov,.mas__i:focus-visible .mas__ov{background:rgba(0,0,0,.28)}
 
-.lb{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.9);
-  display:grid;place-items:center;padding:5vmin;
-  opacity:0;visibility:hidden;transition:opacity 260ms ease,visibility 260ms}
+.lb{--lb-side:14px;
+  --lb-top:calc(var(--sat) + 68px);
+  --lb-bot:calc(var(--sab) + 22px);
+  /* 설명글 한 줄 + 사진과의 사이. */
+  --lb-cap:52px;
+
+  position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.93);
+  display:flex;align-items:center;justify-content:center;
+  padding:var(--lb-top) calc(var(--sar) + var(--lb-side))
+          var(--lb-bot) calc(var(--sal) + var(--lb-side));
+  opacity:0;visibility:hidden;transition:opacity 260ms ease,visibility 260ms;
+
+  /* 좌우로 쓸어 넘기는 손짓은 우리가 받습니다. 두 손가락 확대는 남겨 둡니다. */
+  touch-action:pan-y pinch-zoom;
+  overscroll-behavior:contain}
 .lb.is-open{opacity:1;visibility:visible}
-.lb__fig{max-width:min(1100px,92vw);text-align:center}
-.lb__fig img{max-height:78vh;width:auto;margin-inline:auto}
-.lb__ph{width:min(880px,88vw);aspect-ratio:4/3;
+
+/* ★ figure 에 폭을 못 박습니다. 그냥 두면 폭이 "설명글 한 줄"만큼으로 줄어듭니다 —
+   브라우저가 사진의 max-width:100% 를 폭 계산에서 0 으로 치기 때문입니다.
+   휴대폰에서 1280px 짜리 사진이 271px 로 나오던 자리입니다. */
+.lb__fig{margin:0;width:100%;max-width:min(1100px,100%);
+  display:flex;flex-direction:column;text-align:center}
+
+/* 설명글이 없는 사진은 그만큼 더 큽니다. */
+.lb__fig:not(:has(.lb__cap)){--lb-cap:0px}
+
+.lb__stage{display:grid;place-items:center;width:100%;
+  /* 화면에서 사진이 쓸 수 있는 가장 큰 높이. */
+  --lb-room:calc(100dvh - var(--lb-top) - var(--lb-bot) - var(--lb-cap))}
+.lb__stage img{max-width:100%;max-height:var(--lb-room);
+  width:auto;height:auto;object-fit:contain}
+
+/* 사진이 아직 없는 자리(연주 기록만 있고 사진이 없는 공연). */
+.lb__ph{width:100%;max-height:var(--lb-room);aspect-ratio:4/3;
   background:linear-gradient(150deg,#4a2a30,#2a1418)}
-.lb__cap{margin-top:16px;color:rgba(255,255,255,.86);font-size:12px;
-  letter-spacing:.04em}
+.lb__cap{flex:none;margin-top:14px;color:rgba(255,255,255,.86);font-size:12px;
+  letter-spacing:.04em;text-wrap:balance}
 .lb__cap b{display:block;font:500 17px/1.4 var(--myeongjo);color:#fff;
   margin-bottom:5px}
-.lb__x{position:absolute;top:26px;right:30px;color:#fff;font-size:28px;
-  line-height:1}
-.lb__nav{position:absolute;top:50%;translate:0 -50%;color:#fff;font-size:30px;
-  line-height:1;padding:16px}
+
+.lb__x,.lb__nav{position:absolute;z-index:2;display:grid;place-items:center;
+  color:#fff;line-height:1;border-radius:50%;
+  background:rgba(255,255,255,.10);
+  transition:background 200ms ease}
+.lb__x:hover,.lb__nav:hover{background:rgba(255,255,255,.22)}
+.lb__x:focus-visible,.lb__nav:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.lb__x{top:calc(var(--sat) + 12px);right:calc(var(--sar) + 12px);
+  width:48px;height:48px;font-size:28px}
+
+.lb__nav{top:50%;translate:0 -50%;width:52px;height:52px;font-size:30px;
+  padding-bottom:4px}
 .lb.is-single .lb__nav{display:none}
-.lb__nav--p{left:10px}
-.lb__nav--n{right:10px}
+.lb__nav--p{left:calc(var(--sal) + 8px)}
+.lb__nav--n{right:calc(var(--sar) + 8px)}
+
+@media (min-width:901px){
+  /* 넓은 화면에서는 화살표를 사진 밖으로 물립니다. */
+  .lb{--lb-side:86px}
+  .lb__nav{width:58px;height:58px;font-size:34px}
+  .lb__cap{margin-top:16px}
+}
 
 .vids{display:grid;grid-template-columns:repeat(2,1fr);gap:34px var(--gx)}
 /* 한 편만 놓을 때(홈 소개 옆)는 한 칸으로 되돌립니다.
@@ -723,12 +870,13 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .vid__m{font:500 12px/1 var(--gothic);letter-spacing:.08em;
   color:var(--ink-mid);margin-top:6px}
 
-.abt{position:sticky;top:var(--hdr);z-index:200;
+.abt{position:sticky;top:var(--hdr-h);z-index:200;
   background:color-mix(in srgb,var(--paper) 88%,transparent);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line)}
 .abt__in{display:flex;justify-content:center;flex-wrap:wrap;
-  max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+  max-width:var(--max);margin-inline:auto;
+  padding-inline:calc(var(--pad) + var(--sal)) calc(var(--pad) + var(--sar))}
 
 .abt__b{position:relative;flex:1 1 0;text-align:center;padding:30px 21px;
   font:600 17px/1 var(--myeongjo);letter-spacing:.01em;
@@ -740,11 +888,23 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .abt__b[aria-current="page"]::after{content:"";position:absolute;
   left:0;right:0;bottom:-1px;height:3px;background:var(--accent-gold)}
 @media (max-width:640px){
+  /* 갈래가 셋 넘게 늘어나면 가로로 밀어서 봅니다. 두 개뿐일 때는 flex:1 이 폭을
+     반씩 나눠 가지므로 밀 것이 없습니다. */
   .abt__in{justify-content:flex-start;flex-wrap:nowrap;
-    overflow-x:auto;scrollbar-width:none}
+    overflow-x:auto;scrollbar-width:none;
+    scroll-snap-type:x proximity;overscroll-behavior-x:contain}
   .abt__in::-webkit-scrollbar{display:none}
 
-  .abt__b{flex:1 0 auto;padding:22px 15px;font-size:15px}
+  /* 상단 바(64px)에 이어 붙는 띠라서, 위아래를 줄여 본문이 보일 자리를 남깁니다. */
+  .abt__b{flex:1 0 auto;padding:17px 15px;font-size:15px;
+    scroll-snap-align:start}
+}
+
+@media (max-width:900px){
+  /* 붙박이 띠에 걸린 흐림 효과는 값싼 휴대폰에서 스크롤을 끊기게 합니다.
+     흰 바탕 위에 얹히는 띠라 색만 채워도 보이는 것은 같습니다. */
+  .abt{background:var(--paper);
+    -webkit-backdrop-filter:none;backdrop-filter:none}
 }
 
 .st__i{display:grid;grid-template-columns:1.05fr 1fr;gap:54px;
@@ -847,7 +1007,8 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   letter-spacing:0;color:#fff;text-wrap:balance}
 
 @media (max-width:900px){
-  .csec{min-height:0;padding:64px 20px}
+  .csec{min-height:0;padding-block:64px;
+    padding-inline:calc(var(--pad) + var(--sal)) calc(var(--pad) + var(--sar))}
 
   .csec__in{top:0;width:100%}
   .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:34px}
@@ -859,7 +1020,7 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   .csub::before,.csub::after{font-size:2.5em;top:-.28em}
   .cmore{margin-top:22px;font-size:14px}
   .ccd__d{margin-top:12px}
-  .ccd__d,.ccd__v{font-size:clamp(12px,3.2vw,14px)}
+  .ccd__d,.ccd__v{font-size:clamp(12.5px,3.2vw,14px)}
   .ccd__t{margin-top:3px;font-size:clamp(15px,4.2vw,19px)}
 
   .csec__bg img{object-position:center 45%}
@@ -943,29 +1104,42 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 @media (max-width:900px){
   .pbns{--u:min(1.5px, (100vw - 40px) / 710)}
   .pbn,.pbn--flip{display:flex;flex-direction:column;
-    min-height:0;padding:32px 24px}
+    min-height:0;padding:32px 24px 0}
 
   .pbn__h{font-size:clamp(24px,6.5vw,40px)}
-  .pbn__k{margin-top:12px;font-size:13px}
-  .pbn__b{margin-top:14px;font-size:13px;line-height:1.7}
+  .pbn__k{margin-top:12px;font-size:13.5px}
+  .pbn__b{margin-top:14px;font-size:14px;line-height:1.75}
 
   .pbn__m{display:flex;justify-content:center;
     width:auto;margin:26px 0 0;
-    height:44px;padding-inline:22px;font-size:13px}
+    height:46px;padding-inline:22px;font-size:13.5px}
 
-  .pbn:not(.pbn--flip){padding-bottom:0}
-  .pbn:not(.pbn--flip) .pbn__ph{position:static;inset:auto;order:0;
+  /* 겹쳐 놓았던 사진을 글 밑으로 내려놓습니다 — 좁은 화면에서는 글 위로 올라타서
+     읽는 자리를 먹습니다. 자리를 잡는 방식이 통째로 달라지므로 절대 배치를 풉니다. */
+  .pbn .pbn__ph{position:static;inset:auto;order:0;
     height:auto;overflow:visible;
 
     clip-path:none;
 
-    align-self:flex-end;margin:26px -24px 0 0}
-  .pbn:not(.pbn--flip) .pbn__ph img{height:auto;width:min(70vw,320px)}
+    margin-top:24px}
+
+  .pbn:not(.pbn--flip) .pbn__ph{align-self:flex-end;margin-inline-end:-24px}
+  .pbn:not(.pbn--flip) .pbn__ph img{height:auto;width:min(68vw,300px)}
+
+  /* 첼로는 세로로 긴 사진이라, 폭이 아니라 높이로 잡아야 칸이 끝없이 길어지지 않습니다. */
+  .pbn--flip .pbn__ph{align-self:flex-start;margin-inline-start:-6px}
+  .pbn--flip .pbn__ph img{width:auto;height:min(52vw,230px)}
 
   .pbn__ph img{transition:none}
   .pbn:hover .pbn__ph img{transform:none}
+}
 
-  .pbn--flip .pbn__ph{display:none}
+@media (max-width:640px){
+  /* 데스크톱에서 한 줄씩 끊어 두던 소개글을, 좁은 화면에서는 이어진 한 문단으로
+     흐르게 둡니다 — 끊어 둔 줄이 또 접히면 들쭉날쭉해집니다. */
+  .pbn__b{display:block;text-wrap:pretty}
+  .pbn,.pbn--flip{padding-inline:20px}
+  .pbn:not(.pbn--flip) .pbn__ph{margin-inline-end:-20px}
 }
 
 .cta{color:#fff;text-align:center;padding-block:92px;
@@ -1000,23 +1174,31 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
 .foot__meta{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 24px;
   font:500 15px/1.65 var(--gothic);letter-spacing:.01em;color:#9CA0A8}
 .foot__meta a{color:inherit;text-decoration:none;
+  /* 눌러서 메일을 쓰고 전화를 겁니다 — 손가락이 닿는 자리를 44px 로 둡니다. */
+  display:inline-flex;align-items:center;min-height:var(--tap);
   transition:color 180ms ease}
 .foot__meta a:hover{color:#fff;text-decoration:underline}
 
 .foot__meta b{font-weight:700}
 .foot__c{margin-top:7px;
-  font:450 12px/1.7 var(--gothic);letter-spacing:.01em;color:#9CA0A8}
+  font:450 12px/1.7 var(--gothic);letter-spacing:.01em;color:#9CA0A8;
+  text-wrap:balance}
 .foot__c b{font-weight:700}
 
-.foot__c a{color:inherit;text-decoration:none}
+/* 문장 안에 섞인 링크라 44px 규칙에서는 빠집니다(WCAG 2.5.8) — 그래도 조금 넓힙니다. */
+.foot__c a{color:inherit;text-decoration:none;
+  display:inline-block;padding-block:7px}
 .foot__c a:hover{text-decoration:underline}
 
 @media (max-width:640px){
-  .foot__nav .wrap{min-height:0;padding-block:26px;gap:2px 0}
-  .foot__nav a{padding-inline:14px}
+  .foot__nav .wrap{min-height:0;padding-block:18px;gap:0}
+  /* 글자는 그대로, 손가락이 닿는 자리만 위아래로 넓힙니다. */
+  .foot__nav a{padding:11px 14px}
   .foot__nav a + a::before{display:none}
-  .foot__meta{gap:2px 18px;font-size:13px}
-  .foot__c{font-size:12px}
+  .foot__meta{gap:0 18px;font-size:13.5px}  .foot__c{font-size:12.5px;margin-top:2px}
+
+  /* 홈 인디케이터에 글자가 깔리지 않게 마지막 칸만 아래를 더 둡니다. */
+  .foot__bot{padding-block:26px calc(28px + var(--sab))}
 }
 
 .bio{display:grid;grid-template-columns:1fr 1.6fr;gap:56px;align-items:start}
@@ -1041,6 +1223,10 @@ a.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mid)}
 .bio__ct dd{margin:0;font:500 15px/1.7 var(--gothic);color:var(--ink);
   font-variant-numeric:tabular-nums}
+.bio__ct dd a{text-decoration:none;
+  border-bottom:1px solid color-mix(in srgb,var(--brand) 26%,transparent);
+  transition:border-color 180ms ease,color 180ms ease}
+.bio__ct dd a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 
 .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:44px var(--gx)}
 .val h3{font:600 17px/1.5 var(--myeongjo);margin-bottom:12px;text-wrap:balance}
@@ -1144,24 +1330,53 @@ a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
     background:radial-gradient(ellipse 80% 66% at 4% 10%,
       var(--veil) 0%,var(--veil) 46%,transparent 100%)}
 }
+@media (max-width:520px){
+  /* 작은 화면에서 260px 짜리 머리 사진은 첫 화면의 절반을 먹습니다. */
+  .phead.phead--hero{--ph:150px;padding-top:42px}
+}
+/* 눕힌 휴대폰 — 세로로 쌓이는 배치(≤820px)일 때만 위아래를 더 줄입니다. */
+@media (max-width:820px) and (max-height:520px) and (orientation:landscape){
+  .phead.phead--hero{--ph:96px;padding-top:26px}
+}
 @media (max-width:900px){
-  :root{--hdr:102px;--pad:20px}
+  /* 손가락으로 쓰는 화면에서는 상단 바를 낮춥니다 — 102px 은 세로 844px 짜리 휴대폰
+     화면의 12% 를 먹었습니다. */
+  :root{--hdr:64px;--pad:20px}
   .nav{display:none}
 
   .subnav{display:none}
-  .burger{display:flex}
-  .hero{height:600px}
+  .burger{display:flex;margin-inline-start:0}
+  .hdr__bar{gap:14px}
+  .hdr__logo{gap:11px}
+  .hdr__mark{width:40px;height:39px}
+  .hdr__wm{font-size:17px}
+  /* 상단 바를 [로고 ....... KR|EN ☰] 로 세웁니다. */
+  .lang-btn{margin-inline-start:auto;margin-inline-end:0}
+
+  /* 가로로 눕힌 휴대폰(높이 390px)에서 600px 짜리 첫 화면은 한 화면을 넘겼습니다.
+     글은 상단 바 아래에서부터 가운데를 잡습니다 — 그러지 않으면 낮은 화면에서
+     제목 윗부분이 바 밑으로 들어갑니다. */
+  .hero{height:min(600px,88dvh);padding-top:var(--hdr-h)}
 
   .hero__arw{display:none}
   .hero__lines{font-size:24px}
 
-  .hero__en{font-size:12px}
+  .hero__en{font-size:13px}
+
+  /* 손가락 자리를 44px 로 — 점은 그대로 7px 로 보입니다. */
+  .hero__dot{width:var(--tap);height:var(--tap)}
+  .hero__dots{bottom:calc(26px + var(--sab))}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;
+    min-height:46px}
+  .cmore{min-height:var(--tap);align-items:center}
+
   .pair,.cards,.bio{grid-template-columns:1fr;gap:30px}
 
   .shows{grid-template-columns:1fr;gap:34px}
   .shows::before{display:none}
   .show + .show{border-top:1px solid var(--line);padding-top:34px}
-  .bio__ph{max-width:260px}
+  .bio__ph{max-width:min(420px,62%)}
 
   .mem{grid-template-columns:repeat(3,1fr)}
   /* 8명은 2단이라야 4줄로 고르게 떨어집니다. 3단이면 3·3·2 로 끝줄이 빕니다. .mem 과 가중치가 같아서 반드시 뒤에 와야 합니다. */
@@ -1169,24 +1384,127 @@ a.ct__v:hover{text-decoration:underline;text-underline-offset:4px}
   .mas{grid-template-columns:repeat(2,1fr)}
   .vids{grid-template-columns:1fr}
   .sec{padding-block:66px}
-  .phead{padding-top:calc(var(--hdr) + 54px);padding-bottom:42px}
+  .phead{padding-top:calc(var(--hdr-h) + 54px);padding-bottom:42px}
   .facts__r{grid-template-columns:1fr;gap:6px}
 
   .hist__r{grid-template-columns:158px minmax(0,1fr);gap:0 26px;padding-block:24px}
   .hist__t{font-size:18px}
+
+  .cta{padding-block:66px}
+  .foot__nav a{padding-block:8px}
+
+  /* 태블릿도 손가락으로 씁니다 — 작은 글씨와 작은 자리를 함께 키웁니다. */
+  .show__f{font-size:12px}
+  .vid__t{font-size:16px}
+  .vid__m{font-size:12.5px}
+  .hist__d{font-size:12.5px}
+
+  .bio__ct>div{align-items:center}
+  .bio__ct dd a{display:inline-flex;align-items:center;min-height:var(--tap)}
+}
+
+/* 휴대폰 — 본문을 한 눈금 키웁니다. 14px 한글은 손에 든 화면에서 너무 작습니다. */
+@media (max-width:640px){
+  body{font-size:15px}
+  .sec__h{font-size:21px}
+  .phead h1{font-size:23px}
+
+  /* 좁은 칸에서 이름이 아무 데서나 잘리지 않게 합니다 — "이차연 Stella Chayon Lee". */
+  .mem__n{font-size:16.5px;word-break:keep-all;text-wrap:balance}
+  .mem__p{font-size:13px;letter-spacing:.1em}
+
+  /* 260px 짜리 사진 한 장이 왼쪽에 붙고 오른쪽이 텅 비던 자리 — 폭을 다 씁니다. */
+  .bio__ph{max-width:none}
+  .bio__t{margin-top:2px}
 }
 @media (max-width:520px){
+  :root{--pad:18px}
   .posters{grid-template-columns:1fr;gap:30px}
-  .hdr__logo{gap:12px}
-  .hdr__mark{width:44px;height:43px}
-  .hdr__wm{font-size:16px}
+  .hdr__logo{gap:10px}
+  .hdr__mark{width:34px;height:33px}
+  .hdr__wm{font-size:15px}
   .mem{grid-template-columns:repeat(2,1fr)}
   .hero__lines{font-size:21px}
+
+  .hero__en{font-size:12.5px;line-height:1.85}
+
+  .sec{padding-block:54px}
+  .cta{padding-block:56px}
 
   .hist__r{grid-template-columns:112px minmax(0,1fr);gap:0 18px;padding-block:20px}
   .hist__t{font-size:16px;margin-top:8px}
   .hist__t em{display:block;margin-inline-start:0;margin-top:3px}
 }
+/* ─── 손가락으로 쓰는 화면 ────────────────────────────────────────────────
+   마우스가 없는 기기에서 :hover 는 "지나가는 상태"가 아니라 "눌렀다 뗀 뒤에도
+   남는 상태"가 됩니다. 사진 위 덮개가 어둡게 깔린 채로, 커진 채로 굳습니다.
+   그래서 hover 로 주던 것은 되돌리고, 대신 누르는 동안(:active) 짧게 응답합니다.
+   :focus-visible 로 주던 것은 그대로 둡니다 — 키보드로 다니는 길입니다. */
+@media (hover:none){
+  .mas__i:hover .mas__ov,
+  button.hist__r:hover .hist__ov{background:rgba(0,0,0,0)}
+
+  button.hist__r:hover .hist__ph img,
+  .vid__f:hover .vid__play{transform:none}
+
+  .hdr__logo:hover,
+  .lang-btn:hover,
+  .cmore:hover{opacity:1}
+
+  .btn:hover{background:color-mix(in srgb,var(--brand) 85%,transparent)}
+  .btn--solid:hover{background:var(--brand)}
+  .btn--ghost:hover{background:none;color:var(--accent-gold)}
+  .hero .btn--ghost:hover{background:none;color:#fff}
+  .sec--dark .btn--solid:hover{background:var(--accent-gold);color:var(--brand)}
+  .pbn__m:hover{background:none;color:#660020}
+  .pbn--flip .pbn__m:hover{background:none;color:#242424}
+
+  .foot__nav a:hover,
+  .abt__b:hover,
+  .sel__b:hover,
+  .menu__x:hover{color:inherit}
+  .foot__meta a:hover,.foot__c a:hover{color:inherit;text-decoration:none}
+  .abt__b[aria-current="page"]:hover{color:var(--brand)}
+  .sel__o:hover{background:none;color:var(--ink-mid)}
+  .sel__o[aria-selected="true"]:hover{color:var(--brand)}
+  .lb__x:hover,.lb__nav:hover{background:rgba(255,255,255,.10)}
+  .bio__ct dd a:hover{color:inherit;
+    border-bottom-color:color-mix(in srgb,var(--brand) 26%,transparent)}
+
+  /* 누르는 동안만 — 뗀 순간 원래대로 돌아갑니다. */
+  .mas__i:active .mas__ov,
+  button.hist__r:active .hist__ov{background:rgba(0,0,0,.26)}
+  .vid__f:active .vid__play{transform:scale(.94)}
+  .btn:active,.pbn__m:active,.cmore:active,
+  .foot__nav a:active,.abt__b:active,.sel__b:active,
+  .hdr__logo:active,.lang-btn:active{opacity:.62}
+  .sel__o:active{background:color-mix(in srgb,var(--brand) 7%,transparent)}
+  .lb__x:active,.lb__nav:active{background:rgba(255,255,255,.26)}
+}
+
+/* 가로로 눕힌 휴대폰 — 높이가 390px 안팎이라 세로로 쌓인 것들을 한 벌 줄입니다. */
+@media (max-height:520px) and (orientation:landscape){
+  :root{--hdr:56px}
+
+  .hero{height:100dvh;min-height:300px}
+  .hero__wm{width:min(52vw,300px)}
+  .hero__orn{margin-top:14px}
+  .hero__orn span{width:32px;height:32px}
+  .hero__en{margin-top:12px;font-size:11.5px;line-height:1.7}
+  .hero__dots{bottom:calc(8px + var(--sab))}
+
+  .phead.phead--hero{--ph:110px;min-height:max(190px,calc(var(--ph) + 26px))}
+  .abt__b{padding-block:18px}
+
+  .sec{padding-block:48px}
+  .csec{padding-block:48px}
+  .cta{padding-block:48px}
+
+  .lb{--lb-top:calc(var(--sat) + 60px);--lb-cap:38px}
+  .lb__x{width:42px;height:42px;font-size:25px;top:calc(var(--sat) + 9px)}
+  .lb__nav{width:44px;height:44px;font-size:26px}
+}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
 

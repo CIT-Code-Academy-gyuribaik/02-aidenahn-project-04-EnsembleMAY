@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { useLang } from "@/lib/lang";
 import type { NavLabel } from "@/lib/nav";
+import { srcSetOf } from "@/lib/img";
 
 type Banner = {
   href: string;
@@ -12,6 +13,11 @@ type Banner = {
   body: { kor: readonly string[]; eng: readonly string[] };
   src: string;
   alt: NavLabel;
+
+  /* 사진의 원래 크기 — 자리를 먼저 잡아 두지 않으면, 아래로 내려오다 사진이 뜨는
+     순간 글이 툭 밀려납니다. */
+  w: number;
+  h: number;
   flip: boolean;
 };
 
@@ -32,6 +38,8 @@ const BANNERS: readonly Banner[] = [
     },
     src: "/assets/img/banner/about.webp",
     alt: { kor: "흰 셔츠를 입고 모여 선 앙상블 메이 단원들", eng: "Ensemble MAY members gathered in white shirts" },
+    w: 501,
+    h: 435,
     flip: false,
   },
   {
@@ -55,6 +63,8 @@ const BANNERS: readonly Banner[] = [
       kor: "무대 위에서 첼로를 연주하는 앙상블 메이 단원",
       eng: "An Ensemble MAY member playing the cello on stage",
     },
+    w: 387,
+    h: 574,
     flip: true,
   },
 ] as const;
@@ -72,7 +82,8 @@ export default function HomeBanners() {
               <p className="pbn__k">{b.kicker[lang]}</p>
               <p className="pbn__b">
                 {b.body[lang].map((line) => (
-                  <span key={line}>{line}</span>
+                  /* 끝의 빈 칸은 좁은 화면에서 줄들이 한 문단으로 이어질 때 씁니다. */
+                  <span key={line}>{line} </span>
                 ))}
               </p>
               <Link className="pbn__m" href={b.href}>
@@ -82,7 +93,16 @@ export default function HomeBanners() {
 
             <div className="pbn__ph">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={b.src} alt={b.alt[lang]} loading="lazy" />
+              <img
+                src={b.src}
+                srcSet={srcSetOf(b.src, b.w)}
+                sizes="(max-width:900px) 300px, 520px"
+                width={b.w}
+                height={b.h}
+                alt={b.alt[lang]}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           </div>
         </Reveal>

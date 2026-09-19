@@ -31,7 +31,11 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
     if (!auto || kind === "ig" || kind === "none") return;
     const el = boxRef.current;
     const ok = !!el && "IntersectionObserver" in window &&
-      !window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+      !window.matchMedia("(prefers-reduced-motion:reduce)").matches &&
+      /* 좁은 화면에서는 저절로 틀지 않습니다 — 데이터와 배터리를 말없이 쓰는 데다,
+         354px 짜리 칸에서는 유튜브 제 껍데기(제목·진행 막대·공유 단추)가 영상을
+         거의 다 덮습니다. 대신 사진 한 장과 재생 단추를 둡니다. */
+      window.matchMedia("(min-width:901px)").matches;
     if (!ok) {
       setAutoOn(false);
       return;
@@ -63,9 +67,17 @@ export default function VideoCard({ video, auto = false }: { video: Video; auto?
     `?autoplay=1&rel=0&playsinline=1${autoOn ? "&mute=1" : ""}`;
 
   const thumb = video.thumb ?? (kind === "yt" && video.id ? ytThumb(video.id) : undefined);
-  /* eslint-disable-next-line @next/next/no-img-element -- 유튜브 도메인 이미지라 next/image 최적화 대상이
-     아닙니다. */
-  const thumbImg = thumb && <img className="vid__th" src={thumb} alt="" />;
+  const thumbImg = thumb && (
+    /* eslint-disable-next-line @next/next/no-img-element -- 유튜브 도메인 이미지라
+       next/image 최적화 대상이 아닙니다. */
+    <img
+      className="vid__th"
+      src={thumb}
+      alt=""
+      loading={auto ? "eager" : "lazy"}
+      decoding="async"
+    />
+  );
 
   return (
     <div ref={boxRef}>

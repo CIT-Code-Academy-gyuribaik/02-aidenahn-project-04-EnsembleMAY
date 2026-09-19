@@ -39,14 +39,19 @@ export default function ContactCard({
             ))}
           </p>
 
+          {/* 휴대폰에서는 눌러서 바로 걸고 바로 씁니다 — 번호를 받아 적게 두지 않습니다. */}
           <dl className="bio__ct">
             <div>
               <dt>TEL</dt>
-              <dd>{CONTACT.tel}</dd>
+              <dd>
+                <a href={`tel:${CONTACT.tel.replace(/[^0-9+]/g, "")}`}>{CONTACT.tel}</a>
+              </dd>
             </div>
             <div>
               <dt>Email</dt>
-              <dd>{CONTACT.email}</dd>
+              <dd>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </dd>
             </div>
           </dl>
         </div>

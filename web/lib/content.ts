@@ -105,7 +105,10 @@ export const VIDEOS: Video[] = (videosJson as Video[]).map((v) => ({
 export const REPERTOIRE: Piece[] = repertoireJson as Piece[];
 
 export const CONTACT: Contact = siteJson.contact;
-export const HERO: string[] = siteJson.hero.map(asset);
+
+/* 첫 화면 사진. w/h 는 원본 크기입니다 — 화면 폭에 맞는 판을 고르는 데 씁니다(lib/img.ts). */
+export type HeroShotSrc = { src: string; w: number; h: number };
+export const HERO: HeroShotSrc[] = siteJson.hero.map((s) => ({ ...s, src: asset(s.src) }));
 export const HERO_MS: HeroMs = siteJson.heroMs;
 export const HOME_VIDEO: Video = siteJson.homeVideo;
 
@@ -115,6 +118,12 @@ export function showById(id: string | undefined): Show | undefined {
 
 export function photosOf(showId: string): Photo[] {
   return GALLERY.filter((p) => p.show === showId);
+}
+
+/* 주소만 알고 있을 때 원본 크기(ratio)를 되찾습니다 — 화면 크기에 맞는 사진을
+   고르려면 원본이 몇 px 인지 알아야 합니다(lib/img.ts). */
+export function photoBySrc(src: string): Photo | undefined {
+  return GALLERY.find((p) => p.src === src);
 }
 
 export function photoDate(p: Photo): string {

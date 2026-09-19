@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { RevealSeq } from "@/components/Reveal";
-import { POSTERS, asset, showById } from "@/lib/content";
+import { POSTERS, asset, photoBySrc, showById } from "@/lib/content";
+import { srcSetOf, widthOf } from "@/lib/img";
 import { useLang } from "@/lib/lang";
 import { T, pickText } from "@/lib/i18n";
 
@@ -48,14 +49,19 @@ export default function HomeConcerts() {
               ? pickText(lang, s.title, s.titleEn)
               : "";
 
+          const src = poster?.src || (c.src ? asset(c.src) : "");
+
           return (
             <div className="ccd" key={c.show}>
               <span className="ccd__ph">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={poster?.src || (c.src ? asset(c.src) : "")}
+                  src={src}
+                  srcSet={srcSetOf(src, widthOf(photoBySrc(src)?.ratio))}
+                  sizes="(max-width:900px) 45vw, 25vw"
                   alt={poster ? `${title} ${T.home.posterOf[lang]}` : title}
                   loading="lazy"
+                  decoding="async"
                   style={c.pos ? { objectPosition: `${c.pos} center` } : undefined}
                 />
               </span>

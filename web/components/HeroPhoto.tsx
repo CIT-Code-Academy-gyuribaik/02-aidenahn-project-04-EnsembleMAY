@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLang } from "@/lib/lang";
 import type { Text } from "@/lib/i18n";
+import { srcSetOf } from "@/lib/img";
 
 export type HeroShot = {
   src: string;
@@ -44,6 +45,8 @@ export default function HeroPhoto({ shots }: { shots: readonly HeroShot[] }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={shot.src}
+        srcSet={srcSetOf(shot.src, shot.width)}
+        sizes="(max-width:820px) 100vw, 50vw"
         width={shot.width}
         height={shot.height}
         alt={shot.alt[lang]}

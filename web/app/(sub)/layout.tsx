@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import ScrollTop from "@/components/ScrollTop";
 import Shell from "@/components/Shell";
-import { baseMetadata } from "@/lib/seo";
+import { baseMetadata, baseViewport } from "@/lib/seo";
+
+export const viewport: Viewport = baseViewport;
 
 export const metadata: Metadata = baseMetadata;
 

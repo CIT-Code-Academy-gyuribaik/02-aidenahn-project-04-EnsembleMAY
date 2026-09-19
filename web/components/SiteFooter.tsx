@@ -29,8 +29,9 @@ export default function SiteFooter() {
 
       <div className="foot__bot">
         <div className="wrap">
+          {/* 눌러서 바로 쓰고 바로 겁니다. */}
           <p className="foot__meta">
-            <span>{CONTACT.email}</span>
+            <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
             <a
               href="https://www.instagram.com/ensemble_m.a.y/"
               target="_blank"
@@ -38,9 +39,9 @@ export default function SiteFooter() {
             >
               @ensemble_m.a.y
             </a>
-            <span>
-              <b>TEL :</b> {CONTACT.tel}
-            </span>
+            <a href={`tel:${CONTACT.tel.replace(/[^0-9+]/g, "")}`}>
+              <b>TEL :</b>&nbsp;{CONTACT.tel}
+            </a>
           </p>
           <p className="foot__c">
             Copyright © 2026 <b>{T.common.siteName[lang]}</b>{" "}

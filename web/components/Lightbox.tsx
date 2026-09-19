@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLang } from "@/lib/lang";
+import { useSwipe } from "@/lib/swipe";
 import { T } from "@/lib/i18n";
 
 export type LbItem = {
@@ -55,21 +56,53 @@ export function Lightbox({
   const isOpen = items.length > 0;
   const many = items.length > 1;
   const closeRef = useRef<HTMLButtonElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
 
   const step = useCallback(
     (d: number) => setAt((at + d + items.length) % items.length),
     [at, items.length, setAt]
   );
 
+  /* 좁은 화면에는 화살표가 작게 붙어 있을 뿐이라, 쓸어 넘기기가 주된 길입니다.
+     아래로 쓸면 닫힙니다. */
+  const swipe = useSwipe({
+    onLeft: many ? () => step(1) : undefined,
+    onRight: many ? () => step(-1) : undefined,
+    onDown: close,
+  });
+
   useEffect(() => {
     if (!isOpen) return;
     closeRef.current?.focus();
     document.body.classList.add("menu-open");
+
+    const box = boxRef.current;
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      else if (many && e.key === "ArrowLeft") step(-1);
-      else if (many && e.key === "ArrowRight") step(1);
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+      if (many && e.key === "ArrowLeft") {
+        step(-1);
+        return;
+      }
+      if (many && e.key === "ArrowRight") {
+        step(1);
+        return;
+      }
+
+      /* 탭이 뒤 페이지로 새지 않게 가둡니다 — 사진은 화면을 다 덮고 있는데
+         초점만 보이지 않는 곳으로 가면 키보드로는 빠져나올 길이 없습니다. */
+      if (e.key !== "Tab" || !box) return;
+      const list = [...box.querySelectorAll<HTMLElement>("button")];
+      if (!list.length) return;
+      const edge = e.shiftKey ? list[0] : list[list.length - 1];
+      if (document.activeElement !== edge) return;
+      e.preventDefault();
+      (e.shiftKey ? list[list.length - 1] : list[0]).focus();
     };
+
     document.addEventListener("keydown", onKey);
     return () => {
       document.body.classList.remove("menu-open");
@@ -89,13 +122,15 @@ export function Lightbox({
 
   return (
     <div
-      className="lb is-open"
+      className={"lb is-open" + (many ? "" : " is-single")}
+      ref={boxRef}
       role="dialog"
       aria-modal="true"
       aria-label={T.gallery.lightbox[lang]}
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
+      {...swipe}
     >
       <button ref={closeRef} className="lb__x" aria-label={T.common.close[lang]} onClick={close}>
         &times;
@@ -121,18 +156,12 @@ export function Lightbox({
       )}
 
       <figure className="lb__fig">
-        <div>
+        <div className="lb__stage">
           {g.src ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img src={g.src} alt={g.title} />
           ) : (
-            <div
-              className="lb__ph"
-              style={{
-                aspectRatio: String(f),
-                width: `min(88vw, calc(78vh * ${f.toFixed(4)}))`,
-              }}
-            />
+            <div className="lb__ph" style={{ aspectRatio: String(f) }} />
           )}
         </div>
         {cap && <figcaption className="lb__cap">{cap}</figcaption>}

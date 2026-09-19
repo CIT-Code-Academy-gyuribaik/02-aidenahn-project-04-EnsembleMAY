@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/Reveal";
-import { asset } from "@/lib/content";
+import { asset, photoBySrc } from "@/lib/content";
+import { srcSetOf, widthOf } from "@/lib/img";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -80,7 +81,14 @@ export default function AboutStoryPage() {
           <div className={"st__i" + (i % 2 ? " st__i--flip" : "")}>
             <div className="st__ph">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(b.photo)} alt={b.alt} loading="lazy" />
+              <img
+                src={asset(b.photo)}
+                srcSet={srcSetOf(asset(b.photo), widthOf(photoBySrc(asset(b.photo))?.ratio))}
+                sizes="(max-width:900px) 100vw, 55vw"
+                alt={b.alt}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div className="st__t">
               <p className="st__ko">{b.ko.lead}</p>

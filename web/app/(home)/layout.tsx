@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Shell from "@/components/Shell";
-import { baseMetadata, SITE_URL } from "@/lib/seo";
+import { baseMetadata, homeViewport, SITE_URL } from "@/lib/seo";
 import "./snap.css";
+
+export const viewport: Viewport = homeViewport;
 
 export const metadata: Metadata = {
   ...baseMetadata,

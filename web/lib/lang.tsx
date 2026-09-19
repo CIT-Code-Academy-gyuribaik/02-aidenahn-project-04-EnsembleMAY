@@ -30,6 +30,10 @@ export function LangProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.dataset.lang = lang;
+
+    /* 화면 읽어 주는 프로그램이 어느 말로 읽을지 정하는 자리입니다 — 글은 영어로
+       바뀌었는데 lang 이 ko 로 남아 있으면 한국어 발음으로 읽습니다. */
+    document.documentElement.lang = lang === "eng" ? "en" : "ko";
   }, [lang]);
 
   useEffect(() => {
