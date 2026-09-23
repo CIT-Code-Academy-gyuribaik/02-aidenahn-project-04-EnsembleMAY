@@ -14,7 +14,7 @@ export function pickText(lang: Lang, kor: string, eng?: string): string {
 
 export const T = {
   common: {
-    siteName: { kor: "앙상블메이", eng: "Ensemble MAY" },
+    siteName: { kor: "앙상블메이", eng: "Ensemble M.A.Y" },
 
     mainMenu: { kor: "주 메뉴", eng: "Main menu" },
     footerMenu: { kor: "푸터 메뉴", eng: "Footer menu" },
@@ -24,7 +24,7 @@ export const T = {
   },
 
   home: {
-    concertLead: { kor: "앙상블 메이는", eng: "Ensemble MAY is" },
+    concertLead: { kor: "앙상블 메이는", eng: "Ensemble M.A.Y is" },
     concertLeadKey: {
       kor: "강남구자원봉사센터의 공식 봉사단체",
       eng: "an officially registered volunteer group of the Gangnam-gu Volunteer Center",
@@ -51,7 +51,7 @@ export const T = {
         "일 년에 단 한 번뿐인 만큼 더욱 정성을 담아 준비하며, 그 시간이 관객들에게 " +
         "위로와 즐거움을 전하는 의미 있는 순간이 되기를 바라고 있습니다.",
       eng:
-        "Ensemble MAY is an officially registered volunteer group of the Gangnam-gu " +
+        "Ensemble M.A.Y is an officially registered volunteer group of the Gangnam-gu " +
         "Volunteer Center, and once a year we hold an annual concert that turns a year " +
         "of work into an evening of giving. It comes around only once, so we prepare for " +
         "it with particular care — hoping the hours we spend on stage leave our audience " +
@@ -74,11 +74,11 @@ export const T = {
 
     regularAlt: {
       kor: "무대 위에서 지휘자와 함께 합주하는 앙상블 메이 단원들",
-      eng: "Ensemble MAY members playing together on stage with their conductor",
+      eng: "Ensemble M.A.Y members playing together on stage with their conductor",
     },
     charityAlt: {
       kor: "도서관 로비에서 관객 앞에 서서 연주하는 앙상블 메이 단원들",
-      eng: "Ensemble MAY members performing for an audience in a library lobby",
+      eng: "Ensemble M.A.Y members performing for an audience in a library lobby",
     },
 
     historyHeading: { kor: "공연 연혁", eng: "Past concerts" },
@@ -86,7 +86,7 @@ export const T = {
 
   about: {
     membersHeading: { kor: "함께 연주하는 아이들", eng: "The children who play together" },
-    memberAlt: { kor: "앙상블 메이 단원", eng: "An Ensemble MAY member" },
+    memberAlt: { kor: "앙상블 메이 단원", eng: "An Ensemble M.A.Y member" },
   },
 
   gallery: {
@@ -114,7 +114,7 @@ export const T = {
     },
     enrollAlt: {
       kor: "바이올린을 연주하는 앙상블 메이 단원",
-      eng: "An Ensemble MAY member playing the violin",
+      eng: "An Ensemble M.A.Y member playing the violin",
     },
     charityTitle: { kor: "자선 공연 문의", eng: "Charity Concert Requests" },
     charityBody: {
@@ -123,18 +123,18 @@ export const T = {
         "공연이 필요한 곳이라면 어디든 찾아가 나눔을 실천합니다.",
       ],
       eng: [
-        "Ensemble MAY is an officially registered volunteer group",
+        "Ensemble M.A.Y is an officially registered volunteer group",
         "of the Gangnam-gu Volunteer Center.",
         "Wherever a concert is needed, we will come and play.",
       ],
     },
     charityAlt: {
       kor: "공연 무대에서 마이크를 들고 이야기하는 앙상블 메이 단원",
-      eng: "An Ensemble MAY member speaking into a microphone on stage",
+      eng: "An Ensemble M.A.Y member speaking into a microphone on stage",
     },
     conductorAlt: {
       kor: "공연장에서 단원들을 지휘하는 앙상블 메이 지휘자",
-      eng: "Ensemble MAY's conductor leading the players in the concert hall",
+      eng: "Ensemble M.A.Y's conductor leading the players in the concert hall",
     },
   },
 

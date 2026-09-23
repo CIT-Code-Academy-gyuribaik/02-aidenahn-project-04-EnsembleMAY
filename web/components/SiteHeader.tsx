@@ -89,7 +89,7 @@ export default function SiteHeader() {
         <div className="hdr__bar">
           <Link className="hdr__logo" href="/">
             <span className="hdr__mark" aria-hidden="true" />
-            <span className="hdr__wm">Ensemble MAY</span>
+            <span className="hdr__wm">Ensemble M.A.Y</span>
           </Link>
 
           <DesktopNav
