@@ -1128,9 +1128,8 @@ button.hist__r:focus-visible .hist__ov{background:rgba(0,0,0,.28)}
   .pbn:not(.pbn--flip) .pbn__ph{align-self:flex-end;margin-inline-end:-24px}
   .pbn:not(.pbn--flip) .pbn__ph img{height:auto;width:min(68vw,300px)}
 
-  /* 첼로는 세로로 긴 사진이라, 폭이 아니라 높이로 잡아야 칸이 끝없이 길어지지 않습니다. */
-  .pbn--flip .pbn__ph{align-self:flex-start;margin-inline-start:-6px}
-  .pbn--flip .pbn__ph img{width:auto;height:min(52vw,230px)}
+  .pbn--flip .pbn__ph{display:none}
+  .pbn--flip{padding-bottom:32px}
 
   .pbn__ph img{transition:none}
   .pbn:hover .pbn__ph img{transform:none}
