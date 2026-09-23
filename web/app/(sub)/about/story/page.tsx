@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { asset, photoBySrc } from "@/lib/content";
 import { srcSetOf, widthOf } from "@/lib/img";
+import { breadcrumbFor } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -73,6 +75,7 @@ const BLOCKS = [
 export default function AboutStoryPage() {
   return (
     <>
+      <JsonLd data={breadcrumbFor("/about/story/")} />
       <h2 className="sr">앙상블메이 스토리</h2>
 
       {BLOCKS.map((b, i) => (

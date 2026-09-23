@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import GalleryPhotos from "@/components/GalleryPhotos";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbFor } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -11,5 +13,10 @@ export const metadata: Metadata = pageMeta({
 });
 
 export default function GalleryPage() {
-  return <GalleryPhotos />;
+  return (
+    <>
+      <JsonLd data={breadcrumbFor("/gallery/")} />
+      <GalleryPhotos />
+    </>
+  );
 }

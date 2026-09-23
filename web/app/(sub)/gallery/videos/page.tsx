@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
 import VideoCard from "@/components/VideoCard";
 import { VIDEOS } from "@/lib/content";
+import { breadcrumbFor } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -14,6 +16,7 @@ export const metadata: Metadata = pageMeta({
 export default function GalleryVideosPage() {
   return (
     <>
+      <JsonLd data={breadcrumbFor("/gallery/videos/")} />
       <div className="vids">
         {VIDEOS.map((v) => (
           <VideoCard key={v.mp4 ?? v.id ?? v.title} video={v} />

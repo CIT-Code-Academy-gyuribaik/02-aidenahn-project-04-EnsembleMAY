@@ -24,18 +24,44 @@ export const homeViewport: Viewport = {
 export const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "앙상블 메이 — 음악을 사랑하는 아이들이 만들어 가는 현악 앙상블",
+    default: "앙상블 메이 Ensemble M.A.Y. — 음악을 사랑하는 아이들이 만들어 가는 현악 앙상블",
 
-    template: `%s · ${SITE_NAME}`,
+    template: `%s · ${SITE_NAME} Ensemble M.A.Y.`,
   },
   description:
     "앙상블 메이는 음악을 사랑하는 아이들이 만들어 가는 현악 앙상블입니다. " +
     "1년에 한 번 정기 공연을 열고, 자선 공연으로 나눔을 실천합니다. " +
     "단원 등록 상담을 받고 있습니다.",
+
+  keywords: [
+    "앙상블메이",
+    "앙상블 메이",
+    "Ensemble M.A.Y.",
+    "ensemblemay",
+    "어린이 현악 앙상블",
+    "청소년 현악 앙상블",
+    "정기 연주회",
+    "자선 공연",
+    "바이올린 비올라 첼로",
+  ],
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
     locale: "ko_KR",
+
+    alternateLocale: ["en_US"],
     title: SITE_NAME,
     description:
       "음악을 사랑하는 아이들이 만들어 가는 현악 앙상블. " +

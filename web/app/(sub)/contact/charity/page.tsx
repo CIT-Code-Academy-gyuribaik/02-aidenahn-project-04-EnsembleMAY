@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { CONTACT } from "@/lib/content";
+import { breadcrumbFor } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 import ContactCard from "@/components/ContactCard";
+import JsonLd from "@/components/JsonLd";
 import { T } from "@/lib/i18n";
 
 export const metadata: Metadata = pageMeta({
@@ -14,11 +16,14 @@ export const metadata: Metadata = pageMeta({
 
 export default function ContactCharityPage() {
   return (
-    <ContactCard
-      photo={{ src: "/assets/img/hero/hero-14.webp", width: 1920, height: 1281 }}
-      alt={T.contact.charityAlt}
-      title={T.contact.charityTitle}
-      body={T.contact.charityBody}
-    />
+    <>
+      <JsonLd data={breadcrumbFor("/contact/charity/")} />
+      <ContactCard
+        photo={{ src: "/assets/img/hero/hero-14.webp", width: 1920, height: 1281 }}
+        alt={T.contact.charityAlt}
+        title={T.contact.charityTitle}
+        body={T.contact.charityBody}
+      />
+    </>
   );
 }

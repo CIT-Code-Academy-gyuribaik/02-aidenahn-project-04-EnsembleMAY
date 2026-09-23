@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import CharityCta from "@/components/CharityCta";
 import ConcertKinds from "@/components/ConcertKinds";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbFor } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -14,6 +16,7 @@ export const metadata: Metadata = pageMeta({
 export default function ConcertPage() {
   return (
     <>
+      <JsonLd data={breadcrumbFor("/concert/")} />
 
       <section className="sec sec--first">
         <div className="wrap">

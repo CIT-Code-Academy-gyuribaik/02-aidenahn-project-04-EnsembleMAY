@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
 import MemberGrid from "@/components/MemberGrid";
+import { breadcrumbFor } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 import Say from "@/components/Say";
 import { T } from "@/lib/i18n";
@@ -14,6 +16,7 @@ export const metadata: Metadata = pageMeta({
 export default function AboutMembersPage() {
   return (
     <>
+      <JsonLd data={breadcrumbFor("/about/")} />
 
       <h2 className="sr">
         <Say t={T.about.membersHeading} />

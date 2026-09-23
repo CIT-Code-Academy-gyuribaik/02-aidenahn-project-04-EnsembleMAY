@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
 import { PastShows } from "@/components/PastShows";
+import { breadcrumbFor, eventsJsonLd } from "@/lib/jsonld";
 import { pageMeta } from "@/lib/seo";
 import Say from "@/components/Say";
 import { T } from "@/lib/i18n";
@@ -15,6 +17,11 @@ export const metadata: Metadata = pageMeta({
 export default function ConcertPastPage() {
   return (
     <>
+      <JsonLd data={breadcrumbFor("/concert/past/")} />
+
+      {eventsJsonLd().map((e) => (
+        <JsonLd key={e["@id"]} data={e} />
+      ))}
 
       <section className="sec sec--first" id="history">
         <div className="wrap">
