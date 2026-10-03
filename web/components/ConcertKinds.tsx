@@ -1,8 +1,11 @@
 "use client";
 
 import { useLang } from "@/lib/lang";
-import { T } from "@/lib/i18n";
+import { T, pickText } from "@/lib/i18n";
 import { Reveal } from "@/components/Reveal";
+import { SHOWS } from "@/lib/content";
+
+const CHARITY_SHOWS = SHOWS.filter((s) => !s.wide);
 
 export default function ConcertKinds() {
   const { lang } = useLang();
@@ -39,6 +42,23 @@ export default function ConcertKinds() {
             </div>
             <div className="show__b">
               <p>{k.body[lang]}</p>
+              {i === 1 && (
+                <ul className="show__list">
+                  {CHARITY_SHOWS.map((s) => (
+                    <li key={s.id} className="show__list-item">
+                      <span className="show__list-date">{s.date}</span>
+                      <span className="show__list-title">
+                        {pickText(lang, s.title, s.titleEn)}
+                      </span>
+                      {s.venue && (
+                        <span className="show__list-venue">
+                          {pickText(lang, s.venue, s.venueEn)}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </Reveal>

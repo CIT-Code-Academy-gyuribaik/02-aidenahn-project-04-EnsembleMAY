@@ -16,10 +16,11 @@ type Card = {
 };
 
 const CARDS: readonly Card[] = [
-  { show: "concert2", poster: 0 },
-  { show: "concert1", poster: 1 },
-  { show: "library2512", src: "assets/img/gallery/20251213-library-03.webp", pos: "37%" },
-  { show: "mekorea", src: "assets/img/gallery/20260525-mekorea-01.webp", pos: "40%" },
+  { show: "mekorea",    src: "assets/img/gallery/20260525-mekorea-01.webp",    pos: "40%" },
+  { show: "sfs",        src: "assets/img/gallery/20260510-sfs-01.webp" },
+  { show: "yearend24",  src: "assets/img/gallery/20251224-yearend-01.webp" },
+  { show: "library2512",src: "assets/img/gallery/20251213-library-03.webp",   pos: "37%" },
+  { show: "library2509",src: "assets/img/gallery/20250913-library-01.webp" },
 ];
 
 const shortDate = (d: string) => d.replace(/\.0/g, ".");

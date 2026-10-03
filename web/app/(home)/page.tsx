@@ -23,13 +23,15 @@ export default function HomePage() {
               <HeroWordmark />
             </h1>
 
+            <p className="hero__may-full">Musically Accompanied Youth</p>
+
             <div className="hero__orn" aria-hidden="true">
               <span />
             </div>
 
             <p className="hero__en">
-              <span>A string ensemble created by children who love music</span>
-              <span>We practice sharing and service through music</span>
+              <span>음악을 사랑하는 아이들이 만들어 가는 현악 앙상블</span>
+              <span>음악을 통해 나눔과 봉사를 실천합니다</span>
             </p>
           </div>
         </section>
