@@ -33,7 +33,6 @@ export function orgJsonLd() {
       height: 180,
     },
     image: `${SITE_URL}/og.png`,
-    email: CONTACT.email,
     telephone: CONTACT.tel,
     foundingDate: "2025",
     genre: ["Classical music", "Chamber music", "String ensemble"],

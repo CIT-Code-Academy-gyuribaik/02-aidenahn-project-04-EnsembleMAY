@@ -9,8 +9,7 @@ import { T } from "@/lib/i18n";
 export const metadata: Metadata = pageMeta({
   title: "자선 공연 문의",
   description:
-    "앙상블 메이는 강남구자원봉사센터에 공식적으로 등록된 자선 봉사 단체입니다. " +
-    `공연이 필요한 곳이라면 어디든 찾아갑니다 — 연락처 ${CONTACT.tel}, ${CONTACT.email}.`,
+    `앙상블 메이는 강남구자원봉사센터에 공식적으로 등록된 자선 봉사 단체입니다. 공연이 필요한 곳이라면 어디든 찾아갑니다 — 연락처 ${CONTACT.tel}.`,
   path: "/contact/charity/",
 });
 

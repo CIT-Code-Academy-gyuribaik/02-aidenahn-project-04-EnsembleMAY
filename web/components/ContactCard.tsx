@@ -47,12 +47,6 @@ export default function ContactCard({
                 <a href={`tel:${CONTACT.tel.replace(/[^0-9+]/g, "")}`}>{CONTACT.tel}</a>
               </dd>
             </div>
-            <div>
-              <dt>Email</dt>
-              <dd>
-                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-              </dd>
-            </div>
           </dl>
         </div>
       </div>
