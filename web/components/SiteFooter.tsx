@@ -31,8 +31,7 @@ export default function SiteFooter() {
         <div className="wrap">
           {/* 눌러서 바로 쓰고 바로 겁니다. */}
           <p className="foot__meta">
-            <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-            <a
+            <
               href="https://www.instagram.com/ensemble_m.a.y/"
               target="_blank"
               rel="noopener"
