@@ -73,7 +73,7 @@ export type Piece = {
   ensembleEn?: string;
 };
 
-export type Contact = { tel: string; email: string };
+export type Contact = { tel: string; email?: string };
 
 export type HeroMs = {
   hold: number;
